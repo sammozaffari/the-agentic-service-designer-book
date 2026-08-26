@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Cross-Channel Orchestration &amp; Story Mapping - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-12" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 12</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Cross-Channel Orchestration &amp; Story Mapping</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">One service, many channels, zero drift</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">13 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-12-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Channels Drift; Artifacts Don't</a>
+        <a href="#s-12-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Orchestration Canvas</a>
+        <a href="#s-12-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Story Mapping for Incremental Delivery</a>
+        <a href="#s-12-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Juniper Retail</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-12-1" data-section="s-12-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Channels Drift; Artifacts Don't</span></a>
+          <a href="#s-12-2" data-section="s-12-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Orchestration Canvas</span></a>
+          <a href="#s-12-3" data-section="s-12-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Story Mapping for Incremental Delivery</span></a>
+          <a href="#s-12-4" data-section="s-12-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Juniper Retail</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-12-1" data-section="s-12-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Channels Drift; Artifacts Don't</span></a>
+          <a href="#s-12-2" data-section="s-12-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Orchestration Canvas</span></a>
+          <a href="#s-12-3" data-section="s-12-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Story Mapping for Incremental Delivery</span></a>
+          <a href="#s-12-4" data-section="s-12-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Juniper Retail</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-12-1">Channels Drift; Artifacts Don't</h3>
+
+<p>Most channel strategies are really ownership strategies in disguise. The app team owns the app. Retail operations own stores. CRM owns email. Contact-centre leadership owns phone. Logistics owns courier interactions. Each group optimizes its local metrics and calls the result omnichannel. Customers then walk through the service and discover a relay race where nobody passed the baton.</p>
+  <p>The drift shows up in recognizable forms: one channel promises what another cannot fulfill, a status appears in email but not in the app, the store sees a different truth than the website, a refund is "initiated" in one system and invisible in another, or the only recovery path is a phone number because nobody designed the degraded experience on the primary channel. This is not a copywriting issue. It is an orchestration issue.</p>
+  <p>ASD's strength here is not a prettier multi-channel diagram. It is shared artifacts with gates. A current-state journey map shows where the customer crosses channels. An ecosystem map shows which actors sit behind those channels. The Orchestration Canvas forces channel roles, signals, responses, ownership, and metrics into one surface. Story mapping then turns that design into release slices without losing the customer's chronology. The common thread is that the artifacts survive teams, tools, and planning ceremonies.</p>
+  <p>The contrast with style-guide thinking is important. Style guides help interfaces look consistent. They do almost nothing to keep operational truths consistent. I can have perfectly matched visual design while the app says ready, the email says delayed, the store cannot find the order, and the contact centre sees a batch-synced half-truth. Shared artifacts solve a deeper problem: they align what the channels are allowed to claim.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Channel consistency comes from shared service artifacts, not from brand vocabulary alone. A beautiful contradiction is still a contradiction.</div>
+  <p>This is why I like saying that channels play roles. A role is contextual and relational. A territory is defensive. In a good cross-channel service, one channel may be Primary in one phase, Supporting in the next, Silent by design in another, and Recovery-only when the happy path breaks. Once teams accept role logic, duplicated features start looking less sophisticated and more wasteful.</p>
+  <p>The method also reduces the common temptation to let channels chase vanity metrics independently. If the app team wants push engagement and the CRM team wants email open rate, they can easily flood the customer with overlapping status. The canvas makes that collision visible because the same phase cannot honestly have two Primary channels saying different things. One service. One story.</p>
+  <div class="callout"><strong>My take:</strong> I have never seen a true omnichannel problem solved by asking each channel owner to "coordinate better." Coordination gets real only when there is a shared artifact precise enough to prove where the contradiction lives and who has to change.</div>
+
+<h3 id="s-12-2">The Orchestration Canvas</h3>
+
+<p>The Orchestration Canvas is the boundary object I use when a service crosses several channels or partners and the customer still expects one coherent experience. It puts the journey phases across the top. It places the customer hemisphere above and the organizational hemisphere below. That simple move matters because it stops the meeting from collapsing into channel-specific feature requests before the team has aligned on the shared chronology.</p>
+  <p>For each phase I want the customer goal, actions, emotional valence, and moment that matters. Then I want the channels with explicit roles, the ecosystem actors involved, the signals the organization can actually sense, the responses it will issue, the named owner, and the metric that tells us whether the choreography is holding. The canvas is useful because these rows are interdependent. A signal without a response is a gap. A moment that matters without an owner is a risk. Two Primary channels in the same phase are usually a political compromise masquerading as design.</p>
+  <div class="code-label">orchestration-canvas-blank.txt</div>
+  <pre><code>ORCHESTRATION CANVAS - [service] - v[ ]
+Journey phases: [1] [2] [3] [4] [5]
+CUSTOMER HEMISPHERE
+  Customer goal
+  Actions and behaviors
+  Emotional valence (1-5)
+  Moments that matter
+ORGANIZATIONAL HEMISPHERE
+  Channels - Primary
+  Channels - Supporting
+  Channels - Silent / Recovery
+  Ecosystem actors
+  Signals sensed
+  Responses issued
+  Ownership
+  Metrics
+GAP-FIRST AUDIT
+  orphaned signals / unsupported moments / role collisions / unowned seams</code></pre>
+  <p>I read the canvas gap-first. That is essential. Teams want to admire the finished rows. I want to find the empties, collisions, and fiction. A signal row entry with no response is an orphaned signal. A moment that matters with no named owner is unsupported. Two channels both claiming Primary is a collision. A transition between channels with no operational owner is an unowned seam. These are not subtle UX flaws. They are structural contradictions.</p>
+  <p>Because the artifact lives in versioned markdown, I can also audit it mechanically. A simple agent can scan columns for the four gap patterns and output a JSON gap register with cell coordinates. That is mundane and immensely useful. It gives the room something crisp to work on instead of another abstract conversation about alignment.</p>
+  <div class="code-label">canvas-auditor.txt</div>
+  <pre><code>You are CANVAS-AUDITOR.
+For each journey-phase column report:
+1. ORPHANED SIGNAL - a signal with no response
+2. UNSUPPORTED MOMENT - a moment-that-matters with no owner
+3. COLLISION - two channels marked Primary in one phase
+4. UNOWNED SEAM - a transition with no named owner
+Output: JSON gap register with canvas cell coordinates only.</code></pre>
+  <p>The role system is where the canvas becomes politically useful. I assign one Primary channel per phase. Supporting channels reinforce, remind, or mirror. Silent channels are deliberately quiet, which is often the most sophisticated choice. Recovery channels are reserved for breakdown, not normal flow. This role grammar stops teams from stuffing every channel with the same functionality and calling that customer centricity.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Channel role</th>
+        <th>What it does</th>
+        <th>What it must not do</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Primary</td>
+        <td>Carries the main interaction in that phase</td>
+        <td>Contradict another Primary channel</td>
+      </tr>
+      <tr>
+        <td>Supporting</td>
+        <td>Reinforces the primary with confirmation or context</td>
+        <td>Create a divergent story or require duplicate action</td>
+      </tr>
+      <tr>
+        <td>Silent</td>
+        <td>Stays out of the way by design</td>
+        <td>Wake up unnecessarily and increase noise</td>
+      </tr>
+      <tr>
+        <td>Recovery</td>
+        <td>Activates when the happy path fails</td>
+        <td>Substitute for fixing the primary path</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Once I have that structure, the canvas starts feeding everything else. Requirement cards become cross-channel conditions instead of channel feature lists. The blueprint can inherit the agreed choreography. Measurement can watch seam health rather than isolated click-throughs. Governance can attach to a Journey Owner instead of leaving every contradiction to inter-team diplomacy.</p>
+  <div class="callout"><strong>My take:</strong> The canvas earns its keep when a channel owner has to say out loud, "In this phase we are Silent by design." That is the moment the organization stops equating visibility with value.</div>
+
+<h3 id="s-12-3">Story Mapping for Incremental Delivery</h3>
+
+<p>The Orchestration Canvas tells me how channels should behave together. Story mapping tells me how to build that service without destroying the chronology. This is where many delivery teams regress. They take a beautifully coherent multi-channel design and shred it into component backlogs, team epics, or platform streams until nobody can see the customer journey anymore. Story mapping repairs that by keeping the backbone of the experience visible while I slice releases underneath it.</p>
+  <p>ASD's `story-mapping` skill lives in the ideation phase and produces a `story-map` artifact. I use it after the canvas has stabilized because then the backbone is grounded. The backbone is the sequence of customer activities. Under each activity I place the tasks, capabilities, or conditions needed to make that activity work. The release slices then run horizontally, preserving a coherent path through the journey instead of delivering one isolated piece per channel.</p>
+  <p>This matters especially in cross-channel services because a release can look complete to one team while being useless to a customer. An app push without store readiness is fake progress. A return tracker without refund settlement visibility is partial truth. A graceful window-rescue email without OMS support is a new promise resting on old drift. Story mapping makes these half-builds visible before the roadmap does damage.</p>
+  <div class="code-label">story-map-slices.yaml</div>
+  <pre><code>backbone:
+  - place_order
+  - prepare
+  - ready_and_collect
+  - grace_window
+  - return_and_refund
+slices:
+  - id: S1
+    name: honest_order_timeline
+    includes: [place_order, prepare]
+    promise: one order, one story across app, web, and email
+  - id: S2
+    name: five_minute_collection
+    includes: [ready_and_collect]
+    promise: QR pass, desk guidance, and first-time-found pickup
+  - id: S3
+    name: life_happens_rescue
+    includes: [grace_window]
+    promise: extend, re-slot, or release with visible consequences
+  - id: S4
+    name: visible_return_money
+    includes: [return_and_refund]
+    promise: route-aware return choice and refund clock the customer can see</code></pre>
+  <p>The slice should represent a usable story, more than technical progress. That is why I still care about the older delivery idea of a walking skeleton. The first slice must let the service tell one truthful story end to end, even if the experience is narrower than the future ambition. In cross-channel work, this usually means choosing fewer phases and keeping them coherent rather than trying to light up every surface at once.</p>
+  <p>Story mapping also helps me protect recovery and degradation work from being perpetually deferred. Teams love building the happy path first and promising to return later for rescue, exception handling, and channel outage behavior. The customer then discovers the real product during the first broken moment. If the canvas shows Grace over penalty as a principle, the story map should include a release slice that makes that grace operational. Otherwise the principle is ceremonial.</p>
+  <p>I also use story mapping to keep metrics honest. A slice is not done because one team deployed a feature. A slice is done when the service can actually support the phase promise across its relevant channels. If the app shows a ready push but the desk cannot scan the QR pass and locate the order, then the ready-and-collect slice is not done. Story mapping gives me the language to argue that clearly.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Release slices should preserve customer coherence. If a slice cannot tell one truthful story from the customer's point of view, it is probably a team convenience slice, not a service slice.</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Delivery habit</th>
+        <th>What goes wrong</th>
+        <th>Story-map correction</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Channel-first backlog</td>
+        <td>Each team ships local wins that do not compose</td>
+        <td>Slice horizontally through the journey</td>
+      </tr>
+      <tr>
+        <td>Happy-path obsession</td>
+        <td>Recovery logic arrives too late</td>
+        <td>Give degradation and rescue their own release slice</td>
+      </tr>
+      <tr>
+        <td>Metric siloing</td>
+        <td>Local dashboards hide cross-channel contradictions</td>
+        <td>Define slice success by end-to-end journey promise</td>
+      </tr>
+      <tr>
+        <td>Invisible ownership</td>
+        <td>Cross-team seams drift after launch</td>
+        <td>Carry Journey Owner and seam owner into the slice plan</td>
+      </tr>
+    </tbody>
+  </table>
+
+<h3 id="s-12-4">Case: Juniper Retail</h3>
+
+<p>Juniper Retail is the case I return to when someone says omnichannel is mostly a UX consistency problem. It was a fictional EU home-and-lifestyle retailer with 140 stores, 3.2 million loyalty members, 1.6 million click-and-collect orders per year, and 820,000 returns across four routes. Each channel worked tolerably on its own. Together they formed a drift machine. Thirty-four percent of click-and-collect orders generated a pickup-related contact. Eleven percent of orders were never collected inside the window. Returns disappeared into an eight-day refund blackout. The service was organized by channel territory and experienced as one long apology.</p>
+  <p>The programme used the Orchestration Canvas as the boundary object from Define through Deliver. That continuity was the real breakthrough. The same canvas co-built by five channel-owning teams in week six later became the basis for choreography, blueprinting, pilot backlog, and governance dashboard specification. Instead of creating a workshop artifact and then abandoning it to delivery, the team kept one shared truth alive.</p>
+  <p>The gap-first audit found nineteen issues in the first canvas version. Two of them explain the power of the method immediately. First, the `prep_started` and `window_day4` signals were orphaned. The systems sensed them, but the service had no response planned. Second, the app and CRM both claimed to own the ready notification, creating a Primary-channel collision. That is exactly the kind of contradiction customers feel as "I got three messages and still don't know what is true."</p>
+  <p>The governance answer was elegant and strict: app as Primary, email as Supporting, Journey Owner as arbitrator, and phone held back for Recovery rather than routine narration. That single choice did more for coherence than a dozen content workshops would have.</p>
+  <div class="code-label">juniper-canvas-v1.csv</div>
+  <pre><code>phase,primary,supporting,silent_or_recovery,signal,response,owner
+place_order,web_or_app,email,phone,order_placed,confirmation_plus_timeline,ecommerce_product
+prepare,app_push,email,phone,prep_started,progress_push,retail_ops
+ready_and_collect,store_desk_plus_app_pass,email,none,ready,ready_push_plus_qr_pass,retail_ops
+grace_window,app_push,email,phone_recovery,window_day4,rescue_prompt_extend_reslot_release,journey_owner
+return_and_refund,app_tracker_plus_store_till,email,phone_recovery,refund_settled,visible_refund_clock,returns_lead</code></pre>
+  <p>The experience principles that emerged from the canvas were strong because they were testable. <em>One order, one story.</em> Every channel shows the same status timeline. <em>Tell, don't be asked.</em> The customer should not need to phone for a status the organization already knows. <em>Grace over penalty.</em> A missed collection window should trigger rescue, not silent lapse. <em>Refund at the speed of return.</em> Money should move when goods move and the customer should be able to watch that movement. <em>Consent-gated awareness.</em> Location-triggered push should exist only where explicitly opted in and easily revoked.</p>
+  <p>Those principles then fed the story map. The first slice was not "mobile notifications" or "store tooling." It was the honest order timeline: the ability for web, app, and email to tell one coherent story. The second slice was the five-minute collection promise: QR pass, desk guidance, and reliable ready state. The third slice was the grace-window rescue: extend, re-slot, or release with visible consequences. The fourth slice was visible return-and-refund: route-aware return choice and a refund clock the customer could see.</p>
+  <p>This release logic stopped a classic failure. One team initially wanted to ship instant settled refunds for the parcel-locker route because it sounded impressive. Adversarial review caught the lie. The service could promise instant initiation, not instant settlement, for that route. The story map forced the truth back into the slice. Customers would rather receive a narrow honest promise than a broad fake one.</p>
+  <p>The pilot ran across twelve stores plus online. The illustrative results justify the discipline: pickup-related contact rate fell from 34% to 17%, no-show dropped from 11% to 6%, refund time moved from eight days to instant for in-store returns, and pickup NPS rose from +9 to +34. Again, I would not credit the canvas alone. The outcome came from keeping the choreography, blueprint, requirements, prototype, and pilot slices all tied to the same service story.</p>
+  <div class="callout"><strong>My take:</strong> Juniper did not win because it added more channels. It won because it assigned clearer roles to the channels it already had and stopped letting each one improvise the plot.</div>
+  <p>The case also shows why story mapping belongs in a methods chapter about orchestration. Without the slice logic, Juniper would have fallen back into team backlog gravity. The app team would have shipped the push layer, CRM would have optimized email timing, store ops would have updated scripts, and the customer would still be living through channel contradiction. The story map preserved the service as a service.</p>
+  <div class="code-label">release-readiness-checklist.txt</div>
+  <pre><code>- does the slice preserve one truthful customer story?
+- is there exactly one Primary channel per relevant phase?
+- do all signals in the slice have responses?
+- is recovery designed where the slice can fail?
+- can support systems actually sustain the promised timing?
+  - does the owning metric measure journey coherence rather than local engagement alone?</code></pre>
+  <p>If you keep one habit from this chapter, let it be this: never let a cross-channel service go straight from journey insight to team backlog. Put the canvas in the middle. Put the story map after it. Force the organization to say who owns the seam, which channel is Primary, what happens on degradation, and what the first truthful slice really is. That is how multi-channel services stop drifting apart.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="11.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 11</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 11</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</p>
+        </div>
+      </div>
+    </a>
+    <a href="13.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 13</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Structured Ideation &amp; How Might We at Machine Speed</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 13</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Structured Ideation &amp; How Might We at Machine Speed</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Structured Ideation &amp; How Might We at Machine Speed</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Diverge wide, converge ruthlessly</p>
+        </div>
+        <a href="13.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

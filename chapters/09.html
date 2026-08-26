@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Living Journey Maps: From Transcripts to Sentiment Curves - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-09" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 09</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Living Journey Maps: From Transcripts to Sentiment Curves</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Journey maps that update themselves</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">16 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-09-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Journey Map Rots; Ours Compiles</a>
+        <a href="#s-09-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">From Verbatim Evidence to Journey Stages</a>
+        <a href="#s-09-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Sentiment Curves from Evidence</a>
+        <a href="#s-09-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Emotion, Pain and Gain Registers</a>
+        <a href="#s-09-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Albatross Airways</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-09-1" data-section="s-09-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Journey Map Rots; Ours Compiles</span></a>
+          <a href="#s-09-2" data-section="s-09-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>From Verbatim Evidence to Journey Stages</span></a>
+          <a href="#s-09-3" data-section="s-09-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Sentiment Curves from Evidence</span></a>
+          <a href="#s-09-4" data-section="s-09-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Emotion, Pain and Gain Registers</span></a>
+          <a href="#s-09-5" data-section="s-09-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Albatross Airways</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-09-1" data-section="s-09-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Journey Map Rots; Ours Compiles</span></a>
+          <a href="#s-09-2" data-section="s-09-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>From Verbatim Evidence to Journey Stages</span></a>
+          <a href="#s-09-3" data-section="s-09-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Sentiment Curves from Evidence</span></a>
+          <a href="#s-09-4" data-section="s-09-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Emotion, Pain and Gain Registers</span></a>
+          <a href="#s-09-5" data-section="s-09-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Albatross Airways</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-09-1">The Journey Map Rots; Ours Compiles</h3>
+
+<p>The standard journey map dies in three predictable ways. First, the spine is wrong. Teams organize it around internal departments rather than customer intent. Second, the emotions are fictional. People draw dramatic valleys because the story needs drama, not because the evidence supports it. Third, the map has no maintenance path. Once the workshop ends, nobody can tell which rows are real, which came from one anecdote, and which were smuggled in by an opinionated manager.</p>
+  <p>ASD counters all three failures by treating the journey map as an artifact under method control. The output kind is `journey-map`. The producing method is usually `journey-from-transcripts` or, when mental structure matters more than chronology, `mental-model-alignment`. The runtime cares about the boring details that make the artifact honest: minimum node count, evidence per node, non-empty emotion field, non-empty touchpoint field, and later a Critic verdict before anything becomes final.</p>
+  <p>That means I do not begin with diagramming software. I begin with a lens, a scope decision, and evidence rows. The lens says whose journey this is. The scope says where it starts and ends. The evidence rows say what actually happened, in whose words, through which channel, at what point in the chronology. From there the map is a projection, not a performance.</p>
+  <p>The practical shape is simple. A journey map artifact carries stages. Each stage is a node. Each node cites the evidence register. The rows can be rendered as tables or diagrams later, but the map's truth is in the data structure. This is why I can update it. If a new transcript or telemetry row lands, I do not need to restage a workshop. I need to revise the artifact and rerun the gates.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A journey map is an index over the evidence register. If a stage, emotion score, or pain point cannot cite the register, it is commentary, not map data.</div>
+  <p>The authored journey map template makes that discipline tangible. It asks for stages, channel and touchpoint detail, quoted emotion, pain or breakdown, and evidence references. It also keeps the emotion line as data. Unless I have a proper number ledger, the emotional line is a markdown table, not a seductive chart. That restraint matters. Charts are persuasive. Tables are accountable.</p>
+  <div class="code-label">journey-map-template.md</div>
+  <pre><code># Customer Journey Map — &lt;segment&gt; (&lt;current|future&gt;)
+
+## Stages
+| Stage | Customer actions (evidence) | Channels &amp; touchpoints | Emotion (quoted) | Pain / breakdown | Evidence refs |
+|---|---|---|---|---|---|
+
+## Emotion line (derived)
+| Stage | Emotion score (1-5) | Supporting quote | Evidence ref |
+|---|---|---|---|
+
+## Moments of truth
+&lt;evidence-backed list&gt;</code></pre>
+  <p>The machine rules do not make the work mechanical. They simply shift my judgment to the right place. I decide the scope. I decide whether adjacent quotes belong to one stage or two. I decide which summary label respects the evidence best. The engine decides whether I have cited enough to make that judgment auditable. That division of labor is healthy.</p>
+  <p>It also keeps current and future states from contaminating each other. The most common journey-map fraud is a blended current-future poster where desired features are drawn into the current experience. ASD blocks that habit because current and future are separate artifacts. If I want to design a better journey, I can. I just cannot pretend the better journey already happened.</p>
+  <div class="callout"><strong>My take:</strong> The emotional payoff of a journey map comes from recognition, not decoration. When a frontline team says, "Yes, that is exactly what people go through," I know the artifact is earning trust. When a map looks polished before it looks painfully true, I assume it is lying.</div>
+
+<h3 id="s-09-2">From Verbatim Evidence to Journey Stages</h3>
+
+<p>The step that matters most is stage construction. A good stage is about customer intent in time. It is not "contact centre triage" or "claims processing" because those are inside-out labels. It is "send and wait," "rebook," "return," "check in," or "ask for help." If I name stages from the organization's point of view, I have already started to misdiagnose the service.</p>
+  <p>My pipeline is narrow by design. I ingest transcripts, tickets, documents, and telemetry into the evidence register under the only three allowed kinds: `quote`, `telemetry`, and `document`. I then tag rows with provisional phase candidates, channel, touchpoint, and whether the row describes an action, a feeling, a breakdown, a workaround, or a recovery. The goal is not deep ontological elegance. The goal is enough structure to sort the chronology without flattening the voices.</p>
+  <p>Albatross Airways is a useful case because the corpus was messy enough to expose weak method. Over eight weeks the programme assembled 140 passenger interviews, 9,000 disruption tickets, 1.1 million app and site sessions, 45 staff debriefs, and 2,300 social posts. If I had tried to journey-map that corpus by manual stickies, I would have drowned in anecdotes. Instead the method treated the corpus as a searchable evidence field. Stage candidates had to emerge repeatedly across sources. Rows with insufficient support stayed parked or marked open.</p>
+  <p>The journey-from-transcripts method is explicit about the contract. It produces a `journey-map`. It assigns steps to roles. It requires acceptance rules. It does not allow a mapper to smuggle in a stage because it sounds narratively pleasing.</p>
+  <div class="code-label">journey-from-transcripts.json</div>
+  <pre><code>{
+  "method": {
+    "id": "journey-from-transcripts",
+    "phase": "synthesis",
+    "outputKind": "journey-map"
+  },
+  "steps": [
+    {
+      "role": "researcher",
+      "instruction": "Extract distinct customer actions, touchpoints, and breakdowns from the evidence register."
+    },
+    {
+      "role": "mapper",
+      "instruction": "Order the actions into customer-intent stages and attach evidence-backed emotions and pains."
+    },
+    {
+      "role": "critic",
+      "instruction": "Reject any stage lacking supporting evidence or any emotion unsupported by a quoted line.",
+      "gate": true
+    }
+  ],
+  "acceptance": [
+    { "rule": "min-nodes", "min": 3 },
+    { "rule": "min-evidence-per-node", "min": 1 },
+    { "rule": "field-non-empty", "field": "emotion" },
+    { "rule": "field-non-empty", "field": "touchpoint" }
+  ]
+}</code></pre>
+  <p>What that contract really does is force me to defend the stage boundary. Suppose I have five passenger quotes about checking the app, then the departures board, then asking staff because none of the channels agree. I can collapse that into a single stage if the customer goal is still the same: understand what is happening. I should not split it into three stages unless the intent changes. The map becomes better when stages reflect the customer's errand rather than my urge for more granularity.</p>
+  <p>Tagging still matters. A decent tagging schema lets me check whether a stage is over-weighted toward one source or one channel. If every quote in a stage comes from social posts and none from interviews or telemetry, I read it cautiously. If a stage has quotes but no operational trace, I know I may be seeing a perception seam rather than a measured queue. Both are useful. They are just different.</p>
+  <div class="code-label">tagging-schema.json</div>
+  <pre><code>{
+  "evidence_item": {
+    "phase": ["pre_flight", "at_airport", "new_arrangements", "rebook", "recovery"],
+    "channel": ["app", "sms", "email", "phone", "desk", "gate_board", "social", "web_form"],
+    "type": ["verbatim_quote", "observed_behavior", "operational_fact", "workaround"],
+    "emotion_1_5": "integer 1-5 or null",
+    "pain_code": ["INFO", "REB", "CARE", "COMP", "QUEUE", "OTHER"],
+    "source_lines": "required for quote verification"
+  }
+}</code></pre>
+  <p>The Albatross map eventually stabilized around five stages because that is where the evidence converged: Pre-flight, At-airport, New arrangements, Rebook, and Recovery. Not six. Not twelve. Five. That structure was strong precisely because it survived workshop challenge. During validation workshops, participants turned objections into issue rows against the map. Twenty-nine fixes were merged and twelve were parked pending stronger evidence. That is what I mean by a living map. It is not endlessly mutable. It is formally repairable.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stage-building decision</th>
+        <th>Bad habit</th>
+        <th>ASD discipline</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Name the stage</td>
+        <td>Use internal department labels</td>
+        <td>Use customer goal language</td>
+      </tr>
+      <tr>
+        <td>Choose boundaries</td>
+        <td>Split on every touchpoint</td>
+        <td>Split when customer intent changes</td>
+      </tr>
+      <tr>
+        <td>Handle gaps</td>
+        <td>Invent a plausible stage</td>
+        <td>Mark open gaps or strengthen the evidence</td>
+      </tr>
+      <tr>
+        <td>Move to future state</td>
+        <td>Blend proposed steps into current map</td>
+        <td>Create a separate future artifact</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>That last row is where most teams cheat. They cannot resist improving the story while mapping the current state. I get the temptation. But if I do that, I lose the diagnostic. The journey map's job is to tell the truth about what is happening now. The blueprint can carry the redesign later.</p>
+
+<h3 id="s-09-3">Sentiment Curves from Evidence</h3>
+
+<p>Emotion is the most abused row in service design. Teams either avoid it because it feels soft, or they overperform it because it makes the poster persuasive. ASD takes a more severe view. Emotion belongs in the map, but only as an evidence-backed field. If nobody said it, showed it, or wrote it in a way that clearly carries valence, the map should not pretend to know.</p>
+  <p>This is why the old freeform `emotion.yaml` block had to die. A YAML file is not a mood board. If I label something YAML, it should parse. More importantly, it should encode operational rules I can actually run. The sentiment configuration below is valid YAML and expresses the load-bearing constraints: explicit-evidence scoring, thresholds, lexicon path, minimum quotes per stage, source diversity, and calibration guards.</p>
+  <div class="code-label">emotion.yaml</div>
+  <pre><code>version: 1
+scale:
+  min: 1
+  max: 5
+labels:
+  1: distressed
+  2: negative
+  3: neutral
+  4: positive
+  5: delighted
+scoring:
+  explicit_evidence_only: true
+  null_when_absent: true
+  min_quotes_per_stage: 2
+  min_sources_per_stage: 2
+  calibration_sample_size: 50
+  stddev_floor_per_phase: 0.8
+thresholds:
+  negative:
+    max_score: 2
+  neutral:
+    min_score: 3
+    max_score: 3
+  positive:
+    min_score: 4
+lexicon:
+  path: research/emotion-lexicon.yml
+  use_anchor_quotes: true
+anchors:
+  distressed:
+    description: crisis language, panic, tears, giving up
+    example_quote: "The children slept on our coats."
+    example_source: "INT-041"
+  negative:
+    description: frustration, distrust, workaround forming
+    example_quote: "Nobody could tell me anything, so I stopped asking."
+    example_source: "INT-074"
+  neutral:
+    description: transactional completion with no explicit valence
+    example_quote: "I filled in the form and waited."
+    example_source: "INT-118"
+  positive:
+    description: relief, gratitude, acknowledged effort
+    example_quote: "The agent actually fixed it while I watched."
+    example_source: "INT-096"
+  delighted:
+    description: advocacy language, unprompted praise, retelling
+    example_quote: "They rebooked me before I reached the terminal."
+    example_source: "SOC-402"</code></pre>
+  <p>The rule that matters most is `explicit_evidence_only: true`. I do not allow a model to infer that someone must have felt abandoned because the queue was long. Maybe they were annoyed. Maybe they were resigned. Maybe they were furious. Maybe they were emotionally flat and pragmatically focused. If the quote does not carry valence, the field should be `null`, and the phase should aggregate only rows that genuinely express emotion.</p>
+  <p>This is how I avoid the sentiment smoothie. Models love to smooth ambiguity into plausible middles. That is lethal here. The real value of the emotional line is contrast. At Albatross the phase-level means came out as 2.2 for Pre-flight, 1.4 for At-airport, 2.2 for New arrangements, 1.6 for Rebook, and 1.8 for Recovery. That shape challenged executive folklore. The cancellation itself was not the deepest wound. Silence and contradiction at the airport were.</p>
+  <p>I also insist on calibration. A human-coded sample still matters. If an agent's scoring drifts wildly from the calibration set, I do not trust the emotional curve, however elegant the chart looks. The YAML's `calibration_sample_size` and `stddev_floor_per_phase` encode that discipline. The point is not mathematical fetishism. The point is to protect the map from dramatic flattening and theatrical exaggeration alike.</p>
+  <div class="warning"><strong>CAUTION:</strong> Never average nulls into comfort. A stage with weak emotional evidence is a research gap, not proof that the experience was emotionally mild.</div>
+  <p>The journey map template keeps the sentiment line attached to supporting quotes for exactly this reason. If a stakeholder disputes the valley, I can point to the evidence rows, not my intuition. If they still disagree, that is useful. It means we should challenge the tagging or gather more evidence. What I do not do is redraw the curve to reduce discomfort in the room.</p>
+  <div class="callout"><strong>My take:</strong> Emotional curves become useful the moment they stop flattering the narrative. When a phase score embarrasses the sponsor or contradicts the team's pet theory, I start paying attention. That is usually where the map is finally telling the truth.</div>
+
+<h3 id="s-09-4">Emotion, Pain and Gain Registers</h3>
+
+<p>Emotion alone is too blunt. A strong journey map carries emotion, pain, and gain registers side by side. Emotion tells me how the service feels. Pain codes tell me what kind of breakdown is recurring. Gain codes tell me what actually restores confidence or saves effort. This layered view is what turns a map from empathy theater into a design instrument.</p>
+  <p>Pain codes are especially useful when the evidence corpus is large. At Albatross, the codes made the narrative operational. `INFO` captured notification lag and contradictory status. `REB` captured self-serve rebooking failure. `CARE` surfaced care bottlenecks such as hotel or meal support. `COMP` captured compensation friction. Because those codes sat on tagged evidence rows, the journey map could say more than "people were upset." It could show which class of failure dominated each stage.</p>
+  <p>The gain side matters too. I have seen too many maps dwell on pain until they become misery collages. The service still has bright spots. Relief can be operationally specific. A passenger gets a ranked rebooking offer before reaching the desk. A patient sees an acknowledgement instead of entering a phone chain. A retail customer watches the refund clock update instead of wondering whether money disappeared. Gains should be evidence-backed as rigorously as pains. Otherwise teams end up shipping delight fiction.</p>
+  <p>Because the artifact is typed, I can carry this layered reading into later work. Pain codes inform fail points in the blueprint. Gain codes inform moments worth protecting. Emotion tells me where a design move must be especially careful. None of these registers replace judgment. They simply keep my judgment connected to the evidence field.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Stage</th>
+        <th>Emotion mean</th>
+        <th>Dominant pain code</th>
+        <th>What the code really means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pre-flight</td>
+        <td>2.2</td>
+        <td>INFO</td>
+        <td>Notification lag after the operations decision</td>
+      </tr>
+      <tr>
+        <td>At-airport</td>
+        <td>1.4</td>
+        <td>INFO</td>
+        <td>Contradictory signals across app, board, and staff</td>
+      </tr>
+      <tr>
+        <td>New arrangements</td>
+        <td>2.2</td>
+        <td>CARE</td>
+        <td>Care support depends on fragile desks and closing times</td>
+      </tr>
+      <tr>
+        <td>Rebook</td>
+        <td>1.6</td>
+        <td>REB</td>
+        <td>Self-serve fails and passengers default to the phone queue</td>
+      </tr>
+      <tr>
+        <td>Recovery</td>
+        <td>1.8</td>
+        <td>COMP</td>
+        <td>Claim friction, abandonment, and long resolution tail</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The review path becomes important here. A Critic veto is about more than missing evidence. It can also challenge a misleading register assignment. If I tag a stage primarily as `REB` but the supporting evidence shows passengers are actually most distressed by contradictory information before they even reach rebooking, the map needs correction. That is why a good reviewer attacks classification as well as structure.</p>
+  <p>The runtime lifecycle helps me here. A failed write persists as draft with its acceptance failures attached. I can rewrite the same artifact in place via `artifactId`, strengthen the evidence, or remove an overreaching node. That means the map can improve without losing continuity. I keep one artifact history instead of a trail of disconnected poster versions.</p>
+  <div class="code-label">journey-map-repo-layout.txt</div>
+  <pre><code>maps/disruption-recovery/v1.0/
+├── map.md
+├── rows.csv
+├── phases.yaml
+├── emotion.yaml
+├── traceability.csv
+└── CHANGELOG.md
+
+CI checks:
+- every rows.csv row has the required evidence refs
+- every quoted line grep-matches the corpus store verbatim
+- emotion scores follow emotion.yaml rules
+- no passenger-identifiable data appears in the artifact</code></pre>
+  <p>That versioned layout matters more than it first appears. It lets workshops generate issues against rows instead of vague comments against a poster. It lets a map owner refresh the artifact quarterly instead of commissioning a re-map. It lets downstream blueprint work cite journey row IDs directly. In short, it turns the journey map into infrastructure.</p>
+
+<h3 id="s-09-5">Case: Albatross Airways</h3>
+
+<p>Albatross Airways is the cleanest argument I know for evidence-gated journey mapping. The airline already had a disruption poster from 2023. It had been built in two days, validated by nobody, and updated never. Meanwhile disruption days kept producing industrial-scale failure demand: 380 calls per 1,000 disrupted passengers into a 340-seat contact centre, post-disruption NPS at −34, and a compensation process everyone loved to blame because it was visible, measurable, and late in the journey.</p>
+  <p>The new programme ran for eight weeks. It assembled 140 passenger interviews, 9,000 disruption tickets, 1.1 million sessions across three disruption events, 45 staff debriefs, and 2,300 social posts. The aim was modest and ruthless: build a current-state map with evidence-per-row traceability, reach at least 90% agreement in an extraction audit sample, and hand a defensible journey artifact into blueprint work without losing the passenger view.</p>
+  <p>The biggest discovery came from the emotional line. Executives assumed the cancellation itself or the compensation tail would be the nadir. The map proved otherwise. The deepest trough was At-airport at 1.4, where app, gate board, and staff contradicted each other and passengers queued for roughly 90 minutes in an information blackout. Rebook was close behind at 1.6 because the self-serve engine failed on 66% of attempts and 41% of users defaulted to the phone queue. Recovery was miserable, but it was not the first wound.</p>
+  <p>That distinction changed the design conversation immediately. Once the map showed the true order of harm, the team could stop fetishizing the compensation form as the singular problem. The critical moves shifted toward earlier, more structural seams: a faster notification layer, synchronized disruption communications, ranked rebooking offers with soft holds, and a journey-to-blueprint traceability gate so every top-tier pain had a corresponding operational response.</p>
+  <p>The map's code form also changed the workshop mechanics. Three validation workshops involved thirty-four participants across gate operations, OCC, ground handling, contact centre, claims, digital, legal, and passenger advisers. Participants did not merely comment on the map. They opened row-level issues against it. Twenty-nine were merged. Twelve were parked because the evidence did not yet clear the bar. That is a healthier meeting. It rewards specificity.</p>
+  <p>By the handoff stage, the map had become the passenger-facing truth for the programme. The blueprint work had to answer journey row IDs rather than reinvent pain categories. That traceability check caught blueprint steps that solved vendor wish-list items but answered no journey pain, and it exposed at least one Tier-1 moment with no blueprint coverage. Again: the map did not design the service. It stopped the team from designing the wrong one.</p>
+  <p>The downstream impact is why this matters. In the illustrative pilot the redesigned recovery service improved self-serve rebooking from 34% to 78%, cut disruption-day calls by 62%, reduced median EU261 resolution from 63 days to 19 days, and lifted disruption NPS from −34 to −9. I would never attribute those gains to the journey map alone. That would be nonsense. But I will say the map changed the direction of effort. It revealed the seam that actually mattered.</p>
+  <div class="callout"><strong>My take:</strong> The line I remember from Albatross is simple: passengers forgive the storm; they do not forgive the silence. That sentence was not poetic flair. It was a compressed reading of the evidence field, and it only became trustworthy because the map earned it.</div>
+  <p>If you carry this method into your own work, keep the bargain clear. Let transcripts and telemetry do the grounding. Let the journey spine stay outside-in. Let the emotional line earn its shape. Let the Critic be annoying. And keep the map alive in the same repository as its repair log and traceability table. A living journey map is not one that changes constantly. It is one that can be changed honestly, without pretending the evidence said more than it did.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="08.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 08</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Ecosystem Value Mapping &amp; Stakeholder Topologies</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 08</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Ecosystem Value Mapping &amp; Stakeholder Topologies</p>
+        </div>
+      </div>
+    </a>
+    <a href="10.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 10</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 10</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">The operational X-ray of a service</p>
+        </div>
+        <a href="10.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

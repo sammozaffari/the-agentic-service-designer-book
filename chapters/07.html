@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Mental Models, Alignment &amp; Opportunity Mapping - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-07" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 07</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Mental Models, Alignment &amp; Opportunity Mapping</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Closing the gap between belief and behaviour</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">12 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-07-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Mental Models Are Executable Artifacts, Not Workshop Sketches</a>
+        <a href="#s-07-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Alignment Grid Makes Divergence Concrete</a>
+        <a href="#s-07-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Opportunity Mapping Needs Evidence Weights, Not Design Charisma</a>
+        <a href="#s-07-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">A Valid method-run Walkthrough for Mental-Model Alignment</a>
+        <a href="#s-07-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case Spine: Lumen EdTech and the Cost of Ontology Mismatch</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-07-1" data-section="s-07-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Mental Models Are Executable Artifacts, Not Workshop Sketches</span></a>
+          <a href="#s-07-2" data-section="s-07-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Alignment Grid Makes Divergence Concrete</span></a>
+          <a href="#s-07-3" data-section="s-07-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Opportunity Mapping Needs Evidence Weights, Not Design Charisma</span></a>
+          <a href="#s-07-4" data-section="s-07-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>A Valid method-run Walkthrough for Mental-Model Alignment</span></a>
+          <a href="#s-07-5" data-section="s-07-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case Spine: Lumen EdTech and the Cost of Ontology Mismatch</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-07-1" data-section="s-07-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Mental Models Are Executable Artifacts, Not Workshop Sketches</span></a>
+          <a href="#s-07-2" data-section="s-07-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Alignment Grid Makes Divergence Concrete</span></a>
+          <a href="#s-07-3" data-section="s-07-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Opportunity Mapping Needs Evidence Weights, Not Design Charisma</span></a>
+          <a href="#s-07-4" data-section="s-07-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>A Valid method-run Walkthrough for Mental-Model Alignment</span></a>
+          <a href="#s-07-5" data-section="s-07-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case Spine: Lumen EdTech and the Cost of Ontology Mismatch</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-07-1">Mental Models Are Executable Artifacts, Not Workshop Sketches</h3>
+
+<p>Teams often treat mental models as inspirational wallpaper. Somebody runs a workshop, draws towers on a wall, and everybody nods at the idea that users think differently from the org chart. Then the diagram disappears because nobody can attach it to delivery work. ASD fixes that by treating mental-model outputs as artifact contracts rather than facilitation residue.</p>
+  <p>There are two closely related runtime forms in play. <code>mental-model-diagramming</code> produces a <code>mental-model-map</code>, which is the skyline: towers, spaces, and the durable cognitive structure of a task domain. <code>mental-model-alignment</code> produces a <code>journey-map</code>, because the alignment question is inherently comparative and staged: what the customer thinks is happening, what frontline staff think is happening, where the two diverge, and which touchpoints express that divergence. Those two forms complement each other. One captures structure. The other captures the clash between structures in lived service flow.</p>
+  <p>The point of keeping both as artifacts is practical. A mental model then stops being a metaphor and starts being a dependency. An opportunity matrix can consume it. A content-model change proposal can cite it. A journey map can express its gaps explicitly. A Critic can veto it when a divergence lacks evidence from both sides.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> I do not care whether a mental-model workshop felt profound. I care whether a product owner can point to a node, ask what evidence it stands on, and then make a build decision with it.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Artifact</th>
+        <th>What it captures</th>
+        <th>Why it exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>mental-model-map</code></td>
+        <td>Towers, mental spaces, beliefs, questions, and tasks.</td>
+        <td>Expose the durable demand-side structure before solutioning.</td>
+      </tr>
+      <tr>
+        <td><code>journey-map</code> from <code>mental-model-alignment</code></td>
+        <td>Parallel stage-by-stage views of customer and frontline interpretation.</td>
+        <td>Make divergence visible where service behavior must change.</td>
+      </tr>
+      <tr>
+        <td><code>opportunity-matrix</code></td>
+        <td>Prioritized responses to the misalignments.</td>
+        <td>Translate diagnosis into sequencing without losing evidence weight.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>This is why the language of belief, question, and task matters so much. If a model says, "The platform organizes grades by class," that is system language. If it says, "I need one picture of how my child is doing," that is user logic. The whole alignment exercise depends on preserving that distinction. Otherwise I end up redrawing the product architecture in a softer font and calling it empathy.</p>
+  <p>The taxonomy discipline is load-bearing. A belief is a claim the user treats as true about how the service works. A question is an information need. A task is an intended action. If I blur those categories, the model turns mushy fast. "The spinner stopped so my work is saved" is a belief. "Did my grade actually publish" is a question. "Resume yesterday's grading" is a task. Those differences are exactly what later content-model and interaction changes must answer.</p>
+  <p>That is why the research team at Lumen extracted and reviewed mental-model items before they talked about screens. The point was not to make the workshop more poetic. The point was to stop the design team from collapsing cognition, behavior, and interface preference into one bucket called feedback.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A mental model is useful only when it can survive contact with delivery. That means typed structure, evidence, review, and a downstream consumer.</div>
+
+<h3 id="s-07-2">The Alignment Grid Makes Divergence Concrete</h3>
+
+<p>Once the cognitive demand side is explicit, I need a way to compare it with the service as actually performed. That is the alignment grid. Think of it as a disciplined collision table. One column names the user belief or question. One column names the system truth or frontline interpretation. One column names the touchpoint where the clash becomes visible. One column names the consequence. Evidence sits underneath all of it.</p>
+  <p>The method does not ask for abstract empathy. It asks for paired claims. Customer quote on one side. Frontline or system quote on the other. Shared stage. If both sides are not present, the divergence is not ready. That is exactly what the <code>mental-model-alignment</code> contract enforces. The Critic's gate instruction is explicit: reject any divergence marked without a quote from both sides.</p>
+  <p>The Lumen EdTech case shows why this matters. Parents thought by child. Teachers thought by grading sitting. Students thought by due date. The platform, meanwhile, thought by course and reverse chronology. Each actor was rational on their own terms. The failure demand emerged because the service forced all three groups to think in the platform's ontology. The alignment grid made that mismatch visible as service work rather than as user confusion.</p>
+
+  <div class="code-label">mental-model-alignment.method-contract.json</div>
+  <pre><code>{
+  "method": {
+    "id": "mental-model-alignment",
+    "name": "Mental Model Alignment",
+    "phase": "synthesis",
+    "reviewGate": "critic"
+  },
+  "steps": [
+    {
+      "role": "mapper",
+      "instruction": "Build two parallel journeys for the same process: the customer's and the frontline staff's, stage by stage."
+    },
+    {
+      "role": "synthesizer",
+      "instruction": "Mark every stage where the two mental models diverge, citing the quote from each side."
+    },
+    {
+      "role": "critic",
+      "instruction": "Reject any divergence marked without a quote from both sides.",
+      "gate": true
+    }
+  ],
+  "acceptance": [
+    {
+      "rule": "min-nodes",
+      "min": 3
+    },
+    {
+      "rule": "min-evidence-per-node",
+      "min": 2
+    },
+    {
+      "rule": "field-non-empty",
+      "field": "emotion"
+    },
+    {
+      "rule": "field-non-empty",
+      "field": "touchpoint"
+    }
+  ],
+  "outputKind": "journey-map"
+}</code></pre>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>User mental model</th>
+        <th>Service truth</th>
+        <th>Operational cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Parent aggregation gap</td>
+        <td>"Show me my child as one story."</td>
+        <td>Grades and updates are spread across course pages.</td>
+        <td>Parent search failure, support contacts, low trust.</td>
+      </tr>
+      <tr>
+        <td>Teacher draft-state gap</td>
+        <td>"A grading sitting can be resumed later exactly where I left it."</td>
+        <td>Drafts are append-only and vulnerable to concurrent-tab overwrite.</td>
+        <td>Lost work, teacher distrust, high-ticket rework.</td>
+      </tr>
+      <tr>
+        <td>Student priority gap</td>
+        <td>"The top of the feed is what matters next."</td>
+        <td>Feed order is reverse chronological by posting date.</td>
+        <td>Missed deadlines, hidden urgency, avoidable panic.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The grid changes the quality of debate. I am no longer hearing vague claims like "parents find it confusing." I am seeing a named divergence, a touchpoint, paired evidence, and a measurable cost. That makes the next step possible.</p>
+
+<h3 id="s-07-3">Opportunity Mapping Needs Evidence Weights, Not Design Charisma</h3>
+
+<p>Once misalignments are visible, teams get excited and immediately start ideating. That is understandable. It is also dangerous. Not every gap deserves the same sequence, and not every emotionally resonant gap has the same business gravity. Opportunity mapping is the step that stops the loudest problem from stealing the roadmap by drama alone.</p>
+  <p>I score opportunities against four questions. First, how strong is the evidence? Second, how severe is the user harm? Third, how much failure demand or delivery risk does the gap generate? Fourth, how reversible is the likely intervention? The score is not meant to pretend objectivity where none exists. It is meant to make trade-offs explicit enough that design, product, engineering, and operations can argue on the same page.</p>
+  <p>Evidence weight is the anchor. A gap supported by ticket volume, usability failure, interview evidence, and frontline corroboration should outrank a clever but weakly evidenced idea. In Lumen, the by-child parent view, grading-session continuity, and due-date ordering all cleared that bar. A handful of attractive side opportunities did not. They were kept visible but sequenced later.</p>
+
+  <div class="code-label">opportunity-weighting-table.csv</div>
+  <pre><code>id,opportunity,evidence_weight,user_harm,delivery_impact,reversibility,total
+X,parent-child-aggregation,5,5,5,3,18
+Y,grading-session-state,5,5,4,2,16
+Z,due-date-primary-feed,4,4,4,4,16
+G4,notification-bundling,3,2,3,5,13
+G5,teacher-copy-cleanup,2,2,2,5,11</code></pre>
+
+  <p>The point is not that every team must use my exact weights. The point is that ASD gives those weights somewhere durable to live. If the opportunity later turns out weaker than expected, I can see whether the original problem was in the evidence, the score, or the execution. Without that memory, prioritization becomes folklore within a quarter.</p>
+  <p>There is a governance benefit too. When an opportunity score cites evidence ids and an artifact id, leadership can challenge the weighting without denying the existence of the underlying gap. That is a healthier argument. It keeps the fight on sequencing rather than reality itself.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> Opportunity maps are where smart organizations quietly smuggle politics back in. Evidence weighting is how I keep the conversation honest without pretending politics disappears.</div>
+
+  <p>Lumen's strongest opportunities also illustrate the difference between interface tweaks and ontology changes. A child-level summary is not a filter bolted onto a course model. A grading session is not a tooltip explaining autosave. A due-date-primary feed is not a cosmetic sort order if the entire student's planning behavior depends on it. Opportunity mapping, done properly, tells me which gaps demand structural change and which can be handled with lighter service moves.</p>
+
+<h3 id="s-07-4">A Valid <code>method-run</code> Walkthrough for Mental-Model Alignment</h3>
+
+<p>The platform contract matters most when I can actually run it. So here is the shape of the workflow using the real CLI surface. I create the project, capture evidence rows from both sides of the relationship, inspect the method contract, write the alignment artifact, send it to the Critic, and only then run the deterministic replay. The commands below are deliberately plain. No pseudo-tool names. No catch-all shortcut command. Just the shipped interface.</p>
+
+  <div class="code-label">terminal / asd mental-model-alignment walkthrough</div>
+  <pre><code>asd project-create --name "Lumen Alignment"   --client "Fictional composite — Lumen EdTech"   --sector education   --service "gradebook and parent communication"
+
+asd evidence-add --projectId lumen-alignment-9b3f5d2a   --source parent-12 --kind quote   --body "I just want one picture of how my child is doing, not eleven separate class pages."
+
+asd evidence-add --projectId lumen-alignment-9b3f5d2a   --source teacher-07 --kind quote   --body "When the spinner stops, I assume the grading sitting is safely saved for tomorrow."
+
+asd evidence-add --projectId lumen-alignment-9b3f5d2a   --source support-queue-q1 --kind telemetry   --body "Parent grade-finding tickets 3720 per quarter; grading-draft loss tickets 2640; missed-deadline comprehension tickets 1800."
+
+asd evidence-add --projectId lumen-alignment-9b3f5d2a   --source content-model-v2 --kind document   --body "The platform organizes grade history by course and stores append-only draft changes per assignment column."
+
+asd method-run --methodId mental-model-alignment   --projectId lumen-alignment-9b3f5d2a
+
+asd artifact-write --projectId lumen-alignment-9b3f5d2a   --methodId mental-model-alignment   --title "Parent and frontline alignment journey"   --nodes '[
+    {
+      "id":"find-grades",
+      "label":"Find the latest school picture",
+      "fields":{"emotion":"2","touchpoint":"parent portal"},
+      "evidence":[
+        {"evidenceId":"38ff95bb5223d05c6eeafae8d15819e50c4cb27ba22809da1958be2bb5a465cf"},
+        {"evidenceId":"4a24df6d58ec99e275dcc98f0dd65e0d1c64133eaa7f66d89ad1263f23d77e64"}
+      ]
+    },
+    {
+      "id":"resume-grading",
+      "label":"Resume a grading sitting",
+      "fields":{"emotion":"2","touchpoint":"gradebook"},
+      "evidence":[
+        {"evidenceId":"a24b51bac317fb3baa60f8d5e5cbcde0ab3f62c0487e51321e4191855c0ea9de"},
+        {"evidenceId":"4a24df6d58ec99e275dcc98f0dd65e0d1c64133eaa7f66d89ad1263f23d77e64"}
+      ]
+    },
+    {
+      "id":"see-what-matters-next",
+      "label":"See what is due next",
+      "fields":{"emotion":"3","touchpoint":"student feed"},
+      "evidence":[
+        {"evidenceId":"c872dc90f8078c90d74c7ae71fbd27f545d81ca0092d284211c208b2c901068f"},
+        {"evidenceId":"4a24df6d58ec99e275dcc98f0dd65e0d1c64133eaa7f66d89ad1263f23d77e64"}
+      ]
+    }
+  ]'
+
+asd review --projectId lumen-alignment-9b3f5d2a   --artifactId 7bfbea7ad1f34940bd46a6a66c7eaa22   --verdict pass   --rows '[
+    {
+      "rowKind":"proposal",
+      "severity":"medium",
+      "rule":"source-diversity",
+      "message":"Keep the support-queue telemetry visible alongside the paired quotes on all three divergence nodes.",
+      "evidenceId":"c872dc90f8078c90d74c7ae71fbd27f545d81ca0092d284211c208b2c901068f"
+    }
+  ]'
+
+asd factcheck --projectId lumen-alignment-9b3f5d2a</code></pre>
+
+  <p>Read that carefully and a few truths jump out. <code>method-run</code> gives me the contract; it does not write the artifact for me. <code>artifact-write</code> still needs nodes that satisfy the method's acceptance rules. The review step still needs evidence-cited rows, even on pass. And the final check is still project-wide, because the platform cares about the state of the store, not merely the confidence of the last agent who touched it.</p>
+  <p>The ids in the shell block are illustrative content-addressed examples, included so the walkthrough stays mechanically faithful to the real CLI shape without pretending this chapter is a live workspace receipt. That distinction matters. A tutorial can be illustrative without becoming fake.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> Do not rename these steps into friendlier pseudo-tools for teaching. The fastest way to rot a technical book is to document commands that never existed.</div>
+
+<h3 id="s-07-5">Case Spine: Lumen EdTech and the Cost of Ontology Mismatch</h3>
+
+<p>Lumen EdTech looked, at first glance, like a classic UX clean-up. Support volume was ugly. Parent trust was low. Teachers complained about lost grading drafts. Students missed deadlines. The executive reflex was to reskin the interface. The alignment work showed something harsher: the service was faithfully implementing the wrong model of the world.</p>
+  <p>Parents did not think in courses. They thought in children. Teachers did not think in assignment columns. They thought in grading sittings that start, pause, and resume. Students did not think in posting chronology. They thought in urgency. The platform's content model violated all three. That is why tickets kept coming even when individual screens looked competent.</p>
+  <p>The mental-model work created three durable actor models and then forced a comparison against the system model. That yielded the three major gaps in the previous table plus smaller secondary ones. Opportunity scoring then made the sequencing obvious. The first structural move had to be parent-by-child aggregation because it had the heaviest combination of evidence weight, ticket load, and daily user harm. The teacher draft-state gap followed close behind because it was eroding expert trust. The feed-order gap mattered enough to sit alongside it because students were paying the price in real missed work.</p>
+  <p>From there the design work became less mystical. The team created a unified Communication Hub rather than three disconnected portals. It introduced child aggregation across courses, explicit grading-session objects with visible save and conflict states, and a due-date-primary student feed. Those are not cosmetic fixes. They are service-architecture responses to named cognitive mismatches.</p>
+  <p>Measurement closed the loop. Lumen did not declare victory because the new architecture sounded cleaner. The pilot re-ran task-success tests, monitored support-ticket categories, and checked whether first-click paths were converging on the intended actor models. That kept the alignment story empirical. If the new child-level summary still sent parents hunting across class pages, the model-match metric would expose it. If the grading-session object still leaked drafts, teachers would tell us quickly and the ticket queue would confirm it.</p>
+  <p>That outer loop matters because mental-model work is never a one-shot artifact. Schools change reporting practice. Terms change. Product sprawl creeps back in. A durable alignment capability therefore needs periodic replay, not one triumphant workshop and a framed diagram.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Treat a persistent mental-model gap as an engineering requirement. If the alignment evidence points to a new domain object, the right answer may be a new domain object.</div>
+
+  <p>The pilot result mattered because it proved the diagnosis had teeth. Support tickets fell. Parent task success rose sharply. Teachers trusted the gradebook again because saving meant what they thought it meant. Students could see the week ahead in a structure that matched their planning behavior. The service had not simply become prettier. It had become more legible to the people using it.</p>
+  <p>That is the larger lesson of this chapter. Mental models are not soft context. They are a way of discovering where a service is asking people to think like the provider rather than like themselves. ASD makes that discovery durable by giving it artifacts, evidence, review, and replay. Once I do that, opportunity mapping stops being a brainstorm and becomes a disciplined argument for which structural changes deserve to happen first.</p>
+  <p>That durability is the real win. The model, the divergence, the score, and the resulting change proposal all stay connected instead of dissolving into meeting memory.</p>
+  <p>That is how a cognitive diagnosis becomes engineering work, service work, and eventually measurable operating performance rather than a one-off insight artifact.</p>
+  <p>That traceability is what keeps the walkthrough honest enough to be copied into real practice.</p>
+  <p>Run the alignment exercise on a cadence, not once. Services drift toward provider logic as back-office constraints change, so the mental model that was accurate at launch quietly stops being accurate two quarters later. I revisit the grid whenever telemetry shows new drop-off patterns, whenever a frontline team invents a workaround, and whenever a stakeholder cannot explain a screen without referring to the org chart. Any of those three signals means the model and the service have started diverging again, and the cheaper moment to catch it is always the earlier one.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="06.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 06</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mixed Methods &amp; Evidence-Backed Segmentation</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 06</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mixed Methods &amp; Evidence-Backed Segmentation</p>
+        </div>
+      </div>
+    </a>
+    <a href="08.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 08</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Ecosystem Value Mapping &amp; Stakeholder Topologies</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 08</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Ecosystem Value Mapping &amp; Stakeholder Topologies</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Ecosystem Value Mapping &amp; Stakeholder Topologies</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Actors, exchanges and hidden dependencies</p>
+        </div>
+        <a href="08.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>CLI &amp; MCP Tool Specification - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="appendix-B" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">APPENDIX B</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">CLI &amp; MCP Tool Specification</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">All 30 sd_* tools, the client wiring rules, the protocol facts, and the resource surface that sits behind them</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">13 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#B.1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">CLI Command Families</a>
+        <a href="#B.2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">MCP Tools by Family</a>
+        <a href="#B.3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Resources and Prompts</a>
+        <a href="#B.4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Client Configurations</a>
+        <a href="#B.5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Protocol and Error Codes</a>
+        <a href="#B.6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Environment and Workspace</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#B.1" data-section="B.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>CLI Command Families</span></a>
+          <a href="#B.2" data-section="B.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>MCP Tools by Family</span></a>
+          <a href="#B.3" data-section="B.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Resources and Prompts</span></a>
+          <a href="#B.4" data-section="B.4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Client Configurations</span></a>
+          <a href="#B.5" data-section="B.5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Protocol and Error Codes</span></a>
+          <a href="#B.6" data-section="B.6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Environment and Workspace</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#B.1" data-section="B.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>CLI Command Families</span></a>
+          <a href="#B.2" data-section="B.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>MCP Tools by Family</span></a>
+          <a href="#B.3" data-section="B.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Resources and Prompts</span></a>
+          <a href="#B.4" data-section="B.4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Client Configurations</span></a>
+          <a href="#B.5" data-section="B.5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Protocol and Error Codes</span></a>
+          <a href="#B.6" data-section="B.6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Environment and Workspace</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<div class="tip"><strong>CORE PRINCIPLE:</strong> The CLI parser is generated from the same JSON schemas that the MCP server advertises over <code>tools/list</code>. That is why the terminal surface and the stdio surface stay aligned instead of drifting into two separate products.</div>
+
+<h3 id="B.1">CLI Command Families</h3>
+
+<p>The canonical terminal form is short and boring. Good. I want a runtime surface that can be scripted without ceremony: <code>asd &lt;tool-name&gt; [--flag value]</code>, with the short name derived from the engine tool by stripping <code>sd_</code> and replacing underscores with hyphens. The pack-local install path is fixed, Node 20 or newer is required, and the launcher never falls back to a global executable or a sibling checkout. That last point matters in release verification because the bundle is supposed to prove it can stand on its own.</p>
+
+  <div class="code-label">install-cli-pack.sh</div>
+  <pre><code>node platform/compiler/emit-packs.mjs --output /tmp/asd-packs
+PACK=/tmp/asd-packs/cli
+mkdir -p "$HOME/.local/bin"
+ln -sf "$PACK/asd" "$HOME/.local/bin/asd"
+export PATH="$HOME/.local/bin:$PATH"
+asd --version
+asd help</code></pre>
+
+  <p>Flags map one-to-one onto tool arguments. Strings stay strings. Numbers, booleans, arrays, and objects are validated before the tool runs. Arrays and objects travel as JSON literals on the command line. Unknown flags, missing required flags, positional arguments, and invalid enum values exit 1 with a real error instead of a fuzzy best effort.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>CLI command</th>
+        <th>Engine alias</th>
+        <th>Flags</th>
+        <th>What it does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Project</td><td><code>asd project-list</code></td><td><code>sd_project_list</code></td><td>—</td><td>List every project in the workspace.</td></tr>
+      <tr><td>Project</td><td><code>asd project-create</code></td><td><code>sd_project_create</code></td><td><code>--name --client --sector --service [--phase]</code></td><td>Create <code>project.json</code> plus <code>evidence/</code>, <code>artifacts/</code>, <code>renders/</code>, and <code>sops/</code>.</td></tr>
+      <tr><td>Project</td><td><code>asd project-open</code></td><td><code>sd_project_open</code></td><td><code>--projectId</code></td><td>Open one project and return metadata plus artifacts.</td></tr>
+      <tr><td>Project</td><td><code>asd project-status-set</code></td><td><code>sd_project_status_set</code></td><td><code>--projectId --status [--statusNote]</code></td><td>Set the engagement lifecycle status — the Kanban column — independently of the design phase. <code>status</code> is an enum: <code>briefed</code>, <code>active</code>, <code>gated</code>, <code>blocked</code>, <code>archived</code>.</td></tr>
+      <tr><td>Evidence</td><td><code>asd evidence-add</code></td><td><code>sd_evidence_add</code></td><td><code>--projectId --source --kind --body</code></td><td>Add one <code>quote</code>, <code>telemetry</code>, or <code>document</code> record.</td></tr>
+      <tr><td>Evidence</td><td><code>asd evidence-import</code></td><td><code>sd_evidence_import</code></td><td><code>--projectId --path --source [--encoding] [--maxBytes] [--onError]</code></td><td>Import transcript, CSV, or JSON evidence from inside <code>ASD_WORKSPACE</code>.</td></tr>
+      <tr><td>Evidence</td><td><code>asd evidence-query</code></td><td><code>sd_evidence_query</code></td><td><code>--projectId [--search] [--kind]</code></td><td>Search the project evidence register.</td></tr>
+      <tr><td>Artifacts</td><td><code>asd artifact-list</code></td><td><code>sd_artifact_list</code></td><td><code>--projectId [--kind]</code></td><td>List a project’s typed artifacts.</td></tr>
+      <tr><td>Artifacts</td><td><code>asd artifact-get</code></td><td><code>sd_artifact_get</code></td><td><code>--projectId --artifactId</code></td><td>Fetch one artifact in full, including nodes, evidence refs, and review state.</td></tr>
+      <tr><td>Artifacts</td><td><code>asd artifact-write</code></td><td><code>sd_artifact_write</code></td><td><code>--projectId --methodId --title --nodes [--edges] [--references] [--artifactId]</code></td><td>Write a method-produced artifact through the acceptance gate.</td></tr>
+      <tr><td>Methods</td><td><code>asd method-list</code></td><td><code>sd_method_list</code></td><td><code>[--phase] [--producesKind]</code></td><td>List methods from the registry.</td></tr>
+      <tr><td>Methods</td><td><code>asd method-run</code></td><td><code>sd_method_run</code></td><td><code>--methodId --projectId</code></td><td>Return the method contract, steps, inputs, and acceptance rules.</td></tr>
+      <tr><td>Review</td><td><code>asd review</code></td><td><code>sd_review</code></td><td><code>--projectId --artifactId --verdict --rows</code></td><td>Record a Critic pass or veto with evidence-cited review rows.</td></tr>
+      <tr><td>Review</td><td><code>asd review-list</code></td><td><code>sd_review_list</code></td><td><code>--projectId [--status]</code></td><td>Show the review board across draft and final artifacts.</td></tr>
+      <tr><td>Export</td><td><code>asd export-report</code></td><td><code>sd_export_report</code></td><td><code>--projectId --kind [--generatedAt]</code></td><td>Render a deterministic HTML report.</td></tr>
+      <tr><td>Export</td><td><code>asd export-artifact</code></td><td><code>sd_export_artifact</code></td><td><code>--projectId --artifactId [--width]</code></td><td>Render one artifact to deterministic SVG.</td></tr>
+      <tr><td>Knowledge</td><td><code>asd knowledge</code></td><td><code>sd_knowledge</code></td><td><code>[--query] [--phase] [--source] [--resourceQuery] [--resource] [--type]</code></td><td>Query methods, kinds, and optional corpus resources.</td></tr>
+      <tr><td>Factcheck</td><td><code>asd factcheck</code></td><td><code>sd_factcheck</code></td><td><code>--projectId</code></td><td>Replay integrity, acceptance, and review gates. Exit 1 on <code>pass: false</code>.</td></tr>
+      <tr><td>Templates/schema</td><td><code>asd template-list</code></td><td><code>sd_template_list</code></td><td>—</td><td>List the seven authored templates.</td></tr>
+      <tr><td>Templates/schema</td><td><code>asd template-get</code></td><td><code>sd_template_get</code></td><td><code>--id</code></td><td>Return one authored template and its body.</td></tr>
+      <tr><td>Templates/schema</td><td><code>asd schema-get</code></td><td><code>sd_schema_get</code></td><td><code>--kind</code></td><td>Return one registered artifact schema.</td></tr>
+      <tr><td>Templates/schema</td><td><code>asd practice-get</code></td><td><code>sd_practice_get</code></td><td>—</td><td>Return the machine-readable practice contract.</td></tr>
+      <tr><td>Canvas</td><td><code>asd canvas-add</code></td><td><code>sd_canvas_add</code></td><td><code>--projectId --label --url [--tool]</code></td><td>Link an external design canvas.</td></tr>
+      <tr><td>Canvas</td><td><code>asd canvas-list</code></td><td><code>sd_canvas_list</code></td><td><code>--projectId</code></td><td>List linked canvases.</td></tr>
+      <tr><td>Canvas</td><td><code>asd canvas-remove</code></td><td><code>sd_canvas_remove</code></td><td><code>--projectId --canvasId</code></td><td>Remove one canvas link without deleting the external file.</td></tr>
+      <tr><td>Orchestration</td><td><code>asd orchestration-plan</code></td><td><code>sd_orchestration_plan</code></td><td><code>--projectId --idempotencyKey --title --steps</code></td><td>Persist a host-independent plan.</td></tr>
+      <tr><td>Orchestration</td><td><code>asd orchestration-status</code></td><td><code>sd_orchestration_status</code></td><td><code>--projectId [--planId]</code></td><td>Read plans, dispatches, and handoffs.</td></tr>
+      <tr><td>Orchestration</td><td><code>asd orchestration-dispatch</code></td><td><code>sd_orchestration_dispatch</code></td><td><code>--projectId --planId --stepId --idempotencyKey --capability [--outcome] [--error] [--retryable] [--retryOf]</code></td><td>Persist one dispatch attempt.</td></tr>
+      <tr><td>Orchestration</td><td><code>asd orchestration-handoff</code></td><td><code>sd_orchestration_handoff</code></td><td><code>--projectId --planId --idempotencyKey --from --to --condition [--artifactId] [--artifactKind]</code></td><td>Persist a role-to-role handoff with an optional typed artifact pointer.</td></tr>
+      <tr><td>Phase</td><td><code>asd phase-advance</code></td><td><code>sd_phase_advance</code></td><td><code>--projectId --toPhase --idempotencyKey --approvalReceipt</code></td><td>Record a human-approved phase transition.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Outside the 30 engine tools, the CLI also exposes <code>asd help</code> and <code>asd --version</code>. Everything else is the registry. That separation keeps the book simple: if a command begins with a practice verb such as <code>project-create</code>, <code>method-run</code>, or <code>phase-advance</code>, it is really the schema-backed tool under the hood.</p>
+  <p>Two CLI behaviors are worth memorizing because they surprise people coming from softer tools. First, booleans can be bare flags or explicit <code>true</code>/<code>false</code>, but arrays and objects must be valid JSON literals. Second, exit code 1 is overloaded on purpose: it means either a real usage or runtime error, or a completed gate returning a failing verdict such as <code>sd_factcheck</code> with <code>\"pass\": false</code>. That makes CI wiring simple. A green-looking report with a failing top-level gate cannot quietly slip through as success.</p>
+
+<h3 id="B.2">MCP Tools by Family</h3>
+
+<p>The MCP surface exposes the same 30 tools over newline-delimited JSON-RPC 2.0 on stdio. The naming stays explicit: <code>sd_project_create</code>, <code>sd_method_run</code>, <code>sd_review</code>, and so on. Hosts commonly prefix those names again when they mount the bundle, which is why a Claude Code transcript may show <code>mcp__asd__sd_method_run</code> even though the underlying tool remains <code>sd_method_run</code>.</p>
+  <p>What matters operationally is the family semantics. Project tools work on the workspace tree. Evidence tools allow only three evidence kinds: <code>quote</code>, <code>telemetry</code>, and <code>document</code>. Artifact writes always persist honestly: acceptance success still lands as draft when Critic review is outstanding, acceptance failure persists a draft with machine-readable failures, and a dangling evidence reference is rejected before any write. Review and phase tools are the governance spine, and they keep human authority separate from automated checks.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>MCP tools</th>
+        <th>Key arguments</th>
+        <th>Boundary worth remembering</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Project</td><td><code>sd_project_list</code>, <code>sd_project_create</code>, <code>sd_project_open</code></td><td><code>name</code>, <code>client</code>, <code>sector</code>, <code>service</code>, optional <code>phase</code>; or <code>projectId</code> for open</td><td>Projects are files on disk. There is no hidden database.</td></tr>
+      <tr><td>Project</td><td><code>sd_project_status_set</code></td><td><code>projectId</code>; <code>status</code> enum <code>briefed</code>, <code>active</code>, <code>gated</code>, <code>blocked</code>, <code>archived</code>; optional <code>statusNote</code></td><td>Lifecycle status is the Kanban column, independent of design phase. Legal transitions run <code>briefed → active → gated → blocked → archived</code>; <code>archived</code> is reachable from any state and <code>blocked ↔ active</code> moves both ways. A same-status call is a no-op unless a note accompanies it. An unknown <code>projectId</code> fails, an illegal transition is rejected naming the legal targets, and a non-enum status exits 1.</td></tr>
+      <tr><td>Evidence</td><td><code>sd_evidence_add</code>, <code>sd_evidence_import</code>, <code>sd_evidence_query</code></td><td><code>kind</code> is closed to <code>quote</code>, <code>telemetry</code>, <code>document</code>; import adds <code>path</code>, <code>encoding</code>, <code>maxBytes</code>, <code>onError</code></td><td>Import never fetches URLs. It reads only workspace-local files and fails closed on invalid roots and malformed inputs.</td></tr>
+      <tr><td>Artifacts</td><td><code>sd_artifact_list</code>, <code>sd_artifact_get</code>, <code>sd_artifact_write</code></td><td>Write requires <code>projectId</code>, <code>methodId</code>, <code>title</code>, <code>nodes</code>; optional <code>edges</code>, <code>references</code>, <code>artifactId</code></td><td>A failed acceptance check is not a crash. It is a persisted draft with failure rows.</td></tr>
+      <tr><td>Methods</td><td><code>sd_method_list</code>, <code>sd_method_run</code></td><td>List can filter by <code>phase</code> or <code>producesKind</code>; run requires <code>methodId</code> and <code>projectId</code></td><td><code>sd_method_run</code> returns the contract. It does not do the work for you.</td></tr>
+      <tr><td>Review</td><td><code>sd_review</code>, <code>sd_review_list</code></td><td><code>verdict</code> is <code>pass</code> or <code>veto</code>; <code>rows</code> carry <code>rowKind</code>, <code>severity</code>, <code>message</code>, optional <code>rule</code>, <code>fix</code>, <code>evidenceId</code></td><td>A veto needs at least one defect with a fix. A pass needs at least one evidence-cited row and cannot contain defects.</td></tr>
+      <tr><td>Export</td><td><code>sd_export_report</code>, <code>sd_export_artifact</code></td><td>Reports require <code>kind</code>; artifact export optionally takes <code>width</code></td><td>Both outputs are deterministic derived files under <code>renders/</code>.</td></tr>
+      <tr><td>Knowledge</td><td><code>sd_knowledge</code></td><td><code>query</code>, <code>phase</code>, <code>source</code>, <code>resourceQuery</code>, <code>resource</code>, <code>type</code></td><td>This tool can search the registry and the bundled corpus in one call.</td></tr>
+      <tr><td>Factcheck</td><td><code>sd_factcheck</code></td><td><code>projectId</code></td><td>It replays integrity, acceptance, and review. Exit 1 on failure is a feature, not an exception.</td></tr>
+      <tr><td>Templates/schema</td><td><code>sd_template_list</code>, <code>sd_template_get</code>, <code>sd_schema_get</code>, <code>sd_practice_get</code></td><td><code>id</code> for template lookup, <code>kind</code> for schema lookup, no arguments for practice contract</td><td>The seven authored templates do not imply one template per catalog row.</td></tr>
+      <tr><td>Canvas</td><td><code>sd_canvas_add</code>, <code>sd_canvas_list</code>, <code>sd_canvas_remove</code></td><td><code>label</code>, <code>url</code>, optional <code>tool</code> where the enum is <code>figma</code>, <code>penpot</code>, <code>paper</code>, <code>pencil</code>, <code>other</code></td><td>Canvas links are project records. They do not replace typed artifact writes.</td></tr>
+      <tr><td>Orchestration</td><td><code>sd_orchestration_plan</code>, <code>sd_orchestration_status</code>, <code>sd_orchestration_dispatch</code>, <code>sd_orchestration_handoff</code></td><td>Plan requires <code>idempotencyKey</code>, <code>title</code>, <code>steps[{id, role, instruction, maxRetries?}]</code>; dispatch adds <code>stepId</code>, <code>capability</code>, optional <code>outcome</code>, <code>error</code>, <code>retryable</code>, <code>retryOf</code>; handoff uses <code>from</code>, <code>to</code>, <code>condition</code>, optional <code>artifactId</code>, <code>artifactKind</code></td><td><code>record-only</code> is the generic supported dispatch capability. <code>host-agent-spawn</code> remains an explicit unsupported path unless a host adapter really implements it.</td></tr>
+      <tr><td>Phase</td><td><code>sd_phase_advance</code></td><td><code>toPhase</code>, <code>idempotencyKey</code>, <code>approvalReceipt{receiptId, approvedBy, decision, rationale, approvedAt}</code></td><td>The only legal receipt decision for advance is <code>approve</code>, and the human receipt never gets inferred from a passing artifact.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout"><strong>My take:</strong> The orchestration family is deliberately humble. It records plans, dispatch attempts, retries, and handoffs. It does not pretend that writing a plan means the host actually launched an agent. That boundary keeps operational evidence clean.</div>
+
+<h3 id="B.3">Resources and Prompts</h3>
+
+<p>The MCP surface serves the corpus as resources and the role library as prompts. When the corpus roots are present, <code>resources/list</code> returns 228 resources total. The page size is 100, so a client that wants the full inventory must keep paginating by cursor until the list is exhausted. The URI space is intentionally small:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>URI pattern</th>
+        <th>What it serves</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>asd://books/&lt;book&gt;</code></td><td>One book overview resource from the 20-book corpus.</td></tr>
+      <tr><td><code>asd://books/&lt;book&gt;/&lt;chapter&gt;</code></td><td>One chapter resource from the book corpus.</td></tr>
+      <tr><td><code>asd://articles/&lt;NN&gt;</code></td><td>One article resource from the method and case-study series.</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>resources/read</code> returns exact UTF-8 payload, MIME type, version, size, and logical provenance, never an absolute filesystem path. If the runtime is copied without its corpus roots, the list can legitimately come back empty while the 30 runtime tools still work. That is a visible boundary, not a silent fallback.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Prompt name</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>orchestrator</code></td><td>Coordinates plans, handoffs, and human gates.</td></tr>
+      <tr><td><code>researcher</code></td><td>Captures evidence and structures discovery work.</td></tr>
+      <tr><td><code>synthesizer</code></td><td>Clusters, interprets, and sharpens evidence into insight.</td></tr>
+      <tr><td><code>mapper</code></td><td>Builds journeys, ecosystems, mental models, and blueprints.</td></tr>
+      <tr><td><code>ideator</code></td><td>Generates and filters service concepts.</td></tr>
+      <tr><td><code>prototyper</code></td><td>Designs trials, walkthroughs, and prototype learning loops.</td></tr>
+      <tr><td><code>measurer</code></td><td>Defines audit, measurement, maturity, and KPI logic.</td></tr>
+      <tr><td><code>critic</code></td><td>Runs the evidence-cited review gate.</td></tr>
+      <tr><td><code>presenter</code></td><td>Packages the work for human consumption without changing its facts.</td></tr>
+      <tr><td><code>librarian</code></td><td>Maintains the catalog and curates knowledge growth.</td></tr>
+    </tbody>
+  </table>
+
+  <p><code>prompts/get</code> returns the shared role contract followed by the role-specific instruction set as one user message. If <code>ASD_AGENTS_ROOT</code> is unavailable, the prompt list is empty by design. Again: explicit boundary, no fake fallback.</p>
+
+<h3 id="B.4">Client Configurations</h3>
+
+<p>The pack-local rule is simple: the emitted bundle’s launcher path is relative to the pack itself. When a client runs directly from the installed pack, the relative entrypoint is correct. When a client copies the snippet elsewhere, replace the relative path with an absolute path. The server launcher does not search <code>PATH</code> for a spare binary.</p>
+
+  <div class="code-label">asd-mcp.json</div>
+  <pre><code>{
+  "mcpServers": {
+    "asd": {
+      "command": "node",
+      "args": ["mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>Claude Code uses the plugin-root variant:</p>
+  <div class="code-label">.mcp.json</div>
+  <pre><code>{
+  "mcpServers": {
+    "asd": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>OpenCode uses the command-array form:</p>
+  <div class="code-label">opencode.json</div>
+  <pre><code>{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "asd": {
+      "type": "local",
+      "command": ["node", "mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>Codex supports either the registration command or a TOML block:</p>
+  <div class="code-label">codex-mcp-add.sh</div>
+  <pre><code>codex mcp add asd -- node "$PWD/platform/packs/codex/mcp/bin/server.mjs"</code></pre>
+
+  <div class="code-label">codex.toml</div>
+  <pre><code>[mcp_servers.asd]
+command = "node"
+args = ["mcp/bin/server.mjs"]</code></pre>
+
+  <p>Those four snippets are enough to capture the pack-local rule and the three host-specific variants readers keep asking about. The operational nuance is that each host chooses its own working directory, which is why the relative bundle path is a rule of the installed pack, not a universal truth of the client machine.</p>
+
+<h3 id="B.5">Protocol and Error Codes</h3>
+
+<p>The stdio server speaks newline-delimited JSON-RPC 2.0 with MCP revision <code>2025-06-18</code>. The lifecycle starts with one <code>initialize</code> call before <code>tools/list</code>, <code>tools/call</code>, <code>resources/list</code>, <code>resources/read</code>, <code>prompts/list</code>, or <code>prompts/get</code>. The response advertises tools, resources, and prompts, and identifies the server as <code>asd-mcp</code> version <code>0.1.0</code>. Tool failures return MCP content blocks with <code>isError: true</code>; protocol framing remains valid.</p>
+
+  <div class="code-label">initialize.json</div>
+  <pre><code>{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}</code></pre>
+
+  <p>Default tool timeout is 30 seconds. The frame limit is 1 MiB. Cancellation uses <code>$/cancelRequest</code>. Notifications remain silent. None of that is exotic, but it is precisely the kind of detail that matters when a client blames the server for behavior that actually belongs to the transport contract.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>-32700</code></td><td>Parse error. The incoming JSON frame is invalid.</td></tr>
+      <tr><td><code>-32601</code></td><td>Method not found.</td></tr>
+      <tr><td><code>-32602</code></td><td>Invalid params, unknown tool or prompt, bad cursor, or non-object arguments.</td></tr>
+      <tr><td><code>-32603</code></td><td>Unexpected internal handler failure.</td></tr>
+      <tr><td><code>-32000</code></td><td>Initialize required before the client can use the surface.</td></tr>
+      <tr><td><code>-32001</code></td><td>Tool call timed out.</td></tr>
+      <tr><td><code>-32002</code></td><td>Resource not found.</td></tr>
+    </tbody>
+  </table>
+
+  <p>One more boundary belongs here because it is easy to overclaim: ACP on the MCP surface is <code>asd-acp/1</code> with capability <code>record-only</code>. The runtime can record orchestration plans, dispatch attempts, handoffs, and human gates. It does not prove that the host launched a new process. <code>host-agent-spawn</code> therefore remains an explicit unsupported path on the generic surface unless a host adapter really wires it up.</p>
+
+<h3 id="B.6">Environment and Workspace</h3>
+
+<p><code>ASD_WORKSPACE</code> sets the root directory for projects. If I do nothing, the runtime uses <code>~/.asd/projects</code>. That default is fine for live use. It is a bad idea for tests, demos, and disposable verification, which is why the docs push isolated temporary roots. The project tree itself is plain: <code>project.json</code>, <code>evidence/index.json</code>, artifact JSON files, exported renders, and <code>sops/</code>. Files are the record of truth.</p>
+
+  <div class="code-label">workspace-isolation.sh</div>
+  <pre><code>export ASD_WORKSPACE="$(mktemp -d)/projects"
+mkdir -p "$ASD_WORKSPACE"
+asd project-create --name "Metrovale Access" --client "Fictional composite" \
+  --sector public-transport --service "step-free journeys" --phase discover</code></pre>
+
+  <p>The MCP server adds three corpus-root environment variables beside the workspace root: <code>ASD_BOOKS_ROOT</code>, <code>ASD_ARTICLES_ROOT</code>, and <code>ASD_AGENTS_ROOT</code>. They control the served books, articles, and role prompts independently. That means a client can still use the 30 runtime tools even when the book corpus or prompt roots are unavailable.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Default or typical value</th>
+        <th>What it controls</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>ASD_WORKSPACE</code></td><td><code>~/.asd/projects</code></td><td>Project file root for CLI and MCP runtime operations.</td></tr>
+      <tr><td><code>ASD_BOOKS_ROOT</code></td><td>pack or checkout path</td><td>Book corpus resources under <code>asd://books/&lt;book&gt;</code>.</td></tr>
+      <tr><td><code>ASD_ARTICLES_ROOT</code></td><td>pack or checkout path</td><td>Article corpus resources under <code>asd://articles/&lt;NN&gt;</code>.</td></tr>
+      <tr><td><code>ASD_AGENTS_ROOT</code></td><td>pack or checkout path</td><td>Role prompt files exposed through <code>prompts/list</code> and <code>prompts/get</code>.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning"><strong>CAUTION:</strong> Release evidence today covers six disposable stdio bundles only: <code>buzz</code>, <code>claude-code</code>, <code>codex</code>, <code>kimi</code>, <code>mcp</code>, and <code>opencode</code>. Each receipt proves initialize, 30 tools, 228 paginated resources, 10 prompts, and a representative project-to-review workflow from an isolated environment. It does not prove that every listed host has executed the pack in its native UI.</div>
+  <p>The disposable verification pattern is stronger than it looks. Each verified bundle is run from an isolated <code>HOME</code>, <code>PATH</code>, current working directory, and workspace, then forced through a representative sequence: initialize, inspect the 30 tools, page through the 228 resources, load the 10 prompts, create a project, capture evidence, write an artifact, record an evidence-cited review, and replay factcheck. That is the right level of proof for a transport bundle. It shows pack-local interoperability without pretending that every host UI or every orchestration surface has already been exercised live.</p>
+
+  <p>That last sentence is the right place to stop. The CLI and MCP surfaces are fully specified, but they still obey the book’s broader honesty rule: prove what ran, say what the receipt covers, and do not promote an emitted pack into host-execution evidence unless the host actually exercised it.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="A.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix A</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD Method &amp; Artifact Catalog</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix A</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD Method &amp; Artifact Catalog</p>
+        </div>
+      </div>
+    </a>
+    <a href="C.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix C</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The 20-Book Canonical Cross-Reference</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix C</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The 20-Book Canonical Cross-Reference</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Appendix</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">The 20-Book Canonical Cross-Reference</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">The knowledge corpus behind the methods, served to hosts as book resources under asd://books/&lt;book&gt;</p>
+        </div>
+        <a href="C.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

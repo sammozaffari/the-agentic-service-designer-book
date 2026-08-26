@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The ASD Method &amp; Artifact Catalog - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="appendix-A" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">APPENDIX A</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The ASD Method &amp; Artifact Catalog</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Reference map of the 80-skill library, the 39-row artifact vocabulary, and the 38-kind runtime registry</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">15 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#A.1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Method Library by Phase</a>
+        <a href="#A.2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Artifact Vocabulary: Canonical, Alias, Pending</a>
+        <a href="#A.3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Registered Runtime Kinds</a>
+        <a href="#A.4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Authored Templates</a>
+        <a href="#A.5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Admin Record: review-veto-log</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#A.1" data-section="A.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Method Library by Phase</span></a>
+          <a href="#A.2" data-section="A.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Artifact Vocabulary: Canonical, Alias, Pending</span></a>
+          <a href="#A.3" data-section="A.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Registered Runtime Kinds</span></a>
+          <a href="#A.4" data-section="A.4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Authored Templates</span></a>
+          <a href="#A.5" data-section="A.5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Admin Record: review-veto-log</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#A.1" data-section="A.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Method Library by Phase</span></a>
+          <a href="#A.2" data-section="A.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Artifact Vocabulary: Canonical, Alias, Pending</span></a>
+          <a href="#A.3" data-section="A.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Registered Runtime Kinds</span></a>
+          <a href="#A.4" data-section="A.4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Authored Templates</span></a>
+          <a href="#A.5" data-section="A.5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Admin Record: review-veto-log</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<div class="tip"><strong>CORE PRINCIPLE:</strong> In ASD, a method is executable only when a manifest, an output kind, acceptance rules, and a review gate all exist together. A memorable label in a workshop deck does not count as a runtime capability.</div>
+
+<h3 id="A.1">Method Library by Phase</h3>
+
+<p>The method library follows the six-phase practice loop rather than a grab bag of prompts. That matters. A researcher should not have to guess whether a method is meant to generate evidence, cluster it, turn it into concepts, or carry it into delivery. The counts are fixed: research 19, synthesis 15, ideation 13, prototyping 12, delivery 10, measurement 11. Together they total the 80 shipped skills exposed by the CLI, MCP server, host packs, and Studio adapter.</p>
+  <p>The more subtle count is the source count. The repository holds 81 SKILL.md sources because the compiler keeps both the generated and the authored forms for one method, then resolves them with a flagship-wins rule. The method that gets that treatment is <code>service-blueprinting</code>. I am calling it out because it signals what deserves hand-authored depth in this platform: the work that most often collapses into diagram cosmetics unless the instructions are unusually explicit about lanes, waits, failures, handoffs, and evidence discipline.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Skills</th>
+        <th>Typical purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>research</td><td>19</td><td>Capture grounded evidence, plan studies, and structure interviews and observation.</td></tr>
+      <tr><td>synthesis</td><td>15</td><td>Turn raw evidence into patterns, maps, personas, and evidence-backed current-state structure.</td></tr>
+      <tr><td>ideation</td><td>13</td><td>Generate concepts, frame options, and connect insight to service propositions.</td></tr>
+      <tr><td>prototyping</td><td>12</td><td>Plan trials, write walkthroughs, test concepts, and gate prototype learning.</td></tr>
+      <tr><td>delivery</td><td>10</td><td>Translate proven concepts into standards, rollout logic, responsibility maps, and future-state blueprints.</td></tr>
+      <tr><td>measurement</td><td>11</td><td>Audit quality, define metrics, and connect service performance to business and frontline outcomes.</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Research (19).</strong> The research phase is narrower than many teams expect. It is not a vague “discovery” bucket. It is the part of the system that builds trustworthy evidence, plans the next evidence capture, and denies unsupported claims before they leak forward. Most methods here write <code>insight-set</code> or <code>research-plan</code> outputs because the runtime wants the evidence register to stay legible.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>actor-network-mapping</code></td><td>Actor Network Mapping</td><td><code>actor-network-map</code></td><td><code>stakeholder-map</code> or <code>ecosystem-map</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>contextual-inquiry-observation</code></td><td>Contextual Inquiry &amp; In-Context Observation</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>contextual-inquiry</code></td><td>Contextual Inquiry</td><td><code>insight-set</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>critical-incident-technique</code></td><td>Critical Incident Technique</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>cultural-probes</code></td><td>Cultural Probes</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>day-in-the-life-mapping</code></td><td>Day-in-the-Life Mapping</td><td><code>day-in-the-life</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>diary-study</code></td><td>Diary Study</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>discussion-guide-design</code></td><td>Discussion / Interview Guide Design</td><td><code>interview-guide</code></td><td><code>research-plan</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>expectation-mapping</code></td><td>Expectation Mapping</td><td><code>expectation-map</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>failure-demand-analysis</code></td><td>Failure Demand Analysis</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>mystery-shopping</code></td><td>Mystery Shopping</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>poems-field-observation</code></td><td>POEMS Field Observation</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>research-plan-design</code></td><td>Research Plan Design</td><td><code>research-plan</code></td><td>text brief</td><td>2</td></tr>
+      <tr><td><code>secondary-competitive-audit</code></td><td>Secondary &amp; Competitive Research Audit</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>service-safari</code></td><td>Service Safari</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>shadowing-frontline</code></td><td>Shadowing Frontline Staff</td><td><code>insight-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>stakeholder-mapping</code></td><td>Stakeholder Mapping</td><td><code>stakeholder-map</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>touchpoint-inventory-audit</code></td><td>Touchpoint Inventory Audit</td><td><code>touchpoint-inventory</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>transcript-mining</code></td><td>Transcript Mining</td><td><code>insight-set</code></td><td>evidence-set ≥5</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Synthesis (15).</strong> Synthesis is where the platform becomes opinionated. It does not treat clustering, personas, journeys, and blueprints as presentation choices. Each one is a separate contract with different minimums, different owner roles, and different failure modes. This is also where the flagship authored skill sits, because blueprinting is the moment sloppy teams start inventing process steps they cannot cite.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>aeiou-coding</code></td><td>AEIOU Coding</td><td><code>affinity-cluster-set</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>affinity-diagramming</code></td><td>Affinity Diagramming</td><td><code>insight-set</code></td><td>evidence-set ≥5</td><td>2</td></tr>
+      <tr><td><code>behavioural-personas</code></td><td>Behavioural Persona Construction</td><td><code>persona-set</code></td><td>evidence-set ≥5 plus <code>insight-set</code> artifact ≥1</td><td>3</td></tr>
+      <tr><td><code>ecosystem-value-mapping</code></td><td>Ecosystem Value Mapping</td><td><code>ecosystem-map</code></td><td>evidence-set ≥3</td><td>4</td></tr>
+      <tr><td><code>empathy-mapping</code></td><td>Empathy Mapping</td><td><code>empathy-map</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>evidence-register-build</code></td><td>Evidence Register Build</td><td><code>insight-set</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>experience-mapping</code></td><td>Experience Mapping</td><td><code>journey-map</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>insight-statement-formulation</code></td><td>Insight Statement Formulation</td><td><code>insight-set</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>jobs-to-be-done</code></td><td>Jobs-to-be-Done Statement Construction</td><td><code>insight-set</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>journey-from-transcripts</code></td><td>Journey Mapping from Transcripts</td><td><code>journey-map</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>jtbd-map-authoring</code></td><td>Jobs-to-be-Done Map Authoring</td><td><code>jobs-to-be-done</code></td><td><code>insight-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>mental-model-alignment</code></td><td>Mental Model Alignment</td><td><code>journey-map</code></td><td>evidence-set ≥3</td><td>3</td></tr>
+      <tr><td><code>mental-model-diagramming</code></td><td>Mental Model Diagramming</td><td><code>mental-model-map</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>opportunity-matrix-2x2</code></td><td>Opportunity Matrix (Impact x Feasibility)</td><td><code>opportunity-matrix</code></td><td><code>insight-set</code> artifact ≥1</td><td>1</td></tr>
+      <tr><td><code>service-blueprinting</code></td><td>Service Blueprinting</td><td><code>service-blueprint</code></td><td>evidence-set ≥4</td><td>3</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout"><strong>My take:</strong> The authored <code>service-blueprinting</code> skill is a tell. When a platform hand-authors one method and leaves the rest generated, it is quietly admitting where practitioners still need judgment coaching. In this case the answer is obvious: blueprinting fails when teams confuse a diagram with evidence-backed operating truth.</div>
+
+  <p><strong>Ideation (13).</strong> The ideation phase is narrower than an innovation theatre workshop. ASD only keeps methods that can preserve traceability back to evidence or forward to a typed artifact. That is why wild idea generation sits next to scoring, canvas work, and concept briefs inside one bounded set.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>bodystorming</code></td><td>Bodystorming</td><td><code>concept-set</code></td><td>text brief</td><td>2</td></tr>
+      <tr><td><code>brainwriting-635</code></td><td>Brainwriting 6-3-5</td><td><code>concept-set</code></td><td><code>hmw-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>business-model-canvas-build</code></td><td>Business Model Canvas Build</td><td><code>business-model-canvas</code></td><td><code>value-proposition-canvas</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>co-design-workshop</code></td><td>Co-Design Workshop</td><td><code>concept-set</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>concept-brief-authoring</code></td><td>Concept Brief Authoring</td><td><code>concept-set</code></td><td><code>concept-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>hmw-formulation</code></td><td>How Might We Question Formulation</td><td><code>hmw-set</code></td><td><code>insight-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>morphological-concept-matrix</code></td><td>Morphological Concept Matrix</td><td><code>concept-set</code></td><td>text brief</td><td>2</td></tr>
+      <tr><td><code>nuf-triple-lens-filter</code></td><td>NUF (New-Useful-Feasible) Triple-Lens Filter</td><td><code>concept-set</code></td><td><code>concept-set</code> artifact ≥1</td><td>1</td></tr>
+      <tr><td><code>orchestration-canvas</code></td><td>Orchestration Canvas</td><td><code>ecosystem-map</code></td><td><code>ecosystem-map</code> artifact ≥1 plus evidence-set ≥1</td><td>3</td></tr>
+      <tr><td><code>service-scenario-authoring</code></td><td>Service Scenario Authoring</td><td><code>service-scenario</code></td><td><code>concept-set</code> or <code>persona-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>speed-dating-concepts</code></td><td>Speed Dating Concepts</td><td><code>concept-set</code></td><td><code>concept-set</code> artifact ≥2</td><td>2</td></tr>
+      <tr><td><code>story-mapping</code></td><td>Story Mapping</td><td><code>story-map</code></td><td><code>journey-map</code> or <code>insight-set</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>value-proposition-canvas-build</code></td><td>Value Proposition Canvas Build</td><td><code>value-proposition-canvas</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Prototyping (12).</strong> ASD treats prototyping as service rehearsal and evidence production, not UI polish. Several methods here produce <code>test-report</code> or <code>decision-matrix</code> outputs rather than a new concept artifact. That is deliberate. The goal is to learn, narrow, and either move forward or kill a weak idea without lying about the evidence.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>cognitive-walkthrough</code></td><td>Cognitive Walkthrough</td><td><code>test-report</code></td><td><code>prototype-plan</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>concierge-pilot</code></td><td>Concierge Pilot</td><td><code>prototype-plan</code></td><td><code>service-blueprint</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>desirability-testing</code></td><td>Desirability Testing</td><td><code>test-report</code></td><td><code>concept-set</code> and <code>prototype-plan</code> artifacts ≥1 plus evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>desktop-walkthrough</code></td><td>Desktop Walkthrough</td><td><code>walkthrough-script</code></td><td><code>service-blueprint</code> and <code>concept-set</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>heuristic-evaluation</code></td><td>Heuristic Evaluation</td><td><code>test-report</code></td><td><code>prototype-plan</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>pilot-test-report</code></td><td>Pilot Test Report</td><td><code>test-report</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>prototype-ladder-gating</code></td><td>Prototype Ladder Gating</td><td><code>decision-matrix</code></td><td><code>test-report</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>rite-iteration</code></td><td>RITE Iteration</td><td><code>decision-matrix</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>service-roleplay</code></td><td>Service Roleplay</td><td><code>storyboard</code></td><td><code>journey-map</code> and <code>concept-set</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>storyboard-authoring</code></td><td>Storyboard Authoring</td><td><code>storyboard</code></td><td>evidence-set ≥1</td><td>2</td></tr>
+      <tr><td><code>usability-testing-moderated</code></td><td>Moderated Usability Testing</td><td><code>test-report</code></td><td><code>prototype-plan</code> artifact ≥1 plus evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>wizard-of-oz</code></td><td>Wizard of Oz Prototyping</td><td><code>prototype-plan</code></td><td><code>concept-set</code> artifact ≥1</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Delivery (10).</strong> Delivery is where the method system stops flattering speculative work. Everything here assumes a design artifact already exists and now has to become a rollout plan, standard, queue decision, or future-state operating logic. The methods are fewer because they are downstream of earlier proof.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>blueprint-to-backlog</code></td><td>Blueprint to Backlog</td><td><code>roadmap</code></td><td><code>service-blueprint</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>change-pack-authoring</code></td><td>Change Pack Authoring</td><td><code>change-plan</code></td><td><code>service-blueprint</code> and <code>roadmap</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>evidence-gated-blueprint</code></td><td>Evidence-Gated Service Blueprint</td><td><code>service-blueprint</code></td><td>evidence-set ≥5 plus <code>journey-map</code> artifact ≥1</td><td>4</td></tr>
+      <tr><td><code>frontline-enablement</code></td><td>Frontline Enablement</td><td><code>service-standard-set</code></td><td><code>service-blueprint</code> and <code>service-standard-set</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>future-state-blueprinting</code></td><td>Future-State Blueprinting</td><td><code>service-blueprint</code></td><td><code>service-blueprint</code> artifact ≥1</td><td>2</td></tr>
+      <tr><td><code>implementation-roadmap</code></td><td>Implementation Roadmap</td><td><code>roadmap</code></td><td><code>roadmap</code> and <code>change-plan</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>operations-queue-analysis</code></td><td>Operations Queue Analysis</td><td><code>decision-matrix</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>raci-definition</code></td><td>RACI Definition</td><td><code>raci-matrix</code></td><td><code>service-blueprint</code> and <code>roadmap</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>service-standard-authoring</code></td><td>Service Standard Authoring</td><td><code>service-standard-set</code></td><td><code>service-blueprint</code> and <code>journey-map</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>wave-gated-rollout</code></td><td>Wave-Gated Rollout</td><td><code>roadmap</code></td><td><code>roadmap</code> artifact ≥1</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Measurement (11).</strong> Measurement closes the loop. Some methods here audit the lived experience. Others connect service change to KPI structure, maturity, recovery, or profit-chain logic. None of them are decorative. If I cannot point to a measurable service consequence, ASD assumes I am still describing intent, not performance.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Skill id</th>
+        <th>Name</th>
+        <th>Output kind</th>
+        <th>Minimum declared input</th>
+        <th>Source refs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>customer-typology-mapping</code></td><td>Customer Typology Mapping</td><td><code>persona-set</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>cx-maturity-assessment</code></td><td>CX Maturity Assessment</td><td><code>maturity-assessment</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>experience-audit</code></td><td>Experience Audit</td><td><code>experience-audit</code></td><td><code>service-blueprint</code> and <code>journey-map</code> artifacts ≥1 plus evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>good-services-audit-15</code></td><td>Good Services 15-Principle Audit</td><td><code>insight-set</code></td><td><code>service-blueprint</code> and <code>journey-map</code> artifacts ≥1 plus evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>good-services-audit</code></td><td>Good Services Audit</td><td><code>insight-set</code></td><td><code>service-blueprint</code> and <code>journey-map</code> artifacts ≥1 plus evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>kpi-tree-design</code></td><td>KPI Tree Design</td><td><code>kpi-tree</code></td><td><code>service-blueprint</code> and <code>journey-map</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>service-profit-chain-mapping</code></td><td>Service Profit Chain Mapping</td><td><code>service-profit-chain</code></td><td>evidence-set ≥2</td><td>2</td></tr>
+      <tr><td><code>service-quality-diagnostic</code></td><td>Service Quality Diagnostic</td><td><code>experience-audit</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>service-recovery-design</code></td><td>Service Recovery Design</td><td><code>recovery-playbook</code></td><td>evidence-set ≥3</td><td>2</td></tr>
+      <tr><td><code>three-tier-measurement</code></td><td>Three-Tier Measurement</td><td><code>kpi-tree</code></td><td><code>service-blueprint</code> and <code>kpi-tree</code> artifacts ≥1</td><td>2</td></tr>
+      <tr><td><code>wwhtbt-evidence-gate</code></td><td>What-Would-Have-To-Be-True Evidence Gate</td><td><code>decision-matrix</code></td><td><code>service-blueprint</code> and <code>roadmap</code> artifacts ≥1</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+<h3 id="A.2">Artifact Vocabulary: Canonical, Alias, Pending</h3>
+
+<p>The vocabulary catalog has 39 rows, but they do not all mean the same thing. This is the trap I see readers fall into first. A familiar label in the catalog is not automatically a live runtime kind. The catalog deliberately mixes three statuses: 18 canonical labels that name shipped runtime kinds, 13 aliases that keep practitioner language alive without multiplying schemas, and 8 pending concepts that remain vocabulary only until registry, template, renderer, and skill gates exist.</p>
+  <p>That split is healthy. Teams speak in aliases all the time. They say “insight register” instead of <code>insight-set</code>, “standards audit” instead of <code>service-standard-set</code>, and “storyboard walkthrough” instead of <code>storyboard</code>. ASD lets the language survive in the catalog while keeping the runtime set small enough to reason about. Pending rows stay visible so I can talk about future platform scope without pretending it already runs.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Canonical label</th>
+        <th>Runtime kind</th>
+        <th>Why it matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>research-plan</code></td><td><code>research-plan</code></td><td>Turns research intent into a typed project instrument.</td></tr>
+      <tr><td><code>interview-guide</code></td><td><code>interview-guide</code></td><td>Keeps interviews structured and reviewable.</td></tr>
+      <tr><td><code>stakeholder-map</code></td><td><code>stakeholder-map</code></td><td>Captures the actor field early.</td></tr>
+      <tr><td><code>ecosystem-map</code></td><td><code>ecosystem-map</code></td><td>Shows value flows and dependencies across actors.</td></tr>
+      <tr><td><code>persona-set</code></td><td><code>persona-set</code></td><td>Stores behaviour-backed personas, not demographic fiction.</td></tr>
+      <tr><td><code>empathy-map</code></td><td><code>empathy-map</code></td><td>Preserves the classic says/does/thinks/feels lens.</td></tr>
+      <tr><td><code>journey-map</code></td><td><code>journey-map</code></td><td>Represents stages, channels, emotion, pain, and evidence.</td></tr>
+      <tr><td><code>jobs-to-be-done</code></td><td><code>jobs-to-be-done</code></td><td>Records what customers hire the service to do as evidence, not feature wishlists.</td></tr>
+      <tr><td><code>service-blueprint</code></td><td><code>service-blueprint</code></td><td>Holds the system view of customer, frontstage, backstage, and support work.</td></tr>
+      <tr><td><code>story-map</code></td><td><code>story-map</code></td><td>Frames narrative structure for concept development.</td></tr>
+      <tr><td><code>value-proposition-canvas</code></td><td><code>value-proposition-canvas</code></td><td>Connects pains, gains, and service fit.</td></tr>
+      <tr><td><code>business-model-canvas</code></td><td><code>business-model-canvas</code></td><td>Links service logic to economic logic.</td></tr>
+      <tr><td><code>prototype-plan</code></td><td><code>prototype-plan</code></td><td>Defines what a trial is supposed to test.</td></tr>
+      <tr><td><code>test-report</code></td><td><code>test-report</code></td><td>Records what actually happened during evaluation.</td></tr>
+      <tr><td><code>decision-matrix</code></td><td><code>decision-matrix</code></td><td>Gives scored comparison structure.</td></tr>
+      <tr><td><code>experience-audit</code></td><td><code>experience-audit</code></td><td>Audits a live service against experience criteria.</td></tr>
+      <tr><td><code>opportunity-matrix</code></td><td><code>opportunity-matrix</code></td><td>Ranks opportunities for sequence and leverage.</td></tr>
+      <tr><td><code>review-veto-log</code></td><td><code>review-veto-log</code></td><td>Captures the Critic’s administrative verdict rows.</td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Alias label</th>
+        <th>Resolves to runtime kind</th>
+        <th>Why the alias exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>insight-register</code></td><td><code>insight-set</code></td><td>Practitioners often think in registers before they think in set schemas.</td></tr>
+      <tr><td><code>affinity-diagram</code></td><td><code>affinity-cluster-set</code></td><td>Keeps the common wall-clustering label.</td></tr>
+      <tr><td><code>mental-model</code></td><td><code>mental-model-map</code></td><td>Shorter language for the same executable contract.</td></tr>
+      <tr><td><code>experience-map</code></td><td><code>journey-map</code></td><td>Lets teams speak broadly without creating a second map schema.</td></tr>
+      <tr><td><code>orchestration-canvas</code></td><td><code>ecosystem-map</code></td><td>Preserves the practice lens while reusing the actor-flow runtime kind.</td></tr>
+      <tr><td><code>hmw-register</code></td><td><code>hmw-set</code></td><td>Common workshop phrasing for HMW work.</td></tr>
+      <tr><td><code>concept-brief</code></td><td><code>concept-set</code></td><td>Many teams frame concept artifacts as briefs.</td></tr>
+      <tr><td><code>storyboard-walkthrough</code></td><td><code>storyboard</code></td><td>Signals use in service rehearsal.</td></tr>
+      <tr><td><code>kpi-set</code></td><td><code>kpi-tree</code></td><td>Shorter language for a structured measurement tree.</td></tr>
+      <tr><td><code>standards-audit</code></td><td><code>service-standard-set</code></td><td>Readable practice label for standards work.</td></tr>
+      <tr><td><code>maturity-model</code></td><td><code>maturity-assessment</code></td><td>Keeps the familiar maturity-language surface.</td></tr>
+      <tr><td><code>recovery-plan</code></td><td><code>recovery-playbook</code></td><td>Lets operational teams ask for a plan and receive the richer playbook type.</td></tr>
+      <tr><td><code>frontline-enablement</code></td><td><code>service-standard-set</code></td><td>Maps enablement work onto the standards runtime contract.</td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Pending label</th>
+        <th>Current status</th>
+        <th>Why it stays visible</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>design-brief</code></td><td>pending</td><td>Useful practice term, but no shipped executable kind yet.</td></tr>
+      <tr><td><code>reframe-register</code></td><td>pending</td><td>Captures framing work the platform documents but does not yet execute directly.</td></tr>
+      <tr><td><code>co-design-plan</code></td><td>pending</td><td>A real workshop concept that still lacks full runtime support.</td></tr>
+      <tr><td><code>evaluation-framework</code></td><td>pending</td><td>Named in practice vocabulary without a live artifact contract.</td></tr>
+      <tr><td><code>executive-report</code></td><td>pending</td><td>Handled today as a rendered report kind rather than a typed artifact kind.</td></tr>
+      <tr><td><code>presentation-deck</code></td><td>pending</td><td>Visible as a practice deliverable, not yet a runtime artifact contract.</td></tr>
+      <tr><td><code>orchestration-plan</code></td><td>pending</td><td>Operational records exist, but the practice-facing taxonomy row remains pending.</td></tr>
+      <tr><td><code>phase-gate-decision</code></td><td>pending</td><td>Human gate records exist operationally, but the user-facing vocabulary row still waits for a full canonical promotion.</td></tr>
+    </tbody>
+  </table>
+
+<h3 id="A.3">Registered Runtime Kinds</h3>
+
+<p>The runtime registry contains 38 artifact-kind contracts. That is the number the engine can persist, export, and look up through schema metadata today. I state it this way because the registry is not the same thing as the 39-row vocabulary. The clean mental model is this: 18 catalog rows are canonical and executable, 13 catalog rows are aliases that collapse onto existing executable kinds, 8 rows are still pending, and 10 runtime kinds exist only in the registry because they are operationally useful without being part of the public template promise.</p>
+  <p>Those ten registry-only kinds are <code>actor-network-map</code>, <code>change-plan</code>, <code>day-in-the-life</code>, <code>expectation-map</code>, <code>raci-matrix</code>, <code>roadmap</code>, <code>service-profit-chain</code>, <code>service-scenario</code>, <code>touchpoint-inventory</code>, and <code>walkthrough-script</code>. They are real runtime contracts. They are simply outside the 39-row practice-catalog claim. That is why the arithmetic feels strange until you separate vocabulary from execution.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Alias-backed runtime kind</th>
+        <th>Runtime title</th>
+        <th>Node label</th>
+        <th>Surfaced practice label(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>affinity-cluster-set</code></td><td>Affinity Cluster Set</td><td>cluster</td><td><code>affinity-diagram</code></td></tr>
+      <tr><td><code>concept-set</code></td><td>Concept Set</td><td>concept</td><td><code>concept-brief</code></td></tr>
+      <tr><td><code>hmw-set</code></td><td>How Might We Question Set</td><td>question</td><td><code>hmw-register</code></td></tr>
+      <tr><td><code>insight-set</code></td><td>Insight Set</td><td>insight</td><td><code>insight-register</code></td></tr>
+      <tr><td><code>kpi-tree</code></td><td>KPI Tree</td><td>kpi</td><td><code>kpi-set</code></td></tr>
+      <tr><td><code>maturity-assessment</code></td><td>CX Maturity Assessment</td><td>dimension</td><td><code>maturity-model</code></td></tr>
+      <tr><td><code>mental-model-map</code></td><td>Mental Model Map</td><td>tower</td><td><code>mental-model</code></td></tr>
+      <tr><td><code>recovery-playbook</code></td><td>Service Recovery Playbook</td><td>scenario</td><td><code>recovery-plan</code></td></tr>
+      <tr><td><code>service-standard-set</code></td><td>Service Standard Set</td><td>standard</td><td><code>standards-audit</code>, <code>frontline-enablement</code></td></tr>
+      <tr><td><code>storyboard</code></td><td>Storyboard</td><td>frame</td><td><code>storyboard-walkthrough</code></td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Registry-only kind</th>
+        <th>Runtime title</th>
+        <th>Node label</th>
+        <th>Boundary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>actor-network-map</code></td><td>Actor Network Map</td><td>actor</td><td>Real runtime kind, outside the 39-row catalog promise.</td></tr>
+      <tr><td><code>change-plan</code></td><td>Change Plan</td><td>action</td><td>Real runtime kind, outside the 39-row catalog promise.</td></tr>
+      <tr><td><code>day-in-the-life</code></td><td>Day-in-the-Life Map</td><td>moment</td><td>Supports research evidence structure without widening the practice vocabulary.</td></tr>
+      <tr><td><code>expectation-map</code></td><td>Expectation Map</td><td>expectation</td><td>Operationally useful across research and measurement handoffs, but not an authored template claim.</td></tr>
+      <tr><td><code>raci-matrix</code></td><td>RACI Matrix</td><td>assignment</td><td>Operationally useful in delivery, but not an authored template claim.</td></tr>
+      <tr><td><code>roadmap</code></td><td>Implementation Roadmap</td><td>milestone</td><td>Shipped in the registry and renderer set without a flagship template claim.</td></tr>
+      <tr><td><code>service-profit-chain</code></td><td>Service Profit Chain Map</td><td>link</td><td>Supports measurement work without widening the practice vocabulary.</td></tr>
+      <tr><td><code>service-scenario</code></td><td>Service Scenario</td><td>beat</td><td>Supports ideation and rehearsal while staying registry-only.</td></tr>
+      <tr><td><code>touchpoint-inventory</code></td><td>Touchpoint Inventory</td><td>touchpoint</td><td>Shipped in the registry and renderer set without a flagship template claim.</td></tr>
+      <tr><td><code>walkthrough-script</code></td><td>Walkthrough Script</td><td>step</td><td>Supports prototyping and rehearsal while staying registry-only.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning"><strong>CAUTION:</strong> Do not inflate the runtime registry to 39 by counting aliases or pending rows as executable kinds. That mistake cascades into bad host-pack claims, bad schema assumptions, and bad migration work.</div>
+
+<h3 id="A.4">Authored Templates</h3>
+
+<p>The authored template tier is deliberately small: seven fillable forms, each backed by a Markdown source in <code>platform/templates/</code> and a runtime-aware metadata record in <code>suite/packages/knowledge/data/templates/</code>. These are the forms I can hand to a human team before any agent touches the project. They are also the templates most likely to survive a workshop and still compile into useful runtime artifacts later.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Template id</th>
+        <th>Runtime kind</th>
+        <th>Phase</th>
+        <th>Source path</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>stakeholder-map</code></td><td><code>stakeholder-map</code></td><td>research</td><td><code>platform/templates/05-stakeholder-map/template.md</code></td></tr>
+      <tr><td><code>ecosystem-map</code></td><td><code>ecosystem-map</code></td><td>research</td><td><code>platform/templates/06-ecosystem-map/template.md</code></td></tr>
+      <tr><td><code>insight-register</code></td><td><code>insight-set</code></td><td>synthesis</td><td><code>platform/templates/07-insight-register/template.md</code></td></tr>
+      <tr><td><code>persona-set</code></td><td><code>persona-set</code></td><td>synthesis</td><td><code>platform/templates/09-persona-set/template.md</code></td></tr>
+      <tr><td><code>journey-map</code></td><td><code>journey-map</code></td><td>synthesis</td><td><code>platform/templates/11-journey-map/template.md</code></td></tr>
+      <tr><td><code>service-blueprint</code></td><td><code>service-blueprint</code></td><td>synthesis</td><td><code>platform/templates/12-service-blueprint/template.md</code></td></tr>
+      <tr><td><code>jobs-to-be-done</code></td><td><code>jobs-to-be-done</code></td><td>synthesis</td><td><code>platform/templates/39-jobs-to-be-done/template.md</code></td></tr>
+    </tbody>
+  </table>
+
+  <p>That seven-template set is intentional. ASD is not promising a fillable form for every vocabulary row. It is promising depth where teams repeatedly need scaffolding: stakeholders, ecosystems, insights, personas, journeys, blueprints, and jobs. Everything else must earn authored-template status through the same contract discipline as a new runtime kind.</p>
+
+<h3 id="A.5">The Admin Record: review-veto-log</h3>
+
+<p><code>review-veto-log</code> is the cleanest example of the platform’s governance posture. It is a registered runtime kind, it is canonical in the vocabulary, and it is intentionally administrative. Users do not fill it out as a workshop artifact. The Critic writes it when a review happens. That distinction matters because the log is the memory of why a pass was granted or a veto was issued, and the rest of the pipeline can replay it without guessing.</p>
+  <p>The record is always final from birth. That is the point. A veto log that can drift in and out of draft state would be governance theatre. Instead, <code>sd_review</code> appends rows across verdicts, keeps row numbering stable, links the log back to the reviewed artifact through <code>reviewOf</code>, and enforces the basic discipline: a veto needs at least one defect row with a fix, a pass cannot smuggle in defect rows, and a pass must cite evidence in at least one proposal row.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field or rule</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>kind = review-veto-log</code></td><td>The artifact is an administrative control record, not a user-authored deliverable.</td></tr>
+      <tr><td><code>status = final</code></td><td>The log itself is final when written so the decision trail cannot hide behind draft status.</td></tr>
+      <tr><td><code>reviewOf</code></td><td>Links the log to the reviewed artifact id.</td></tr>
+      <tr><td><code>rowKind</code></td><td><code>defect</code> or <code>proposal</code>; vetoes require at least one defect.</td></tr>
+      <tr><td><code>fix</code></td><td>Mandatory on defect rows so a veto is actionable.</td></tr>
+      <tr><td><code>evidenceId</code></td><td>When supplied, it must resolve in the project evidence store.</td></tr>
+      <tr><td>Human gate boundary</td><td>The Critic can pass or veto artifacts, but phase advance remains human-only. A good review log prepares a decision; it never authorizes one.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-label">review-veto-log.example.json</div>
+  <pre><code>{
+  "kind": "review-veto-log",
+  "status": "final",
+  "reviewOf": "7f9fefdc44f5469195106e739112f9ae",
+  "nodes": [
+    {
+      "id": "r1",
+      "label": "All three nodes cite zero evidence rows; the acceptance gate cannot pass until every node cites the register",
+      "fields": {
+        "rowKind": "defect",
+        "severity": "high",
+        "rule": "min-evidence-per-node",
+        "message": "All three nodes cite zero evidence rows; the acceptance gate cannot pass until every node cites the register",
+        "fix": "Re-derive each node from the register with verbatim quotes attached"
+      }
+    }
+  ]
+}</code></pre>
+
+  <p>If I had to reduce this appendix to one sentence, it would be this: ASD is strict about names because names decide what can be executed, what can be reviewed, and what remains honest future scope. The method count, the vocabulary count, the runtime-kind count, and the template count are all true at the same time once you stop forcing them to mean the same thing.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="25.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 25</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Future of Service Design: The Agentic Practice</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 25</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Future of Service Design: The Agentic Practice</p>
+        </div>
+      </div>
+    </a>
+    <a href="B.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix B</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">CLI &amp; MCP Tool Specification</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix B</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">CLI &amp; MCP Tool Specification</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Appendix</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">CLI &amp; MCP Tool Specification</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">All 30 sd_* tools, the client wiring rules, the protocol facts, and the resource surface that sits behind them</p>
+        </div>
+        <a href="B.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>BUZZ: Multi-Agent Service Design on the Open Agent Network - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-19" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 19</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">BUZZ: Multi-Agent Service Design on the Open Agent Network</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Ten personas, exact mentions, one Canvas</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">18 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-19-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">BUZZ for Service Design Teams</a>
+        <a href="#s-19-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Personas, Identities and Public Keys</a>
+        <a href="#s-19-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Safe Sequence, End to End</a>
+        <a href="#s-19-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Fail-Closed Identity Audit</a>
+        <a href="#s-19-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Metrovale OneRecovery (Observed Slice)</a>
+        <a href="#s-19-6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Lab: Aster Grove Makerspace Live Run</a>
+        <a href="#s-19-7" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Canvas: The Shared Index</a>
+        <a href="#s-19-8" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Boundaries: What BUZZ Does Not Prove</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-19-1" data-section="s-19-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>BUZZ for Service Design Teams</span></a>
+          <a href="#s-19-2" data-section="s-19-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Personas, Identities and Public Keys</span></a>
+          <a href="#s-19-3" data-section="s-19-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Safe Sequence, End to End</span></a>
+          <a href="#s-19-4" data-section="s-19-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Fail-Closed Identity Audit</span></a>
+          <a href="#s-19-5" data-section="s-19-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Metrovale OneRecovery (Observed Slice)</span></a>
+          <a href="#s-19-6" data-section="s-19-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Lab: Aster Grove Makerspace Live Run</span></a>
+          <a href="#s-19-7" data-section="s-19-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Canvas: The Shared Index</span></a>
+          <a href="#s-19-8" data-section="s-19-8" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Boundaries: What BUZZ Does Not Prove</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-19-1" data-section="s-19-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>BUZZ for Service Design Teams</span></a>
+          <a href="#s-19-2" data-section="s-19-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Personas, Identities and Public Keys</span></a>
+          <a href="#s-19-3" data-section="s-19-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Safe Sequence, End to End</span></a>
+          <a href="#s-19-4" data-section="s-19-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Fail-Closed Identity Audit</span></a>
+          <a href="#s-19-5" data-section="s-19-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Metrovale OneRecovery (Observed Slice)</span></a>
+          <a href="#s-19-6" data-section="s-19-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Lab: Aster Grove Makerspace Live Run</span></a>
+          <a href="#s-19-7" data-section="s-19-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Canvas: The Shared Index</span></a>
+          <a href="#s-19-8" data-section="s-19-8" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Boundaries: What BUZZ Does Not Prove</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-19-1">BUZZ for Service Design Teams</h3>
+
+<p>When I use BUZZ for Service Design, I am not looking for a prettier chat client. I am looking for the missing collaboration surface between a human designer and a role team. BUZZ gives me five primitives that matter in practice. First, a relay stores signed events. Second, every human or runtime appears as an identity with a 64-hex public key. Third, I get private stream channels with explicit membership. Fourth, I can mention one exact member by pubkey and see whether the reply came back from that same identity. Fifth, I get one per-channel Canvas document that acts as an index over the work.</p>
+  <p>The sharp edge is the boundary. BUZZ is where conversation, roster, attribution, and visible handoffs live. It is not the ASD store. A message can be genuine, signed, and useful, while still proving nothing about whether an artifact persisted through <code>sd_artifact_write</code>, whether a review passed, or whether a human gate receipt exists. I keep repeating that because the failure mode is seductive. Once a channel looks alive, people start treating the transcript as the system of record. That is exactly what ASD is designed to prevent.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> In BUZZ, the message proves conversation, the pubkey proves authorship, the Canvas proves navigability, and the ASD workspace proves the work. If I collapse those into one claim, I lose the audit trail.</div>
+
+  <p>The generated BUZZ Persona Pack carries the same canonical inventory as the other emitted ASD targets: 10 role prompts, 80 shipped skills from 81 sources, 30 <code>sd_*</code> tools, 228 pack-local MCP resources when the corpus is present, 38 registered artifact kinds, 39 catalog rows, 7 authored templates, and 12 emitted targets across the wider platform. That inventory matters because it tells me the pack is aligned with the rest of ASD. It does <em>not</em> tell me that a BUZZ-native host executed every tool, that every persona is materialized as a healthy runtime, or that a given channel has the right members. Those are separate proofs.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>BUZZ primitive</th>
+        <th>What it proves</th>
+        <th>What it does not prove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Relay event</td>
+        <td>A signed message, membership change, or Canvas update happened.</td>
+        <td>That an ASD artifact was persisted or reviewed.</td>
+      </tr>
+      <tr>
+        <td>Public-key identity</td>
+        <td>Which human or runtime authored the event on the wire.</td>
+        <td>That the identity belongs to the right persona definition without an audit join.</td>
+      </tr>
+      <tr>
+        <td>Private stream channel</td>
+        <td>The engagement has an explicit member list and conversation boundary.</td>
+        <td>That every member is healthy, unique, or authorized to mutate the ASD store.</td>
+      </tr>
+      <tr>
+        <td>Exact mention</td>
+        <td>A request was addressed to one chosen runtime public key.</td>
+        <td>That the runtime's reply cited resolvable workspace ids.</td>
+      </tr>
+      <tr>
+        <td>Canvas</td>
+        <td>The channel exposes a shared artifact index.</td>
+        <td>That the index itself is persistence, or that a phase may advance.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>This is why BUZZ fits Service Design so well. Service Design is already a team sport with visible handoffs, specialist roles, and human judgment at the hard edges. BUZZ preserves that shape. The orchestrator can delegate. The critic can block. The librarian can report drift. I can hold the phase gate myself. The channel shows the social topology honestly instead of flattening it into one assistant voice.</p>
+
+<h3 id="s-19-2">Personas, Identities and Public Keys</h3>
+
+<p>The Persona Pack is deliberately keyless. That design choice is the whole safety story. The pack definition tells BUZZ what a persona is supposed to be: canonical slug, prompt, runtime metadata, pack-local MCP wiring. It does not mint a public key, start a runtime, or join a channel. The owner does that later. So I keep two nouns separate: the <em>definition</em> and the <em>runtime identity</em>.</p>
+  <p>The ten canonical persona slugs are exact and boring on purpose:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>Persona slug</th>
+        <th>What I expect it to own</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Orchestrator</td><td><code>sd-orchestrator</code></td><td>Method sequence, handoffs, visible phase-gate preparation</td></tr>
+      <tr><td>Researcher</td><td><code>sd-researcher</code></td><td>Evidence register and provenance-grounded asks</td></tr>
+      <tr><td>Synthesizer</td><td><code>sd-synthesizer</code></td><td>Insight, affinity, and persona work</td></tr>
+      <tr><td>Mapper</td><td><code>sd-mapper</code></td><td>Journey maps, blueprints, and ecosystem structures</td></tr>
+      <tr><td>Ideator</td><td><code>sd-ideator</code></td><td>HMWs, concepts, and opportunity framing</td></tr>
+      <tr><td>Prototyper</td><td><code>sd-prototyper</code></td><td>Prototype plans, walkthroughs, and tests</td></tr>
+      <tr><td>Measurer</td><td><code>sd-measurer</code></td><td>KPI chains and service measurement logic</td></tr>
+      <tr><td>Critic</td><td><code>sd-critic</code></td><td>Evidence-cited review rows and veto posture</td></tr>
+      <tr><td>Presenter</td><td><code>sd-presenter</code></td><td>Report/export assembly from final artifacts only</td></tr>
+      <tr><td>Librarian</td><td><code>sd-librarian</code></td><td>Canon, provenance, and method drift checks</td></tr>
+    </tbody>
+  </table>
+
+  <p>Those slugs are not mention targets. They are pack definitions. A live runtime becomes real only when the owner materializes it in BUZZ, assigns a provider/model/runtime host, and gets an identity-backed public key. The honest join key is <code>runtime.persona_id</code>. Each runtime should expose exactly one <code>runtime.persona_id</code> that matches exactly one pack definition. Then, and only then, I can say that a runtime public key represents <code>sd-mapper</code> or <code>sd-critic</code>.</p>
+  <p>This is where people get sloppy. They see a green card in the UI labeled “Maya” and assume the orchestrator exists, is healthy, is the only orchestrator instance, and is ready to receive a mention in the current channel. None of that follows. A definition may exist with no runtime. A runtime may exist but be inactive. Two runtime instances may report the same persona id. A healthy runtime may still be absent from the channel I care about. A slug is stable metadata. A pubkey is the actual routing surface.</p>
+
+  <div class="callout"><strong>My take:</strong> “Slug equals agent” is the BUZZ version of “branch equals deployment.” It feels true right up until the day you send a mention to the wrong runtime and cannot honestly prove who answered. I would rather spend two minutes auditing than publish one fake attribution.</div>
+
+  <p>The pack itself stays safely small in scope. It installs through BUZZ's native Persona Pack workflow. It carries relative MCP wiring so the installed pack can point to <code>mcp/bin/server.mjs</code> without hardcoding a developer machine path. What it never does is write BUZZ application storage directly, create identities, or bind members to a channel. That is owner-authorized runtime work outside the emitted pack. Good. The compiler should emit definitions, not side effects.</p>
+
+<h3 id="s-19-3">The Safe Sequence, End to End</h3>
+
+<p>I run BUZZ engagements in one safe sequence and I do not improvise it. First I install and validate the Persona Pack through the native BUZZ workflow. Second I owner-materialize the ten runtimes. Third I create the private engagement channel. Fourth I add the audited runtime pubkeys as members. Fifth I verify the membership and resolve display names from the exact pubkeys. Sixth I post the human kickoff and send a scoped mention to one chosen runtime. Seventh I persist any actual ASD records through the pack-local MCP or the CLI, not through chat. Eighth I link those records from Canvas. Ninth I stop at the human phase gate.</p>
+  <p>The first live BUZZ commands are straightforward. I use <code>buzz channels list</code> to inspect existing <code>sd/</code> channels, then create a dedicated private stream for the engagement and add the roster by pubkey:</p>
+
+  <div class="code-label">buzz-safe-sequence.sh</div>
+  <pre><code>buzz channels list
+
+buzz channels create \
+  --name sd/&lt;engagement&gt; \
+  --type stream --visibility private \
+  --description "Fictional ASD engagement; synthetic evidence only."
+
+buzz channels add-member --channel &lt;channel-uuid&gt; --pubkey &lt;runtime-pubkey&gt;
+buzz channels add-member --channel &lt;channel-uuid&gt; --pubkey &lt;runtime-pubkey&gt;
+# repeat until the audited roster is complete
+
+buzz channels members --channel &lt;channel-uuid&gt;
+buzz users get --pubkey &lt;runtime-pubkey&gt;</code></pre>
+
+  <p>Notice what is absent. There is no “deploy team” shortcut in my acceptance story. There is no broad “forceNewInstance” wave. There is no trust fall from slug to mention target. I want the exact runtime public key in hand because the public key is what the relay will later attach to the response.</p>
+
+  <figure id="fig-19-01" class="full">
+    <div class="figure__media"><img src="shared/buzz/channel-created.png" alt="Private BUZZ channel created for an engagement with the persona roster invited." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.1</span> <strong>Private engagement channel.</strong> The capture proves that a dedicated private stream was created for the engagement and that membership is an explicit act; it does not prove that every listed runtime is healthy, unique, or yet tied to persisted ASD records.</figcaption>
+  </figure>
+
+  <p>After the roster is in place, I post a kickoff that states the fictional boundary, the project id, the authority boundary, and the stop condition. Then I send the first exact runtime mention. The content can include a friendly display-name reference, but the automation contract rides on <code>--mention &lt;pubkey&gt;</code>:</p>
+
+  <div class="code-label">buzz-orchestrator-mention.sh</div>
+  <pre><code>buzz messages send --channel &lt;channel-uuid&gt; \
+  --mention &lt;orchestrator-runtime-pubkey&gt; \
+  --content "@sd-orchestrator — start Discover coordination for project &lt;project-id&gt;; use only the cited evidence IDs; ask researcher and mapper for bounded work; stop for my framing decision before Define."</code></pre>
+
+  <p>That sentence does three jobs. It names one exact addressee. It constrains the evidence boundary. It gives the runtime a stop line. BUZZ works best when every ask is auditable against a clear deliverable and a clear refusal condition. A vague prompt may still produce prose. It will not produce proof.</p>
+
+  <figure id="fig-19-02" class="full">
+    <div class="figure__media"><img src="shared/buzz/kickoff-posted.png" alt="Owner kickoff post mentioning the orchestrator runtime." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.2</span> <strong>Owner kickoff.</strong> The capture proves that the engagement starts from a scoped human post addressed to the channel and then to a chosen runtime; it does not prove that the resulting work persisted in the ASD store until separate ids and receipts exist.</figcaption>
+  </figure>
+
+  <p>Once replies start landing, I separate collaboration from persistence on purpose. If Maya replies with a workplan and Liam replies with evidence ids, those replies are claims until the ids resolve in the workspace. If I want a project, evidence, artifact, review, handoff, or gate record, I create it through the pack-local MCP or the CLI. BUZZ stays the coordination surface. The ASD store stays the record. That cut is the whole method.</p>
+
+<h3 id="s-19-4">Fail-Closed Identity Audit</h3>
+
+<p>Before I trust any mention target, I run the read-only identity audit. The command is simple:</p>
+
+  <div class="code-label">buzz-live-identity-audit.sh</div>
+  <pre><code>node scripts/buzz-live-identity-audit.mjs \
+  --input ./audit.json \
+  --channel-id &lt;channel-uuid&gt; \
+  --output ./identity-audit.json</code></pre>
+
+  <p>The important part is what happens inside. The audit joins Persona Pack definitions, live runtimes, optional channel membership, and optional mention targets. It checks for missing definitions, missing runtimes, multiple definitions, multiple runtime instances for one persona, missing runtime pubkeys, runtime error states, inactive runtimes, missing channel membership, ambiguous mention targets, and mismatched mention recipients. It reports a safe remediation plan instead of silently choosing for me.</p>
+  <p>The script is aggressively bounded. It is read-only and plan-only. It never loads credentials. It never fetches a private key. It never contacts BUZZ on its own. It has no mutation surface. It rejects <code>--apply</code> and <code>--confirm</code> outright. Its only allowed BUZZ CLI inspection step, when membership checking is in scope, is <code>buzz channels members --channel &lt;channel-uuid&gt;</code>. That is it.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> The audit refuses to “help” by picking one runtime when multiple instances expose the same <code>persona_id</code>. That refusal is a feature. The moment the tool auto-chooses among ambiguous runtimes, your later mention-to-reply claim becomes soft and editorial instead of operational.</div>
+
+  <p>I like this audit because it refuses to flatter me. If the runtime is missing, it says missing. If the membership is absent, it says absent. If a proposed mention's pubkey does not match the chosen runtime pubkey, it fails. In other words, it behaves like the rest of ASD: fail closed, generate a repair plan, and stop short of mutation.</p>
+
+<h3 id="s-19-5">Case: Metrovale OneRecovery (Observed Slice)</h3>
+
+<p>Article 37 is the right place to learn restraint. The Metrovale OneRecovery material is valuable precisely because it is bounded. In the observed private channel <code>sd/metrovale-one-recovery</code>, the owner first saw the ten ASD personas and then added general Claude and Codex advisory identities, producing a 13-member roster. The slice includes a genuine orchestrator reply, relay-confirmed orchestrator-to-researcher and orchestrator-to-mapper handoffs, synthetic researcher and mapper content, a Canvas artifact index, and advisory Claude/Codex storyboard responses. The human Discover gate remained blocked.</p>
+
+  <figure id="fig-19-03" class="full">
+    <div class="figure__media"><img src="shared/buzz/orchestrator-reply.png" alt="Genuine orchestrator reply attributing itself and requesting scoped specialist help." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.3</span> <strong>Attributed orchestrator reply.</strong> The capture proves that a runtime-authored reply came back with visible attribution and named the next role handoffs; it does not prove workspace persistence, a passing review, or phase completion on its own.</figcaption>
+  </figure>
+
+  <p>The boundary list is explicit and I keep it explicit here. Metrovale does <strong>not</strong> prove MCP project-store persistence, durable artifact ids, a visible Critic verdict, ACP spawn or transport, host execution, reload, recovery, cleanup, phase completion, a presenter reply, or a rendered deck. The generated offline Canvas document for Article 37 is useful, but it is verified offline rather than BUZZ-live. That distinction matters. If I blur it, I teach the wrong lesson.</p>
+  <p>There is a second lesson in Metrovale. A Canvas row can honestly show <code>observed</code>, <code>draft</code>, or <code>planned</code> without pretending everything is finished. In the captured register, the project charter and authority were observed in BUZZ, the starter evidence and a journey-map outline were observed responses, the advisory storyboard existed only as BUZZ replies with no deck file, and the research plan, service blueprint, measurement plan, review-veto log, executive report, and knowledge register remained planned. That is honest operational publishing.</p>
+
+<h3 id="s-19-6">Lab: Aster Grove Makerspace Live Run</h3>
+
+<p>Article 39 is the chapter's live lab because it closes the loop cleanly. The client is fictional. The BUZZ lane is real. The tutorial proves what a full, bounded session looks like when I insist on ids, receipts, and phase discipline. Here is the condensed twelve-step run I want practitioners to copy.</p>
+
+  <ol>
+    <li><strong>Create an isolated ASD project.</strong> In the article, the project id is <code>aster-grove-makerspace-6a8498ef</code>. Isolation matters because it prevents one engagement from smearing ids into another.</li>
+    <li><strong>Register synthetic evidence.</strong> Ten rows go in first: quotes, telemetry, and documents. Each one gets a SHA-256 id that later replies must cite.</li>
+    <li><strong>Write artifacts through the review gate.</strong> Stakeholder map, journey, KPI tree, and change plan are persisted through the store; the blueprint deliberately fails once, gets a Critic veto, then is remediated on the same artifact id.</li>
+    <li><strong>Create the private BUZZ channel and roster.</strong> The live channel is <code>sd/aster-grove-makerspace</code> with 13 members: owner, ten ASD runtimes, and two coding-agent advisors.</li>
+    <li><strong>Post the owner kickoff.</strong> The kickoff states that the service is fictional, names the project id, states the human authority boundary, and keeps the channel from becoming an evidence register by accident.</li>
+    <li><strong>Mention the orchestrator by public key.</strong> Maya receives a scoped Discover coordination ask addressed to her runtime pubkey, rather than merely to her display name.</li>
+    <li><strong>Dispatch specialist work in parallel.</strong> Liam gets provenance checking. Kai gets failure-demand mapping. Their replies come back with evidence citations that can be checked against the store.</li>
+    <li><strong>Record the human gate in the ASD store first.</strong> The owner advances Discover to Define with approval receipt <code>ag-gate-001</code> only after factcheck is green.</li>
+    <li><strong>Ask the Critic to verify the persisted review history.</strong> Marcus checks the blueprint veto/remediation chain against the store and cites the actual review-veto-log and evidence row.</li>
+    <li><strong>Render the Canvas index from the workspace.</strong> The channel index is generated from store records, not typed in the channel.</li>
+    <li><strong>Set the Canvas live, get it back, and verify the round trip.</strong> The retrieved document matches the generated one modulo a trailing newline, and verify passes all checks.</li>
+    <li><strong>Continue the loop without fabrication.</strong> Maya opens Define, Nadia resolves the synthesis method registry, Rowan sees only the Canvas and not the authoritative store, refuses to fabricate, and the session pauses honestly instead of inventing evidence.</li>
+  </ol>
+
+  <p>That last step is my favorite because it shows the boundary holding under pressure. Rowan had enough information to bluff. He had the registry. He had the Canvas. He had context. He still declined to invent because he did not have the authoritative workspace. That is what an AI-native Service Design stack should do when access is partial.</p>
+
+  <div class="code-label">asd-human-gate.sh</div>
+  <pre><code>asd phase-advance --projectId aster-grove-makerspace-6a8498ef \
+  --toPhase define --idempotencyKey astergrove-gate-discover-01 \
+  --approvalReceipt '{"receiptId":"ag-gate-001","approvedBy":"mehran","decision":"approve","rationale":"framing question selected from store-backed Discover outputs","approvedAt":"2026-08-23T07:40:00.000Z"}'</code></pre>
+
+  <p>The channel announcement comes after this store receipt exists. Never before. Agents prepare the decision. I authorize the phase move. That is not a culture preference. It is a protocol boundary.</p>
+
+  <figure id="fig-19-04" class="full">
+    <div class="figure__media"><img src="shared/buzz/human-gate-decision.png" alt="Human gate decision recorded in-channel before phase advance." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.4</span> <strong>Human gate decision.</strong> The capture proves that the phase decision is announced visibly in-channel with a named human receipt behind it; it does not mean the channel itself authorized the phase move.</figcaption>
+  </figure>
+
+  <p>The Critic step is just as important. Marcus does not wave through the blueprint because the conversation felt coherent. He checks the persisted review chain: the veto row, the cited evidence, the same-id remediation, and the final review state. Article 39 makes this concrete by using a deliberate defect in the blueprint lane name and then proving the repair on the same artifact id.</p>
+
+  <figure id="fig-19-05" class="full">
+    <div class="figure__media"><img src="shared/buzz/critic-verification.png" alt="Critic verification reply citing evidence rows." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.5</span> <strong>Critic verification.</strong> The capture proves that the Critic cites concrete evidence and review rows when validating the persisted loop; it does not prove that every future artifact in the channel has passed review unless its own ids resolve the same way.</figcaption>
+  </figure>
+
+  <p>By the time the Aster Grove run reaches its freeze frame, the workspace shows 10 evidence rows, 11 artifacts, 1 typed handoff, and 10 planned kinds. Ten of the artifacts are final with Critic passes. One <code>insight-set</code> draft appears without a binding channel reply, so its authorship is left unresolved in the ledger instead of being guessed after the fact. That single choice tells you the chapter's whole ethic. Truth beats completeness theatre.</p>
+
+<h3 id="s-19-7">Canvas: The Shared Index</h3>
+
+<p>The BUZZ Canvas is one page per channel. I use it as the front door to the engagement, never as the store itself. The generator that keeps it honest is <code>scripts/buzz-canvas-index.mjs</code>. It renders from persisted workspace records, refuses dangling ids, accepts only registered planned kinds, and can later prove that the document survived a live set/get round trip on the relay.</p>
+  <p>The lifecycle is mechanical:</p>
+
+  <div class="code-label">buzz-canvas-roundtrip.sh</div>
+  <pre><code>node scripts/buzz-canvas-index.mjs render \
+  --project-dir tmp/buzz39/projects/aster-grove-makerspace-6a8498ef \
+  --channel sd/aster-grove-makerspace \
+  --channel-id 361023a9-31cb-4b40-845f-19d64f7827ee \
+  --fictional \
+  --planned research-plan --planned interview-guide --planned opportunity-matrix \
+  --planned hmw-set --planned concept-set --planned prototype-plan \
+  --planned walkthrough-script --planned storyboard --planned test-report \
+  --planned recovery-playbook \
+  --out articles/39/canvas
+
+buzz canvas set --channel 361023a9-31cb-4b40-845f-19d64f7827ee --content - \
+  &lt; articles/39/canvas/aster-grove-makerspace.md
+
+buzz canvas get --channel 361023a9-31cb-4b40-845f-19d64f7827ee \
+  &gt; retrieved-canvas.md
+
+node scripts/buzz-canvas-index.mjs verify \
+  --canvas-dir articles/39/canvas \
+  --project-dir tmp/buzz39/projects/aster-grove-makerspace-6a8498ef \
+  --retrieved retrieved-canvas.md --fictional</code></pre>
+
+  <p>The render step writes a document with twelve contract sections. The verify step checks five things: content hash, presence of all twelve sections, stale-link resolution, relay round trip, and drift against a fresh render. It is a proper integrity loop, not a screenshot ritual.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Canvas section</th>
+        <th>Why it exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1. Charter and data boundary</td><td>States project identity and reminds readers that the Canvas is navigation, not proof.</td></tr>
+      <tr><td>2. Phase and human-gate state</td><td>Shows the current phase and any approval receipts on record.</td></tr>
+      <tr><td>3. Participant roster</td><td>Lists durable participation from records, not mere channel presence.</td></tr>
+      <tr><td>4. Evidence register</td><td>Indexes evidence sources and ids.</td></tr>
+      <tr><td>5. Artifact register</td><td>Lists kind, id, status, owner, review state, and evidence coverage.</td></tr>
+      <tr><td>6. Critic findings and remediation</td><td>Replays review-veto logs and same-id remediation state.</td></tr>
+      <tr><td>7. Typed handoff queue</td><td>Shows persisted handoff records and unsupported spawn boundaries.</td></tr>
+      <tr><td>8. Decisions, assumptions, and risks</td><td>Makes blocked gates, missing artifacts, and open drafts visible.</td></tr>
+      <tr><td>9. Prototypes and tests</td><td>Indexes prototype-plan, walkthrough-script, storyboard, and test-report artifacts.</td></tr>
+      <tr><td>10. KPI ownership</td><td>Shows who owns measurement artifacts and targets.</td></tr>
+      <tr><td>11. Final report and recovery playbook</td><td>Indexes delivery-side artifacts without inventing them.</td></tr>
+      <tr><td>12. Index integrity</td><td>Carries the round-trip content hash and verification posture.</td></tr>
+    </tbody>
+  </table>
+
+  <p>The planned rows matter more than they first appear. In Aster Grove and Metrovale, planned kinds such as <code>research-plan</code>, <code>interview-guide</code>, <code>opportunity-matrix</code>, <code>hmw-set</code>, <code>concept-set</code>, <code>prototype-plan</code>, <code>walkthrough-script</code>, <code>storyboard</code>, <code>test-report</code>, and <code>recovery-playbook</code> can appear as <code>planned</code> only because they are registered kinds. If I try to smuggle an unregistered label into the index, render fails closed. If I leave a stale id in place, verify fails closed. That is exactly how an index should behave.</p>
+
+  <figure id="fig-19-06" class="full">
+    <div class="figure__media"><img src="shared/buzz/canvas-set.png" alt="Canvas index set on the channel from the generator output." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 19.6</span> <strong>Canvas set live.</strong> The capture proves that the generated index was pushed to the channel and treated as the visible front door to the engagement; it does not turn the Canvas into the ASD store or authorize any artifact or phase by itself.</figcaption>
+  </figure>
+
+  <div class="callout"><strong>My take:</strong> Teams love a shared page because it feels like closure. I use that instinct, then discipline it. The Canvas gives everyone one place to land, but it keeps forcing them back to the underlying ids, statuses, and review states. That is the difference between an index and folklore.</div>
+
+<h3 id="s-19-8">Boundaries: What BUZZ Does Not Prove</h3>
+
+<p>Let me end bluntly. BUZZ does not prove workspace persistence unless the cited project, evidence, artifact, review, handoff, or gate ids resolve in the ASD store. It does not prove ACP transport because ACP is record-only in ASD and <code>host-agent-spawn</code> is unsupported. It does not prove that a runtime public key maps to the correct persona without the read-only audit. It does not prove that a phase advanced because only a human approval receipt can do that. It does not prove that a rendered deck, prototype, or report exists simply because someone discussed one in-channel.</p>
+  <p>That is not a limitation to hide. It is the operating model. BUZZ is the collaboration lane on the open agent network. The ASD workspace is the persistent rigor engine. ACP records typed coordination and stops there. Human gates stay human. Once I accept those boundaries, BUZZ becomes incredibly powerful: exact role mentions, visible handoffs, live attribution, a shared Canvas front door, and an honest record of what the team knew at each moment. Once I ignore those boundaries, it becomes another chat transcript pretending to be a project system.</p>
+  <p>So the practical rule is simple. Mention by pubkey. Verify by audit. Persist through MCP or CLI. Index through Canvas. Advance only with a human receipt. Everything else is commentary.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="18.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 18</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Plugins &amp; Host Packs: Claude Code and Beyond</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 18</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Plugins &amp; Host Packs: Claude Code and Beyond</p>
+        </div>
+      </div>
+    </a>
+    <a href="20.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 20</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">DeepSeek Harness Studio: The Integrated Workbench</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 20</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">DeepSeek Harness Studio: The Integrated Workbench</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">DeepSeek Harness Studio: The Integrated Workbench</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">ASD inside a browser studio</p>
+        </div>
+        <a href="20.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

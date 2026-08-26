@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-04" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 04</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Handoffs are artifacts, never chat</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">13 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-04-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Law of Artifacts: Handoffs Are Never Chat</a>
+        <a href="#s-04-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Evidence Registers and Content Addressing</a>
+        <a href="#s-04-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Acceptance Rules, Failed Writes, and the Draft Lane</a>
+        <a href="#s-04-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Critic on the Write Path: Pass, Veto, and review-veto-log</a>
+        <a href="#s-04-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Fact-Check Triad and Why CI Trusts Exit Codes</a>
+        <a href="#s-04-6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Human Phase Gates, Approval Receipts, and the Boundary of Authority</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-04-1" data-section="s-04-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Law of Artifacts: Handoffs Are Never Chat</span></a>
+          <a href="#s-04-2" data-section="s-04-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Evidence Registers and Content Addressing</span></a>
+          <a href="#s-04-3" data-section="s-04-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Acceptance Rules, Failed Writes, and the Draft Lane</span></a>
+          <a href="#s-04-4" data-section="s-04-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Critic on the Write Path: Pass, Veto, and review-veto-log</span></a>
+          <a href="#s-04-5" data-section="s-04-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Fact-Check Triad and Why CI Trusts Exit Codes</span></a>
+          <a href="#s-04-6" data-section="s-04-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Human Phase Gates, Approval Receipts, and the Boundary of Authority</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-04-1" data-section="s-04-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Law of Artifacts: Handoffs Are Never Chat</span></a>
+          <a href="#s-04-2" data-section="s-04-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Evidence Registers and Content Addressing</span></a>
+          <a href="#s-04-3" data-section="s-04-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Acceptance Rules, Failed Writes, and the Draft Lane</span></a>
+          <a href="#s-04-4" data-section="s-04-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Critic on the Write Path: Pass, Veto, and review-veto-log</span></a>
+          <a href="#s-04-5" data-section="s-04-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Fact-Check Triad and Why CI Trusts Exit Codes</span></a>
+          <a href="#s-04-6" data-section="s-04-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Human Phase Gates, Approval Receipts, and the Boundary of Authority</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-04-1">The Law of Artifacts: Handoffs Are Never Chat</h3>
+
+<p>The first mistake most teams make with multiple agents is social. They assume more conversation means more intelligence. In practice, it usually means more compression. The Researcher paraphrases an interview. The Mapper paraphrases the paraphrase. The Critic then reviews a derivative story rather than the thing that actually happened. After three hops, the original evidence is gone. ASD forbids that pattern at the contract level. A role may explain itself in a host interface, but the durable handoff is always a typed artifact written through the store.</p>
+  <p>This matters because ASD is not a chat choreography layer sitting above a hidden database. It is one canonical practice contract and one runtime registry projected into twelve targets. The CLI, MCP server, coding-agent packs, BUZZ Persona Pack, and DeepSeek Harness Studio all touch the same underlying ideas: 10 roles, 80 shipped skills from 81 sources, 30 <code>sd_*</code> tools, 228 resources, 10 role prompts, 38 registered artifact-kind contracts, 39 vocabulary rows, 7 authored templates, and 12 emitted targets. The human-friendly artifact vocabulary lives in Appendix A. The command and tool surfaces live in Appendix B. In this chapter I stay on the write path itself.</p>
+  <p>The role contract is deliberately boring. That is a feature. A role runs a registered method, writes the method's declared output kind, and only then can another role consume it. If a handoff needs a condition, ASD records one. If a handoff names an artifact kind, that pointer must resolve inside the same project. No invisible context. No magical side channel. No "trust me, the previous agent covered it."</p>
+
+  <div class="code-label">platform/_shared/role-contract.md</div>
+  <pre><code>## 1. Handoffs are artifacts, not chat
+
+1. Role A completes a registered method and writes its declared typed artifact.
+2. The Orchestrator presents the gate and records the human decision through asd phase-advance.
+3. Role B consumes the artifact; it never reconstructs the work from conversation.
+4. Everything shown to a model must be reconstructable from the store.
+5. Parallel work is explicit; writes still serialize through the project store.</code></pre>
+
+  <p>Once I adopt that rule, the rest of the platform gets sharper. The Researcher does not hand the Mapper a speech about what riders felt. The Researcher hands over an <code>insight-set</code> or a <code>journey-map</code> draft with evidence pointers that can be inspected, reviewed, vetoed, replayed, and exported. The Orchestrator does not quietly decide that the team is ready for the next phase. The Orchestrator prepares the gate record, then a human authorizes it with an approval receipt. Even the Critic does not shout into the void. It writes rows.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> The artifact rule feels heavy for about three days. Then a stakeholder asks why a recommendation exists, I open the store, and the answer is sitting there as evidence IDs, artifact JSON, review rows, and a gate receipt. That is when the weight starts to feel like relief.
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Chat-native answer</th>
+        <th>ASD answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>What does one role hand to the next?</td>
+        <td>A summary in prose.</td>
+        <td>A typed artifact plus resolvable evidence references.</td>
+      </tr>
+      <tr>
+        <td>How do I know what the model actually saw?</td>
+        <td>I usually cannot prove it.</td>
+        <td>The store, log, artifact, and evidence must tell the same story.</td>
+      </tr>
+      <tr>
+        <td>How does parallel work stay coherent?</td>
+        <td>Thread memory and goodwill.</td>
+        <td>Explicit orchestration plus a single serialized write path.</td>
+      </tr>
+      <tr>
+        <td>How is a gate crossed?</td>
+        <td>Someone says we are done.</td>
+        <td>A human records an approval receipt through <code>asd phase-advance</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+<h3 id="s-04-2">Evidence Registers and Content Addressing</h3>
+
+<p>The artifact rule only works because artifacts do not float free. They stand on a register, and the register is closed. ASD allows exactly three evidence kinds: <code>quote</code>, <code>telemetry</code>, and <code>document</code>. That small vocabulary does more work than a bloated ontology ever could. Quotes preserve verbatim human voice. Telemetry preserves measured operational facts. Documents preserve written institutional context: field notes, rosters, policies, notices, screenshots captured into prose, and the dull paperwork that usually kills overconfident ideas.</p>
+  <p>Each evidence row is content-addressed. The id is the SHA-256 of <code>(source, kind, body)</code>. Same source, same kind, same body, same id. Different body, different id. Re-import a transcript twice and you do not get duplicate truth; you get the same row. That property is what lets me cite an evidence id in a journey node, in a Critic defect row, and later in a traceability report without inventing a second naming scheme.</p>
+
+  <div class="code-label">terminal / asd evidence-add</div>
+  <pre><code>asd evidence-add --projectId lighthouse-transit-f7e5f8a2   --source call-821004   --kind quote   --body "Told to wait 15 min for next bus; nobody held the tram."
+
+asd evidence-add --projectId lighthouse-transit-f7e5f8a2   --source avl-extract-2025-11   --kind telemetry   --body "Route 41 weekday OTP 71 percent; peak-shoulder misses cluster 16:00-19:00."
+
+asd evidence-add --projectId lighthouse-transit-f7e5f8a2   --source rosters-07   --kind document   --body "Eleven routes cannot hold a 3-minute connection under current roster rules."</code></pre>
+
+  <p>If I try to smuggle in an <code>observation</code> kind, the CLI rejects it. Good. An observation is not a fourth primitive truth type in ASD. It becomes either a quote or a document, depending on what it actually is. That distinction sounds fussy until the first time somebody tries to promote a designer's interpretation into ground truth. The platform says no before the meeting gets confused.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Evidence is allowed to be incomplete. It is not allowed to be vague about what kind of thing it is.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Kind</th>
+        <th>What it captures</th>
+        <th>Typical service-design use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>quote</code></td>
+        <td>Verbatim human words.</td>
+        <td>Interview lines, complaint excerpts, diary snippets, frontline speech.</td>
+      </tr>
+      <tr>
+        <td><code>telemetry</code></td>
+        <td>Measured operational or behavioral data.</td>
+        <td>Queue times, no-show rates, completion rates, usage extracts, ticket volumes.</td>
+      </tr>
+      <tr>
+        <td><code>document</code></td>
+        <td>Written context and institutional constraints.</td>
+        <td>Policies, rosters, field notes, consent forms, service standards, notices.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>One more boundary matters here. Appendix A lists the platform's artifact vocabulary and its aliases; the register is not that catalog. Evidence rows are smaller and blunter than artifacts on purpose. I want the raw facts to stay primitive so the design layer above them can be checked mechanically.</p>
+
+<h3 id="s-04-3">Acceptance Rules, Failed Writes, and the Draft Lane</h3>
+
+<p>Most systems do something unhelpful at write time. They either accept too much and hope review catches it later, or they reject too hard and leave no record of what almost got in. ASD takes a better path. Every method manifest names an acceptance contract, and failed writes persist as <code>draft</code> with machine-readable failures attached. That means the platform tells the truth twice: it tells the truth that the artifact exists, and it tells the truth that the artifact is not yet good enough.</p>
+  <p>The acceptance vocabulary is intentionally tiny: <code>min-nodes</code>, <code>min-evidence-per-node</code>, and <code>field-non-empty</code>. Some methods add a narrow extra rule such as <code>forbid-field-values</code>, but the platform's core posture is still compact. A chapter like this one can explain the whole thing because there are not thirty hidden validators. For example, <code>contextual-inquiry</code> demands at least 3 nodes, at least 1 evidence row per node, and a non-empty <code>theme</code> field. <code>transcript-mining</code> tightens the evidence floor to 2 and the node floor to 4. <code>behavioural-personas</code> requires 2 evidence rows per persona, a non-empty <code>goal</code>, and rejects demographic description as a defining basis. The manifest is the contract. The write path enforces it.</p>
+
+  <div class="code-label">artifact-write.failure.json</div>
+  <pre><code>{
+  "accepted": false,
+  "status": "draft",
+  "artifact": {
+    "id": "2f537689386e439abd3ae43769ab710c",
+    "kind": "journey-map",
+    "methodId": "journey-from-transcripts",
+    "status": "draft",
+    "check": {
+      "pass": false,
+      "failures": [
+        {
+          "rule": "min-nodes",
+          "message": "expected at least 3 nodes, found 1"
+        },
+        {
+          "rule": "min-evidence-per-node",
+          "nodeId": "transfer",
+          "message": "node \"transfer\" cites 0 evidence refs, needs 1"
+        },
+        {
+          "rule": "field-non-empty",
+          "nodeId": "transfer",
+          "message": "node \"transfer\" field \"touchpoint\" must be non-empty"
+        }
+      ]
+    }
+  },
+  "failures": [
+    "expected at least 3 nodes, found 1",
+    "node \"transfer\" cites 0 evidence refs, needs 1",
+    "node \"transfer\" field \"touchpoint\" must be non-empty"
+  ]
+}</code></pre>
+
+  <p>The subtle point is the status line. Even a structurally accepted artifact remains <code>draft</code> until the review gate is cleared. So ASD really has three observable moments even though it exposes two statuses: a failed draft, an accepted draft, and a final artifact. That middle state matters. It means the method contract passed, but the Critic has not yet granted promotion.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> Draft does not mean disposable. If you treat drafts like scratchpads, you lose the audit trail that explains why the eventual final looked the way it did.</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Rule</th>
+        <th>What it protects</th>
+        <th>Typical failure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>min-nodes</code></td>
+        <td>Prevents tiny artifacts from pretending to cover a system.</td>
+        <td>A journey with one stage, a research plan with one activity, a persona set with one persona.</td>
+      </tr>
+      <tr>
+        <td><code>min-evidence-per-node</code></td>
+        <td>Prevents unsupported claims inside otherwise well-formed artifacts.</td>
+        <td>A pain point with zero quotes, a persona defined by one anecdote, a gap row citing nothing.</td>
+      </tr>
+      <tr>
+        <td><code>field-non-empty</code></td>
+        <td>Prevents placeholder semantics from slipping into delivery.</td>
+        <td><code>touchpoint: ""</code>, <code>theme: "tbd"</code>, <code>lane: "n/a"</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Because the failure report stays attached, remediation gets precise. I do not ask an agent to "improve the journey." I tell it to rewrite artifact <code>2f537689386e439abd3ae43769ab710c</code>, add evidence to node <code>transfer</code>, fill <code>touchpoint</code>, and bring the node count above the floor. Specificity is the reward for preserving the failure instead of hiding it.</p>
+
+<h3 id="s-04-4">The Critic on the Write Path: Pass, Veto, and <code>review-veto-log</code></h3>
+
+<p>Acceptance is necessary. It is not sufficient. A journey can meet its node floor and still propose a fantasy. A blueprint can cite real evidence and still violate an operational constraint hidden in a document row. That is why ASD makes review a data structure, not an opinion. If a method declares <code>reviewGate: critic</code>, the artifact is only final after <code>asd review</code> returns a valid verdict.</p>
+  <p>A pass is stricter than people expect. It still needs evidence-cited rows. You do not get to pass with an empty array because "everything looked fine." The minimum honest pass is an evidence-cited proposal row. A veto is stricter still. It needs at least one defect row, and every defect row needs a fix. That is what turns review from hand-waving into an executable remediation loop.</p>
+
+  <div class="code-label">terminal / asd review</div>
+  <pre><code>asd review --projectId lighthouse-transit-f7e5f8a2   --artifactId 2f537689386e439abd3ae43769ab710c   --verdict veto   --rows '[
+    {
+      "rowKind": "defect",
+      "severity": "high",
+      "rule": "evidence-sufficiency",
+      "message": "The missed-connection node needs the roster-constraint document cited alongside the rider quotes; without it the 3-minute connection fix looks feasible and is not.",
+      "fix": "Cite rosters-07 on the transfer node.",
+      "evidenceId": "ebc691cacc31cf5fb2db2f3c8347e5e085690a0971b0d3ca4d104a6e150fdc6a"
+    }
+  ]'</code></pre>
+
+  <div class="code-label">review-veto-log.json</div>
+  <pre><code>{
+  "id": "a3c09c90fdb24c49be6efd1c1a58ce43",
+  "kind": "review-veto-log",
+  "title": "Review: Current-state journey",
+  "status": "final",
+  "reviewOf": "2f537689386e439abd3ae43769ab710c",
+  "nodes": [
+    {
+      "id": "r1",
+      "label": "The missed-connection node needs the roster-constraint document cited first.",
+      "evidence": [
+        {
+          "evidenceId": "ebc691cacc31cf5fb2db2f3c8347e5e085690a0971b0d3ca4d104a6e150fdc6a"
+        }
+      ],
+      "fields": {
+        "rowKind": "defect",
+        "severity": "high",
+        "rule": "evidence-sufficiency",
+        "message": "The missed-connection node needs the roster-constraint document cited alongside the rider quotes; without it the 3-minute connection fix looks feasible and is not.",
+        "fix": "Cite rosters-07 on the transfer node."
+      }
+    }
+  ]
+}</code></pre>
+
+  <p>This artifact is administrative, and that is an important distinction. A <code>review-veto-log</code> is part of the runtime registry, but it is not one of the flagship fillable templates. It exists because governance itself needs evidence. The Critic's row is not a Slack comment. It is a final artifact linked by <code>reviewOf</code> to the artifact it judged. On a later pass, ASD reuses that same log artifact and appends the new rows so the story stays continuous.</p>
+  <p>Promotion therefore becomes exact. Failed acceptance yields <code>draft</code>. Accepted write still yields <code>draft</code>. Critic veto yields <code>draft</code> plus a final <code>review-veto-log</code>. Critic pass may promote the artifact to <code>final</code>. Nothing else does.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> The Critic becomes politically useful the moment its veto stops sounding like preference. If the row says which evidence id blocks the claim and which fix would satisfy the gate, the conversation changes from argument to workmanship.
+  </div>
+
+<h3 id="s-04-5">The Fact-Check Triad and Why CI Trusts Exit Codes</h3>
+
+<p>The platform's final mechanical witness is <code>asd factcheck</code>. It replays the project as it exists now, not as it was when a role first wrote an artifact. That distinction matters. A manifest may tighten later. A bad ref may have slipped into an older file. A human may have copied something around the edges. <code>factcheck</code> does not care about excuses. It re-runs three tests for every artifact: integrity, acceptance, and review.</p>
+  <p><strong>Integrity</strong> asks whether every cited evidence id resolves. <strong>Acceptance</strong> re-runs the method's rules against the live registry. <strong>Review</strong> checks that any artifact claiming <code>final</code> under a gated method actually carries a pass verdict. Drafts can remain drafts honestly. Failed finals cannot sneak through.</p>
+
+  <div class="code-label">terminal / asd factcheck</div>
+  <pre><code>asd factcheck --projectId lighthouse-transit-f7e5f8a2</code></pre>
+
+  <div class="code-label">factcheck-report.json</div>
+  <pre><code>{
+  "pass": false,
+  "rows": [
+    {
+      "artifactId": "2f537689386e439abd3ae43769ab710c",
+      "kind": "journey-map",
+      "status": "draft",
+      "integrity": {
+        "pass": true,
+        "dangling": []
+      },
+      "acceptance": {
+        "pass": false,
+        "failures": [
+          "node \"transfer\" cites 0 evidence refs, needs 1"
+        ]
+      },
+      "review": {
+        "pass": true,
+        "gate": "critic",
+        "verdict": null
+      },
+      "methodId": "journey-from-transcripts",
+      "methodResolution": "recorded"
+    }
+  ]
+}</code></pre>
+
+  <p>The row tells me exactly why the build is red, but CI does not even need to read the JSON. It reads the exit code. When <code>pass</code> is false, <code>asd factcheck</code> exits 1. That single design choice turns service-design rigor into an enforceable delivery gate. A project cannot talk its way into green. It must satisfy the replay.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A green-looking report is theater if the command still exits 1. CI reads the exit code, not the meeting energy.</div>
+
+  <p>This is also where the platform's honesty shows. A draft is allowed to exist. A veto log is allowed to exist. Open work is allowed to exist. What is not allowed is pretending that open work is ready for export, phase movement, or executive reporting. The six report kinds render deterministically, but only from what the store can defend.</p>
+
+<h3 id="s-04-6">Human Phase Gates, Approval Receipts, and the Boundary of Authority</h3>
+
+<p>After all that machinery, the most important rule is still human. ASD does not infer approval from a passing artifact. It does not promote a project because the Critic was satisfied. It does not let ACP pretend to authorize work. Only a human phase gate moves the project from discover to define, define to develop, or develop to deliver, and that move must carry an approval receipt.</p>
+  <p>The receipt is the antidote to fuzzy governance. Somebody approved. Somebody stated a rationale. Somebody put a timestamp on it. The command is idempotent because gates are too serious to duplicate casually.</p>
+
+  <div class="code-label">approval-receipt.json</div>
+  <pre><code>{
+  "receiptId": "gate-discover-1",
+  "decision": "approve",
+  "rationale": "Discover evidence and synthesis are complete; the open risks are documented for Define.",
+  "approvedBy": "service-lead",
+  "approvedAt": "2026-08-22T12:00:00Z"
+}</code></pre>
+
+  <div class="code-label">terminal / asd phase-advance</div>
+  <pre><code>asd phase-advance --projectId lighthouse-transit-f7e5f8a2   --toPhase define   --idempotencyKey gate-discover-1   --approvalReceipt '{
+    "receiptId": "gate-discover-1",
+    "decision": "approve",
+    "rationale": "Discover evidence and synthesis are complete; the open risks are documented for Define.",
+    "approvedBy": "service-lead",
+    "approvedAt": "2026-08-22T12:00:00Z"
+  }'</code></pre>
+
+  <p>In practice the tool also protects the shape of the gate. The transition must be legal. The receipt must be non-empty and well formed. The project must have at least one design artifact, passing <code>factcheck</code>, and no unresolved Critic veto standing in the way. That is why phase change belongs to the Orchestrator plus a human authority, not to whichever role happens to be loudest. The system can prepare the case; it cannot sign its own release.</p>
+  <p>This is also the point where ACP's boundary matters. <code>asd-acp/1</code> is record-only. It can log a human gate, a handoff, an unsupported dispatch, or a Critic veto. It cannot promote a phase by narrative implication. BUZZ messages are not ACP transport. DSH UI events are not ACP transport. A host may present the gate beautifully, but the durable project truth is still the gate record.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> I do not want a platform that sounds decisive. I want one that knows exactly where its authority ends. ASD earns trust because it is willing to stop at the human gate and wait for a named person to own the call.</div>
+
+  <p>Put all of this together and the chapter's thesis becomes simple. Agents can discover, cluster, map, critique, and render. They cannot improvise the evidence, waive the acceptance floor, erase a veto, fake a fact-check, or authorize the next phase. That is why ASD stays useful under pressure. The platform is opinionated about what must be true before design becomes durable, and it keeps those truths inspectable all the way down to the row.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="03.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 03</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 03</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</p>
+        </div>
+      </div>
+    </a>
+    <a href="05.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 05</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 05</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Two hundred interviews, one agent team</p>
+        </div>
+        <a href="05.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

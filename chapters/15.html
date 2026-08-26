@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Transformative Services, Behavior Change &amp; Recovery Engineering - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-15" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 15</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Transformative Services, Behavior Change &amp; Recovery Engineering</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Designing for change and for failure</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">14 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-15-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Transformative services start in daily life, not in the app</a>
+        <a href="#s-15-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Design the behavior architecture at Sprout, including the relapse path</a>
+        <a href="#s-15-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Recovery is a service in its own right</a>
+        <a href="#s-15-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Aria Telecom: use service-recovery-design to engineer trust after failure</a>
+        <a href="#s-15-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Sprout and Aria are the same design challenge seen from opposite ends</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-15-1" data-section="s-15-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Transformative services start in daily life, not in the app</span></a>
+          <a href="#s-15-2" data-section="s-15-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Design the behavior architecture at Sprout, including the relapse path</span></a>
+          <a href="#s-15-3" data-section="s-15-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Recovery is a service in its own right</span></a>
+          <a href="#s-15-4" data-section="s-15-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Aria Telecom: use service-recovery-design to engineer trust after failure</span></a>
+          <a href="#s-15-5" data-section="s-15-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Sprout and Aria are the same design challenge seen from opposite ends</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-15-1" data-section="s-15-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Transformative services start in daily life, not in the app</span></a>
+          <a href="#s-15-2" data-section="s-15-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Design the behavior architecture at Sprout, including the relapse path</span></a>
+          <a href="#s-15-3" data-section="s-15-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Recovery is a service in its own right</span></a>
+          <a href="#s-15-4" data-section="s-15-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Aria Telecom: use service-recovery-design to engineer trust after failure</span></a>
+          <a href="#s-15-5" data-section="s-15-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Sprout and Aria are the same design challenge seen from opposite ends</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-15-1">Transformative services start in daily life, not in the app</h3>
+
+<p>When a service claims to change behavior, I ask one blunt question: where does the real work happen? If the honest answer is &ldquo;inside the user&rsquo;s life,&rdquo; then the design job changes immediately. I stop optimizing clicks and start examining routines, friction, support systems, shame triggers, energy levels, and the practical resources a person can bring to the service. A member trying to improve metabolic health at 02:00 during a warehouse break is dealing with a very different service reality from the one implied by a polished onboarding deck.</p>
+  <p>That is why transformative service design pushes me beyond narrow engagement metrics. Sprout&rsquo;s old programme looked active on the dashboard. Articles were opened. Reminders were sent. Meals were logged. None of that proved the service was expanding the member&rsquo;s actual capability to make healthier choices under the conditions of ordinary life. In practice, the old design extracted labor from members before it returned enough value. That is the clearest sign of a weak transformative service. It confuses compliance with progress.</p>
+  <p>I prefer a different framing. The member is the hero. The service is a mentor with tools, prompts, scripts, and human support. The point is not to keep the member engaged with the product forever. The point is to help the member build enough capability that the product can fade into the background when appropriate. That means my design lens shifts from content delivery to value-in-use. What does the member need in the specific context of shift work, childcare, low energy, or health anxiety? What kind of support can actually fit there?</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Old behavior-change mistake</th>
+        <th>What it sounds like</th>
+        <th>Transformative redesign move</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Product as hero</td>
+        <td>&ldquo;Use the programme more and outcomes will follow&rdquo;</td>
+        <td>Member states the reason for change in their own words</td>
+      </tr>
+      <tr>
+        <td>Co-production mistaken for value</td>
+        <td>&ldquo;Fill in more forms so we can help you&rdquo;</td>
+        <td>Strip busywork and support the moments where action is hard</td>
+      </tr>
+      <tr>
+        <td>One default rhythm for everyone</td>
+        <td>&ldquo;Check in every morning at 07:00&rdquo;</td>
+        <td>Design around the user&rsquo;s actual schedule and constraints</td>
+      </tr>
+      <tr>
+        <td>Relapse treated as user failure</td>
+        <td>&ldquo;You broke your streak&rdquo;</td>
+        <td>Build recovery as an expected branch of the service</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A transformative service should increase the user&rsquo;s real options in daily life. If the service only increases reporting effort, it is subtracting value.</div>
+
+  <p>Sprout Wellness is the clean example. The programme targeted metabolic-risk members through employers and referrals. The baseline told an uncomfortable story: low enrolment from eligible lists, weak week-12 completion, and very poor recovery after the first missed check-in. The data did not point to a motivation deficit alone. It pointed to unstable contexts: night shifts, parenting load, post-screening anxiety, confusing handoffs between app, coach, employer, and clinician. Once I looked through that lens, the redesign problem stopped being &ldquo;How do we get them to engage more?&rdquo; and became &ldquo;How do we help them keep moving when real life breaks the ideal plan?&rdquo;</p>
+  <p>That framing also changes the language I tolerate. I do not accept segmentation labels such as &ldquo;non-compliant members.&rdquo; I treat them as design failures disguised as user traits. If a service punishes ordinary human disruption, then the service is brittle. Sprout improved as soon as the team named the problem honestly: relapse-prone context, not deficient users.</p>
+
+  <div class="callout"><strong>My take:</strong> The phrase &ldquo;behavior change&rdquo; often smuggles in a fantasy of total control. I am designing for support, timing, and recovery. Human beings still own the decision to act. Good services respect that.</div>
+
+<h3 id="s-15-2">Design the behavior architecture at Sprout, including the relapse path</h3>
+
+<p>Once the daily ecology is clear, I need an intervention architecture. That is where behavior techniques become useful, but only if they are wired into the service rather than sprinkled as motivational flavor. At Sprout, the team mapped touchpoints to explicit behavior-change techniques, then reviewed the map with clinical guardrails in place. ASD makes that operationally manageable. Claude Code drafted the first pass. Codex challenged the labels, the claims, and any copy that sounded like diagnosis or coercion. Humans kept the boundary between coaching and medicine intact.</p>
+
+  <div class="code-label">bct-touchpoint-map.json</div>
+  <pre><code>{
+  "programme": "steady-habits-v2",
+  "touchpoints": [
+    {
+      "week": 1,
+      "touchpoint": "goal-setting session",
+      "bct": "goal setting (behavior)",
+      "mechanism": "translate personal reason into one minimum viable habit and one stretch habit",
+      "required_human_gate": "coach"
+    },
+    {
+      "week": 4,
+      "touchpoint": "first lapse recovery",
+      "bct": "problem solving",
+      "mechanism": "offer a smaller restart action within 72 hours",
+      "required_human_gate": "coach or clinician if risk flag present"
+    },
+    {
+      "week": 8,
+      "touchpoint": "high-risk moment rehearsal",
+      "bct": "action planning",
+      "mechanism": "name the barrier before it happens and script the fallback",
+      "required_human_gate": "coach"
+    }
+  ]
+}</code></pre>
+
+  <p>The key design move at Sprout was refusing to build the programme around a streak. Streaks are seductive because they are legible, easy to instrument, and emotionally punchy. They are also dangerous in a high-friction context. For a member already dealing with shame or unstable routines, the broken streak can become the real event. The service stops supporting change and starts narrating failure. I replaced that logic with a dual-goal model: one minimum viable habit and one stretch habit. The minimum viable habit preserved identity and continuity when life went sideways. The stretch habit preserved ambition when the member had more capacity.</p>
+  <p>Then I designed relapse as a planned branch, not an exception. The old service escalated reminders when a check-in was missed. The redesigned service changed tone and action. It detected the lapse, paused the assumption of normal cadence, and offered a smaller restart within seventy-two hours. Coaches used scripts that asked for context before advice. If a member disclosed a symptom, concerning reading, or anything that crossed the coaching boundary, the system followed a pause-and-refer path. That rule is simple. It matters. Transformative service design becomes reckless the moment automation starts imitating clinical judgment it does not hold.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Service moment</th>
+        <th>Old Sprout pattern</th>
+        <th>Redesigned pattern</th>
+        <th>What changed operationally</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Invite</td>
+        <td>Generic wellness challenge copy</td>
+        <td>Member-centered reason for change and plain-language invitation</td>
+        <td>Enrollment improved because the service sounded relevant</td>
+      </tr>
+      <tr>
+        <td>Week 1 setup</td>
+        <td>Long intake plus lesson dump</td>
+        <td>One minimum viable habit, one stretch habit, coach framing</td>
+        <td>Lower onboarding burden and clearer action</td>
+      </tr>
+      <tr>
+        <td>Mid-programme lapse</td>
+        <td>Louder reminders and shame cues</td>
+        <td>Smaller restart goal plus contextual problem solving</td>
+        <td>Recovery within 7 days increased sharply</td>
+      </tr>
+      <tr>
+        <td>Safety edge</td>
+        <td>Coach improvisation</td>
+        <td>Pause-and-refer branch with named clinical review</td>
+        <td>Claims and risk handling stayed bounded</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The operational effects were substantial because the redesign respected how people actually live. Enrollment rose because the invite connected to lived reasons, not abstract health goals. Week-12 completion improved because the service reduced cognitive burden early. Recovery improved because members were offered a route back that preserved dignity. Employers finally got a better answer to their ROI question because the service was built around meaningful progression instead of vanity engagement.</p>
+  <p>I also want to stress the role of coaches here. AI helped with mapping, script drafting, simulation, and weekly reporting. It did not eliminate the need for human support. In a transformative service, human judgment often becomes more important because the automation can now do the repetitive work and surface the moments where nuance is required. That is a better use of both technology and people.</p>
+
+<h3 id="s-15-3">Recovery is a service in its own right</h3>
+
+<p>Now flip the problem. Instead of helping a person build a new capability, imagine the service has already failed. The user has been double-billed, left in outage silence, or bounced across channels while trying to complain. Most organizations still treat recovery as an administrative afterthought. I treat it as a designed experience with its own journey, standards, scripts, and economics. Once I do that, the same service-design instincts return: map the lived pain, identify the trigger conditions, write the response path, and link the recovery moment back into the system that caused it.</p>
+  <p>Aria Telecom made this unavoidable. The service estate was fragmented across billing, network operations, retail, app support, reseller care, and regulatory handoff. Subscribers experienced the seams. Complaint handling behaved like six small services pretending to be one. The baseline numbers were ugly: weak first-contact resolution, long closure times, high reopen rates, and a loyalty penalty after complaint. The recovery process itself was becoming a second failure.</p>
+  <p>I frame recovery around justice because queue metrics alone are too shallow. Procedural justice asks whether the process feels navigable and sane. Interactional justice asks whether the user is treated with respect and honest ownership. Distributive justice asks whether the outcome feels fair relative to the harm. Once those dimensions are explicit, the design work becomes clearer. A subscriber who repeats the same story across three channels is suffering a procedural failure. An apology with no action owner is an interactional failure. Inconsistent compensation for the same billing defect is a distributive failure.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Recovery is complete only when the user knows what happens next, why it is fair, and whether the fix actually held.</div>
+
+  <p>This is where ASD&rsquo;s <code>service-recovery-design</code> method becomes useful. The method expects an evidence set of complaint transcripts or failure records, clusters the recurring scenarios, and outputs a <code>recovery-playbook</code>. The acceptance rules require each node to carry a non-empty trigger, a response that is not a placeholder, and at least one evidence reference. I like this because it blocks a very common executive fantasy: writing generic apology copy and calling it recovery design. Recovery design begins with recurring failure scenarios and the conditions that should activate the response.</p>
+
+  <div class="code-label">recovery-playbook.yml</div>
+  <pre><code>playbook: aria-recovery-v1
+scenarios:
+  - id: duplicate-bill-shock
+    trigger: "billing ledger shows duplicate charge and customer contact is confirmed"
+    response: "freeze collection risk, acknowledge the duplicate charge plainly, issue due-by time, investigate ledger, compensate after correction based on policy"
+    evidence:
+      - complaint_cluster_billing_04
+  - id: outage-silence
+    trigger: "network incident exceeds the status heartbeat threshold without customer update"
+    response: "send proactive progress update, give next confirmed check-in window, offer assisted path for vulnerable customers"
+    evidence:
+      - complaint_cluster_outage_02
+  - id: reseller-ping-pong
+    trigger: "customer has been redirected between Aria and reseller more than once in 48 hours"
+    response: "assign named owner inside Aria, own the next step, and resolve channel boundary internally"
+    evidence:
+      - complaint_cluster_reseller_03</code></pre>
+
+  <p>Notice what is doing the work there. The trigger. Without triggers, recovery playbooks drift into nice-sounding guidance that nobody can execute consistently. With triggers, the playbook becomes operational. A certain pattern in the complaint record activates a named response. That response can still involve human judgment, especially on compensation or vulnerability. It is no longer vague.</p>
+
+  <div class="callout"><strong>My take:</strong> An apology is not a recovery plan. I want action ownership, a due-by time, a fairness rationale, and proof that the issue held after the first fix. Anything less is public relations.</div>
+
+<h3 id="s-15-4">Aria Telecom: use <code>service-recovery-design</code> to engineer trust after failure</h3>
+
+<p>The Aria redesign began with complaint mining. The full complaint archive gave us the scale. Case listening and review gave us the texture. ASD made the handoff clean: the evidence set could support clustering, scenario definition, and playbook authoring instead of leaving the team buried in anecdotes. We identified recurring failure scenarios that mattered both operationally and emotionally: duplicate bill shock, outage silence, reseller ping-pong, vulnerable-customer dead ends, and status opacity during investigation.</p>
+  <p>From there, <code>service-recovery-design</code> imposed welcome discipline. Each recovery scenario needed a trigger, a response, and evidence. That sounds obvious. Most organizations do not do it. They have policy matrices, scripts, and compensation rules scattered across teams, then wonder why the customer experience feels random. The method forced the pieces into one executable shape. Once the clustered scenarios existed, the team could design consistent first moves, escalation conditions, and follow-through expectations.</p>
+  <p>The most important service rule at Aria was simple: fix first, then compensate, then prove the fix held. Compensation without correction produced false closure. Correction without communication felt cold. Communication without ownership felt manipulative. The redesigned playbooks therefore tied operational action to copy and to evidence. A billing case acknowledged the probable duplicate charge plainly, froze collection risk, stated the due-by time, and only then moved into compensation logic once the ledger issue was confirmed. An outage case required proactive status heartbeats before the subscriber needed to chase. A reseller ping-pong case forced Aria to internalize the channel boundary rather than making the subscriber pay for it again.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Justice gap</th>
+        <th>Trigger</th>
+        <th>Required recovery move</th>
+        <th>Measure that proves it improved</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Duplicate bill shock</td>
+        <td>Distributive + interactional</td>
+        <td>Verified duplicate charge pattern</td>
+        <td>Freeze risk, plain-language ownership, correction before compensation</td>
+        <td>Reopen rate and fairness score</td>
+      </tr>
+      <tr>
+        <td>Outage silence</td>
+        <td>Procedural</td>
+        <td>Elapsed time without status update during active incident</td>
+        <td>Proactive heartbeat with next check-in window</td>
+        <td>Status-chasing contacts and CES</td>
+      </tr>
+      <tr>
+        <td>Reseller ping-pong</td>
+        <td>Procedural + interactional</td>
+        <td>More than one redirect between parties</td>
+        <td>Named owner inside Aria takes control of next step</td>
+        <td>Named-owner-in-1-day and escalations</td>
+      </tr>
+      <tr>
+        <td>Vulnerable-customer dead end</td>
+        <td>All three</td>
+        <td>Vulnerability flag plus unresolved case age threshold</td>
+        <td>Assisted path with tighter handoff limit and higher compensation authority</td>
+        <td>Handoffs per case and closure time</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Aria also proved why empowerment belongs inside service design, not after it. Frontline teams were given bounded authority to apply compensation within clear bands on approved scenarios. That is an organizational design decision disguised as an operational one. Without it, the service still bottlenecks on supervisors and the interactional damage persists. The playbook, the copy system, the compensation matrix, and the root-cause loop have to align. Otherwise the agent says the right thing while the organization does the slow old thing underneath.</p>
+  <p>The root-cause loop is where recovery engineering becomes strategic rather than merely compassionate. Every resolved complaint fed back into the recurrence view. Weekly Pareto reviews sent the largest failure clusters back to billing, network, or reseller operations. That closes the loop between individual recovery and system repair. If complaint handling stops at appeasement, the service remains broken. If it routes the evidence back into the production system, the service learns.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> Do not let a recovery programme optimize closure time alone. A complaint can close quickly and still feel unfair, unresolved, or likely to recur. That is cosmetic efficiency.</div>
+
+<h3 id="s-15-5">Sprout and Aria are the same design challenge seen from opposite ends</h3>
+
+<p>Sprout and Aria look like different worlds. One is preventive health coaching. The other is telecom complaint handling. I group them together because both forced the service to deal honestly with disruption. Sprout had to support people through relapse without turning the service punitive. Aria had to support customers through service failure without turning the recovery path into a second insult. In both cases, the design quality lived in the branch conditions, the scripts, the timing, and the human authority structures.</p>
+  <p>The numbers tell the story quickly. Sprout improved enrollment, week-12 completion, and recovery after the first lapse because the service was redesigned around capability and dignity. Aria improved first-contact resolution, closure time, and repeat-complaint rates because the recovery path finally had triggers, ownership, and justice built into it. Neither outcome came from clever interface polish alone. Both came from treating the service as an operating system with explicit methods, evidence, and gates.</p>
+  <p>I take a practical lesson from that. If a service promises human change, I design the relapse path early. If a service will inevitably fail sometimes, I design the recovery path early. Waiting until after launch to discover how the system handles disruption is one of the most expensive habits in service design. ASD gives me a better pattern. Use evidence to define the scenarios. Use methods such as <code>service-recovery-design</code> to force triggers and responses into the artifact. Use critique to keep weak or unsafe branches from sneaking through. Then measure whether the service actually helps a person recover motion.</p>
+  <p>That last phrase matters to me. Recover motion. In Sprout, motion meant helping the member restart a habit after an ordinary life disruption. In Aria, motion meant helping the subscriber regain trust and progress after the service had stalled. I want my services to be good at that moment because that is where people decide whether the system is on their side.</p>
+  <p>Behavior change and recovery engineering therefore belong together. They both reject the fantasy of a frictionless human. They both assume context will bite. They both reward services that respond with clarity, proportionality, and practical next steps. When I design them well, the user feels supported rather than judged, and the organization learns where its own operating model still creates avoidable harm. That is the kind of design leverage I care about.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="14.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 14</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 14</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</p>
+        </div>
+      </div>
+    </a>
+    <a href="16.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 16</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service Quality Management &amp; CX Maturity Governance</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 16</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service Quality Management &amp; CX Maturity Governance</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Service Quality Management &amp; CX Maturity Governance</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">From projects to permanent capability</p>
+        </div>
+        <a href="16.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

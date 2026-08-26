@@ -1,0 +1,39 @@
+# The Agentic Designer
+
+> *The Agentic Designer* is a comprehensive guide to how AI agents, design-as-code, Model Context Protocol (MCP), and multi-agent systems are transforming product design. Written by Mehran Mozaffari (AI Operator & Systems Designer based in Sydney, Australia), the book is free for personal use under a CC BY-NC-SA 4.0 license.
+
+## Core Resources
+*   **Official Website**: [https://piazr.github.io/the-agentic-designer/](https://piazr.github.io/the-agentic-designer/) - Read the full book online.
+*   **Book Repository**: [https://github.com/imehr/the-agentic-designer](https://github.com/imehr/the-agentic-designer) - Download the book's source HTML, PDF, and EPUB files.
+*   **Website Repository**: [https://github.com/Piazr/the-agentic-designer](https://github.com/Piazr/the-agentic-designer) - Repository for the preview website.
+
+## Front Matter
+*   [Preface](https://piazr.github.io/the-agentic-designer/chapters/preface.html): Context, background, and author's overview of AI's inflection point.
+*   [Copyright & License](https://piazr.github.io/the-agentic-designer/chapters/copyright.html): Licensing terms, attribution, and permissions guidelines.
+
+## Part I: Foundations (The Agentic Design Paradigm)
+*   [Chapter 01: The Agentic Design Paradigm](https://piazr.github.io/the-agentic-designer/chapters/01.html): The shift from mouse-driven GUI canvases to programmatic, natural-language agent loops.
+*   [Chapter 02: Your Agent Toolkit](https://piazr.github.io/the-agentic-designer/chapters/02.html): Setting up and running Claude Code, Codex CLI, OpenCode, and Gemini CLI.
+*   [Chapter 03: Teaching Agents to Design](https://piazr.github.io/the-agentic-designer/chapters/03.html): Customizing agent context using CLAUDE.md, AGENTS.md, and standard SKILL.md files.
+*   [Chapter 04: Design-as-Code](https://piazr.github.io/the-agentic-designer/chapters/04.html): Managing design systems as versioned, diffable text structures (JSON/CSS).
+
+## Part II: Tools & Workflows (The Connected Canvas)
+*   [Chapter 05: Paper and Pencil](https://piazr.github.io/the-agentic-designer/chapters/05.html): Using Paper and Pencil design tool frameworks for agent-driven canvas workflows.
+*   [Chapter 06: Open Design and OpenPencil](https://piazr.github.io/the-agentic-designer/chapters/06.html): Integrating Open Design vectors and .op file specifications.
+*   [Chapter 07: Huashu Design](https://piazr.github.io/the-agentic-designer/chapters/07.html): Scaffolding and executing visual changes with the Huashu Design interface.
+*   [Chapter 08: Design Systems and Tokens](https://piazr.github.io/the-agentic-designer/chapters/08.html): Expressing brand styles as JSON design tokens that agents can parse and execute.
+
+## Part III: Advanced Topics (From Motion to Multi-Agent)
+*   [Chapter 09: Motion and Video](https://piazr.github.io/the-agentic-designer/chapters/09.html): Generating programmatic motion graphics and video layouts with Remotion and Hyperframes.
+*   [Chapter 10: MCP Integrations](https://piazr.github.io/the-agentic-designer/chapters/10.html): Connecting agents to Figma, Miro, and external design canvases using Model Context Protocol (MCP).
+*   [Chapter 11: Multi-Agent Design Teams](https://piazr.github.io/the-agentic-designer/chapters/11.html): Coordinating specialized agent swarms to execute concurrent layout and styling tasks.
+*   [Chapter 12: Production UI from Design](https://piazr.github.io/the-agentic-designer/chapters/12.html): Closing the loop between canvas blueprints and production-ready React/HTML layouts.
+
+## Part IV: Practice & Outlook
+*   [Chapter 13: Real-World Case Studies](https://piazr.github.io/the-agentic-designer/chapters/13.html): Four detailed industry case studies showcasing successful and failed agentic design workflows.
+*   [Chapter 14: The Future of Agentic Design](https://piazr.github.io/the-agentic-designer/chapters/14.html): Trends, projections for 2027–2028, autonomous pipelines, and systemic risks.
+
+## Appendices
+*   [Appendix A: Tool Comparison Matrix](https://piazr.github.io/the-agentic-designer/chapters/A.html): Feature-by-feature matrix comparison of all main visual and canvas toolkits.
+*   [Appendix B: MCP Server Reference](https://piazr.github.io/the-agentic-designer/chapters/B.html): Sample configurations and parameters for connecting Figma and Miro MCP servers.
+*   [Appendix C: Prompt Library](https://piazr.github.io/the-agentic-designer/chapters/C.html): Battle-tested prompt recipes for landing pages, layouts, and component generation.

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The 15 Principles of Good Public Services - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-23" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 23</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The 15 Principles of Good Public Services</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Lou Downe's bar, enforced by machine checks</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">12 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-23-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Why Good Services Matters More With Agents</a>
+        <a href="#s-23-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Fifteen Principles as Checks</a>
+        <a href="#s-23-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Running good-services-audit</a>
+        <a href="#s-23-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Fernwood Council Phase 2</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-23-1" data-section="s-23-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why Good Services Matters More With Agents</span></a>
+          <a href="#s-23-2" data-section="s-23-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Fifteen Principles as Checks</span></a>
+          <a href="#s-23-3" data-section="s-23-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Running good-services-audit</span></a>
+          <a href="#s-23-4" data-section="s-23-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Fernwood Council Phase 2</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-23-1" data-section="s-23-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why Good Services Matters More With Agents</span></a>
+          <a href="#s-23-2" data-section="s-23-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Fifteen Principles as Checks</span></a>
+          <a href="#s-23-3" data-section="s-23-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Running good-services-audit</span></a>
+          <a href="#s-23-4" data-section="s-23-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Fernwood Council Phase 2</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-23-1">Why Good Services Matters More With Agents</h3>
+
+<p>Agents amplify both quality and harm. If the underlying service is coherent, evidence-linked, and owned, they can make it easier to keep standards current, surface failures quickly, and route work across channels consistently. If the underlying service is weak, they accelerate the wrong thing: faster dead ends, more confident misinformation, smoother exclusions, and prettier versions of organizational confusion. Public service cannot afford that trade.</p>
+  <p>The Fernwood planning case made this concrete. Residents were not mainly asking for a prettier website. They wanted to know whether they needed permission, what documents were required, how long the route would take, what changed if the council asked for amendments, and why a decision had been made. The old service was legal enough to function, but not clear enough to trust. That distinction matters. A lawful service can still be a bad service.</p>
+  <p>Good Services gives the practice a bar that is human, operational, and politically grounded at the same time. Easy to find. Explains purpose. Sets expectations. Completes the outcome. Familiar. No prior knowledge required. Agnostic of organizational structure. Minimum possible steps. Consistent. No dead ends. Usable by everyone equally. Responds to change quickly. Explains why decisions are made. Easy to get human assistance. Requires the right knowledge from the user. I like this list because none of it is decorative. Every principle forces a service team to reveal whether it has designed the whole service or only one channel.</p>
+  <div class="callout"><strong>My take:</strong> The fastest way to spot fake service maturity is to ask whether the team can point to the artifact, evidence, owner, and gate for each principle. If they cannot, the principle is still a slogan.</div>
+  <p>ASD's contribution is not to replace the principles with a machine rubric. It is to make the principles operational enough that the machine can help enforce them. Principle 13, for example, does not become “write better copy.” It becomes a demand for a decision-explainer artifact, comprehension testing, and an owner who can remediate weak explanations. Principle 14 does not become “show a phone number somewhere.” It becomes a cross-channel requirement that human assistance is visible and joined to the same service state. That translation is where the work gets serious.</p>
+
+<h3 id="s-23-2">The Fifteen Principles as Checks</h3>
+
+<p>Fernwood treated each principle as a measurable property rather than an aspiration. That is the pattern I recommend everywhere in public service. Start with the principle. Translate it into one observable test in plain service language. Require evidence before a pass score. Link the principle row to the artifact that proves the response exists. Name the owner who can fix a failure. Then make the gate fail when evidence or ownership disappears. Principle, checklist, evidence, artifact, gate. That chain is what prevents public-service standards from turning into poster rhetoric.</p>
+
+<p>The principles also work well as a portfolio language because they cut across channels and departments. A team that scores only the web form will miss the call-centre script, the PDF letter, the assisted-digital route, the committee decision note, and the backlog rule that silently reintroduces the same burden next month. By forcing an artifact link and an owner per principle, the audit keeps the conversation whole-service. That is especially important in government, where a resident experiences one service while the organization experiences five directorates and three systems.</p>
+  <div class="code-label">good-services.scorecard-row.json</div>
+  <pre><code>{
+  "principle_id": "P13",
+  "principle": "Explains why decisions are made",
+  "observable_test": "A refused applicant can explain the decision, evidence, and next step in plain language.",
+  "evidence_ref": "quote:resident-test-08",
+  "artifact_ref": "decision-explainer-template",
+  "owner": "planning_service_owner",
+  "gate_status": "pass"
+}</code></pre>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Principle</th>
+        <th>Machine-checkable audit question</th>
+        <th>Typical proving artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Easy to find</td>
+        <td>Can users reach the service from natural-language search or the home entry point without insider vocabulary?</td>
+        <td>Navigation audit, findability test, search log</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Explains purpose</td>
+        <td>Can users state who the service is for and what it does after a short exposure?</td>
+        <td>Start-page comprehension test</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Sets expectations</td>
+        <td>Are time, cost, documents, stages, and likely next steps visible before commitment?</td>
+        <td>Checklist, route explainer, timeline artifact</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Completes the outcome</td>
+        <td>Does the service cover the whole user goal rather than ending at internal submission?</td>
+        <td>Journey map, service blueprint, end-state flow</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Works in a familiar way</td>
+        <td>Does the service reuse recognizable patterns instead of forcing relearning?</td>
+        <td>Pattern inventory, interaction review</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Requires no prior knowledge</td>
+        <td>Can a first-time user proceed without internal jargon, codes, or policy literacy?</td>
+        <td>Plain-language audit, first-time-user test</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Agnostic of organizational structures</td>
+        <td>Can the user complete the route without understanding departmental seams?</td>
+        <td>Service blueprint, seam audit</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Requires minimum possible steps</td>
+        <td>Have duplicate requests, avoidable loops, and unnecessary approvals been removed?</td>
+        <td>Step-count audit, backlog diff</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Consistent throughout</td>
+        <td>Do channels, documents, and messages agree on state, language, and next steps?</td>
+        <td>Cross-channel parity check</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Has no dead ends</td>
+        <td>Does every failure, timeout, and refusal route lead somewhere useful?</td>
+        <td>Unhappy-path specification</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Usable by everyone, equally</td>
+        <td>Do accessibility and assisted-digital routes offer comparable completion power?</td>
+        <td>Accessibility audit, assisted-digital walkthrough</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Responds to change quickly</td>
+        <td>Can the service handle amendments, updates, and reopened cases without restart?</td>
+        <td>Change-handling flow, SLA test</td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>Explains why decisions are made</td>
+        <td>Can users explain the decision, supporting evidence, and next step afterward?</td>
+        <td>Decision explainer, comprehension test</td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td>Easy to get human assistance</td>
+        <td>Is human help visible, reachable, and joined to the same service record?</td>
+        <td>Support script, shared timeline, escalation path</td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>Requires the right knowledge from the user</td>
+        <td>Does the service ask only for facts users can reasonably know?</td>
+        <td>Data-burden audit, form review</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>That table is intentionally blunt. It lets a team challenge weak claims immediately. “We improved findability” means nothing unless you can point to the search path and the task-success evidence. “We made it more inclusive” means nothing unless the assisted-digital route can complete the same outcome with the same underlying case state. “We explain decisions” means nothing unless users can actually explain them back.</p>
+
+<p>One practical benefit of this translation is that it gives multidisciplinary teams a shared argument surface. Content designers, policy leads, accessibility specialists, service owners, and engineers can disagree over one observable test instead of arguing from separate abstractions. That is a healthier conflict. It turns “this feels clearer” into “can a resident actually complete the route, explain the decision, and recover from failure?” Good public-service standards become stronger when the disagreement is forced down to evidence.</p>
+  <div class="code-label">planning-service-standard-gate.yaml</div>
+  <pre><code>name: planning-service-standard-gate
+checks:
+  - principles-register-complete
+  - accessibility-ci-pass
+  - unhappy-paths-covered
+  - decision-explainer-present-where-needed
+  - missing-owner-for-principle-regression
+fail_on:
+  - unsupported-pass-score
+  - inaccessible-core-task
+  - cross-channel-parity-gap</code></pre>
+  <p>Once the principles are expressed this way, the machine can do useful work without pretending to own public judgment. It can check whether the row exists, whether evidence is present, whether owners are named, whether unhappy paths are covered, whether accessibility CI passed, whether an unsupported pass score slipped in. What it cannot do alone is decide whether the service is politically just, proportionate, or trustworthy in a context where law, democratic accountability, and lived vulnerability collide. That remains human work, as it should.</p>
+
+<h3 id="s-23-3">Running <code>good-services-audit</code></h3>
+
+<p>The platform ships <code>good-services-audit</code> as a measurement-phase method, and it also carries a more explicit sibling called <code>good-services-audit-15</code>. For most teams the important point is the same: the audit is not a mood board. It consumes a live or shipped service blueprint or journey map plus post-launch feedback or support logs, then emits an <code>insight-set</code> that the Critic must review before it can become final. The runtime contract is intentionally tight. At least three nodes. At least one evidence reference per node. The <code>theme</code> field must be non-empty. Anything weaker stays draft.</p>
+
+<p>Teams often assume the audit belongs at the end of delivery, as if Good Services were a compliance stamp. Fernwood shows why that is too late. The most useful moment to run the audit is whenever a service definition, prototype, or standards pack could still be reshaped cheaply. In practice I use it in three modes. Early, as a baseline that exposes structural gaps. Midstream, as a design gate that blocks decorative progress. Late, as a governance instrument that proves whether the live service is actually honoring the bar it claims.</p>
+<p>That three-mode use is one reason the sibling methods coexist sensibly. <code>good-services-audit</code> is the general measurement instrument in the shipped library. <code>good-services-audit-15</code> is the more explicit fifteen-principle variant when the scorecard itself needs to be the direct working artifact. I would rather have both than force one method to pretend every public-service context is identical.</p>
+  <div class="code-label">good-services-audit.run.sh</div>
+  <pre><code>asd method-run --projectId fernwood --methodId good-services-audit
+asd artifact-write --projectId fernwood --kind insight-set --file audits/good-services-audit.json
+asd review --projectId fernwood --artifactId audit-015 --verdict pass --rows reviews/good-services-pass.json
+sd_factcheck fernwood</code></pre>
+  <p>I like this method because it keeps public-service quality from floating away from the operational record. The audit can start with a principles scorecard, but it has to end with evidence-cited findings that someone can act on. If Principle 10 fails, where is the dead end? Which screen, letter, or phone transfer created it? If Principle 15 fails, what internal knowledge is the resident being asked to supply? If Principle 12 is partial, which change route is still breaking? Those questions drive the artifact toward service repair instead of ceremonial scoring.</p>
+  <div class="code-label">good-services-audit.finding.yaml</div>
+  <pre><code>theme: decision-explanation
+principle_id: P13
+severity: high
+evidence_refs:
+  - quote:resident-test-08
+  - document:decision-letter-v2
+finding: Residents can repeat the decision outcome but not the reason chain or appeal route.
+recommended_artifact: decision-explainer-template
+owner: planning_service_owner</code></pre>
+  <p>The output being an <code>insight-set</code> is a smart choice. It means the audit does not pretend to be the final fix. It surfaces where the service violates the bar, cites evidence, and hands structured insight back to the practice. Mapper, Presenter, or Orchestrator can then turn those findings into blueprint changes, standards updates, backlog items, or a governance intervention. The audit is a measuring instrument, not a decorative certificate.</p>
+  <div class="warning"><strong>CAUTION:</strong> Never let a public-service audit pass on interface attractiveness alone. A principle can only pass when the evidence proves the service behaves that way in use.</div>
+  <p>The human checkpoint is equally important. Before the audit runs, the designer confirms scope, inputs, consent, and intended decision. Before handoff, the designer approves the evidence-backed findings and their open gaps. That is what keeps the method from drifting into automated scorekeeping detached from public consequences. Measurement is still design, not clerical work.</p>
+
+<h3 id="s-23-4">Case: Fernwood Council Phase 2</h3>
+
+<p>Fernwood's second-phase planning work is one of the clearest demonstrations in the book because it treats the fifteen principles as a live operating standard. The council did not simply list the principles in a deck. It translated each one into a row in a standards register with a test, evidence requirement, artifact link, owner, and merge gate. Then it redesigned the citizen account and planning route so those rows could actually pass.</p>
+  <p>Principle 3, “sets expectations,” became a requirement that the start page show route, drawings, fees, consultation, and end-to-end stages before the resident committed. Principle 13, “explains why decisions are made,” became a four-part explanation template tested with refused and conditioned applicants. Principle 14, “easy to get human assistance,” became a structural rule that phone and in-person advisers worked in the same draft and timeline as the digital route. That is the move I want every public-service team to copy. Translate principle language into service mechanics.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Principle focus</th>
+        <th>Before</th>
+        <th>After</th>
+        <th>What changed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>P3 Sets expectations</td>
+        <td>Residents entered with vague expectations about time, fees, and drawings.</td>
+        <td>Start page exposed route, documents, fees, and stages before start.</td>
+        <td>Checklist plus route explainer artifact</td>
+      </tr>
+      <tr>
+        <td>P13 Explains decisions</td>
+        <td>Legally sufficient letters, weak comprehension</td>
+        <td>Decision explainer paired reasons, evidence, and next step in plain language</td>
+        <td>New decision artifact plus comprehension test</td>
+      </tr>
+      <tr>
+        <td>P14 Human assistance</td>
+        <td>Phone help sat outside the digital record</td>
+        <td>Human support wrote into the same draft and timeline</td>
+        <td>Cross-channel parity rule</td>
+      </tr>
+      <tr>
+        <td>P12 Responds to change</td>
+        <td>Amendments disappeared into email</td>
+        <td>Planning changes improved, but cross-service propagation remained partial</td>
+        <td>Honest partial score instead of decorative pass</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>That last row is especially instructive. Fernwood did not claim perfection. Principle 12 remained partial because full cross-service propagation into council tax and waste was still on the roadmap. I trust that kind of scorecard more than a wall of passes. Public services earn legitimacy when they are explicit about what has improved, what is still partial, and what evidence would be required to claim more.</p>
+  <p>The before-and-after audit made the improvement visible without flattening it into one vanity number. Before redesign, the planning service was strong on statutory completion and weak on findability, expectation-setting, decision explanation, assisted digital, and right-knowledge burden. After redesign, the new planning route could credibly pass most principles because the artifacts, tests, and owners existed. Residents could find the service more easily. Decision explanations became understandable. Progress checks per case fell. Complaint pressure eased. None of that required mystical AI. It required disciplined service design with machine-checkable gates.</p>
+  <div class="callout"><strong>My take:</strong> In public service, honesty about a partial score is a quality signal. Decorative pass rates destroy trust faster than a visible unresolved gap.</div>
+  <p>Fernwood phase 2 is also a reminder that the principle bar applies to governance as well as interface copy. The planning committee chair, digital lead, and service owner all needed the same scorecard language so design, policy, and delivery could argue over one thing. That is why the standards register mattered so much. It gave the organization one public-service quality grammar instead of several competing interpretations of “good enough.” Once that grammar existed, GitHub issues, PR gates, accessibility checks, and decision-explainer reviews all pointed at the same standard rather than inventing their own.</p>
+  <p>The result was a service that became easier to govern because it became easier to inspect. Residents could find the route more easily. Officers could see which principle a change was meant to improve. The service owner could challenge a pass score that lacked evidence. And the design team could show why a partial remained partial instead of hiding behind optimism. That is exactly what machine-checkable quality should do in public service: make accountability more discussable.</p>
+  <p>Fernwood phase 2 also shows how the public-service standard interacts with ASD's wider loop. The evidence register grounded the claims. The standards register made the principles operational. The good-services audit surfaced remaining gaps. The Critic stopped unsupported pass scores. <code>sd_factcheck</code> forced integrity, acceptance, and review to agree before a human gate. In other words, the principles were not bolted on after delivery. They were woven into the method spine.</p>
+  <p>That is why this chapter matters beyond local government. Any organization delivering high-stakes, low-choice, multi-channel services can borrow the pattern. Take the fifteen principles. Write the observable tests. Require evidence before pass. Link the row to an artifact. Name the owner. Gate the merge. Then audit again after the prototype glow fades. Good services are good when the service can survive that audit repeatedly, across channels, owners, and political pressure. That is how a principle becomes a public operating standard instead of a slogan on the wall. It is also how design earns a durable seat in governance. Public trust gets a stronger operating basis.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="22.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 22</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Frontline Enablement &amp; Employee Experience</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 22</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Frontline Enablement &amp; Employee Experience</p>
+        </div>
+      </div>
+    </a>
+    <a href="24.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 24</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mastercase: Meridian Bay Ferries</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 24</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mastercase: Meridian Bay Ferries</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Mastercase: Meridian Bay Ferries</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">One fictional engagement across every surface</p>
+        </div>
+        <a href="24.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

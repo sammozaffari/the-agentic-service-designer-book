@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Research Ops at Scale: Mining Transcripts &amp; Field Inquiries - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-05" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 05</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Two hundred interviews, one agent team</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">13 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-05-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Real Bottleneck Is Not Interviewing. It Is Traceable Synthesis.</a>
+        <a href="#s-05-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Research Plans Are Typed Artifacts, Not Prelude Text</a>
+        <a href="#s-05-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Contextual Inquiry Turns Fieldwork into Evidence Instead of Folklore</a>
+        <a href="#s-05-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Transcript Mining, Coding Frames, and Honest Saturation</a>
+        <a href="#s-05-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case Spine: Calder's 200 Interviews and Aster Grove's Synthetic Setup</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-05-1" data-section="s-05-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Real Bottleneck Is Not Interviewing. It Is Traceable Synthesis.</span></a>
+          <a href="#s-05-2" data-section="s-05-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Research Plans Are Typed Artifacts, Not Prelude Text</span></a>
+          <a href="#s-05-3" data-section="s-05-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Contextual Inquiry Turns Fieldwork into Evidence Instead of Folklore</span></a>
+          <a href="#s-05-4" data-section="s-05-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Transcript Mining, Coding Frames, and Honest Saturation</span></a>
+          <a href="#s-05-5" data-section="s-05-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case Spine: Calder's 200 Interviews and Aster Grove's Synthetic Setup</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-05-1" data-section="s-05-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Real Bottleneck Is Not Interviewing. It Is Traceable Synthesis.</span></a>
+          <a href="#s-05-2" data-section="s-05-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Research Plans Are Typed Artifacts, Not Prelude Text</span></a>
+          <a href="#s-05-3" data-section="s-05-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Contextual Inquiry Turns Fieldwork into Evidence Instead of Folklore</span></a>
+          <a href="#s-05-4" data-section="s-05-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Transcript Mining, Coding Frames, and Honest Saturation</span></a>
+          <a href="#s-05-5" data-section="s-05-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case Spine: Calder's 200 Interviews and Aster Grove's Synthetic Setup</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-05-1">The Real Bottleneck Is Not Interviewing. It Is Traceable Synthesis.</h3>
+
+<p>Teams love to talk about "doing the research." What they usually mean is recruiting, interviewing, shadowing, and maybe running a survey. Hard work, yes. But the operational cliff appears one week later, when the corpus is large enough that nobody can hold it all in working memory. At that moment people start trimming the data to fit the wall rather than expanding the wall to fit the data. The corpus shrinks. Quotes get paraphrased. Saturation gets declared because the calendar is tired.</p>
+  <p>ASD treats that failure as a systems problem. Research operations is a pipeline, not a heroic workshop. The human designer still owns rapport, consent, framing, and participant-facing judgment. The platform owns the boring rigor around storage, method contracts, acceptance rules, review, and replay. Once I separate those responsibilities, 200 interviews stops sounding reckless and starts sounding like throughput.</p>
+  <p>That separation is why the CLI matters. The command surface is plain: <code>asd project-create</code>, <code>asd evidence-add</code>, <code>asd method-run</code>, <code>asd artifact-write</code>, <code>asd review</code>, <code>asd factcheck</code>. The engine is telling me that research is not a floating memo. It is a series of durable records with gates between them.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The research corpus is a database before it is a deck. If your analysis cannot survive as a store of evidence-backed artifacts, it will not survive executive challenge either.</div>
+
+  <p>Calder Community Bank is the cleanest illustration. The board wanted whole-service discovery across SME onboarding, branch service, digital, and complaints. A traditional agency bid assumed sixteen weeks and quietly expected the corpus to collapse to forty interviews. The ASD posture was the opposite. Keep the corpus. Industrialize the processing. Protect the evidence boundary so the volume stays believable.</p>
+
+  <div class="callout">
+    <strong>My take:</strong> I stopped trusting declarations of saturation years ago. I trust a visible quota burn-down, a codebook version, a reviewable evidence register, and a method contract that says what "enough" means for this artifact. Everything else is mood.</div>
+
+<h3 id="s-05-2">Research Plans Are Typed Artifacts, Not Prelude Text</h3>
+
+<p>The first move in a scaled study is to stop treating the research plan as throat-clearing. In ASD the plan itself is a registered artifact kind: <code>research-plan</code>. That changes the behavior of the whole engagement. If the plan is an artifact, it must declare sample, method, timing, and provenance in a form that can be reviewed, failed, rewritten, and handed off. A vague PDF becomes impossible.</p>
+  <p>The <code>research-plan-design</code> method makes that explicit. Its output kind is <code>research-plan</code>. Its acceptance rules are small but unforgiving: minimum 2 nodes, non-empty <code>sample</code>, non-empty <code>method</code>. Its Critic instruction is equally specific: reject any plan whose sample size or recruitment channel is left unspecified. That is the right level of rigor for planning. I do not need fake certainty. I do need named activities with declared coverage.</p>
+
+  <div class="code-label">terminal / asd project-create and method-run</div>
+  <pre><code>asd project-create --name "Calder Research Ops"   --client "Fictional composite — Calder Community Bank"   --sector banking   --service "SME onboarding, branch service, digital, complaints"
+
+asd method-run --methodId research-plan-design   --projectId calder-research-ops-4e2f9a11</code></pre>
+
+  <div class="code-label">research-plan.method-contract.json</div>
+  <pre><code>{
+  "method": {
+    "id": "research-plan-design",
+    "name": "Research Plan Design",
+    "phase": "research",
+    "reviewGate": "critic"
+  },
+  "acceptance": [
+    {
+      "rule": "min-nodes",
+      "min": 2
+    },
+    {
+      "rule": "field-non-empty",
+      "field": "sample"
+    },
+    {
+      "rule": "field-non-empty",
+      "field": "method"
+    }
+  ],
+  "outputKind": "research-plan"
+}</code></pre>
+
+  <p>Once Calder's plan is an artifact, the bank's hardest questions become explicit research nodes instead of hidden assumptions. One node can cover abandoned SME onboarding cases. Another can cover branch-loyal seniors at closure-risk branches. Another can cover complaint handlers. The plan carries the research architecture in durable form, and that means the rest of the pipeline can attach itself to something real.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Plan activity</th>
+        <th>Sample field</th>
+        <th>Method field</th>
+        <th>Why it exists</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SME onboarding interviews</td>
+        <td>50 interviews across owners, finance managers, and relationship managers</td>
+        <td>Semi-structured interviewing</td>
+        <td>Expose handoff friction and document rework.</td>
+      </tr>
+      <tr>
+        <td>Branch-shadowing tranche</td>
+        <td>45 days across rural, commuter, and high-complaint branches</td>
+        <td>Contextual inquiry</td>
+        <td>Capture the service as performed, not as described.</td>
+      </tr>
+      <tr>
+        <td>Complaint-case review</td>
+        <td>40 recent complainants plus complaint handlers</td>
+        <td>Transcript mining</td>
+        <td>Surface recurrent breakdown language at volume.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>A plan artifact also improves handoffs. After the Critic passes it, the plan can be handed to the next role with open gaps visible. That matters more than people think. Research operations breaks when the fieldwork coordinator, analyst, and designer each believe they are working from the same plan while quietly editing different mental versions of it.</p>
+
+<h3 id="s-05-3">Contextual Inquiry Turns Fieldwork into Evidence Instead of Folklore</h3>
+
+<p>Large-scale transcript work gets most of the attention, but service design still begins in the messy world. I need to watch the banker re-enter a document because the branch scanner jammed. I need to see the rider miss the connection. I need to hear the parent explain the workaround while doing it. Contextual inquiry keeps research grounded in performed reality rather than post-rationalized explanation.</p>
+  <p>ASD's <code>contextual-inquiry</code> contract is compact and useful. It produces an <code>insight-set</code>. It requires at least 3 nodes, at least 1 evidence row per node, and a non-empty <code>theme</code> field. The Critic rejects any insight not traceable to a specific observed moment. That sentence is doing heavy lifting. It stops the designer, and the model, from upgrading mood into fact.</p>
+  <p>In Calder the field discipline looked like this: humans ran the branch, onboarding, and complaints shadowing; every note became either a <code>document</code> row or a <code>quote</code> row, depending on whether it was observed context or verbatim speech; the resulting evidence could then feed <code>contextual-inquiry</code> or <code>transcript-mining</code> without inventing a second evidence system. One research database. Multiple methods. Clean boundaries.</p>
+
+  <div class="code-label">contextual-inquiry.nodes.json</div>
+  <pre><code>[
+  {
+    "id": "branch-queue-opacity",
+    "label": "Branch visitors cannot tell whether the line is moving or stalled",
+    "fields": {
+      "theme": "status visibility"
+    },
+    "evidence": [
+      {
+        "evidenceId": "6e3150d6830b02c2f0cdb2b99bfa417b9f9e9dc9a17113e71d2d9913cd9d1be2"
+      }
+    ]
+  },
+  {
+    "id": "sme-document-rework",
+    "label": "Owners resubmit the same document because acknowledgement is missing",
+    "fields": {
+      "theme": "confirmation failure"
+    },
+    "evidence": [
+      {
+        "evidenceId": "a6a0d6ee6bf6f3ba13fd8fa5f739b04db769e2c26c5b51a0ec9a246fd0e33560"
+      }
+    ]
+  },
+  {
+    "id": "complaint-looping",
+    "label": "Customers retell the complaint because ownership disappears between teams",
+    "fields": {
+      "theme": "handoff opacity"
+    },
+    "evidence": [
+      {
+        "evidenceId": "f44379f1b00aa782c212d2a9c63b09189d7e688ef1d02c2428461d52f383fbb7"
+      }
+    ]
+  }
+]</code></pre>
+
+  <p>That JSON is boring on purpose. Three nodes. Three themes. Three evidence ids. No mysticism. The platform is asking a simple question: can you point to the moment? If yes, write it. If not, keep working.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> Do not confuse optional human interpretation with optional provenance. You may still debate what an observed moment means. You do not get to skip recording the moment itself.</div>
+
+<h3 id="s-05-4">Transcript Mining, Coding Frames, and Honest Saturation</h3>
+
+<p>Transcript mining is where scaled research either becomes trustworthy or becomes a hallucination factory. The common failure mode is obvious: somebody pastes twenty transcripts into a chat window and asks for themes. The model obliges. The quotes are smooth. The themes feel plausible. The offsets do not exist. The extraction logic is unrecoverable. The corpus becomes a style exercise.</p>
+  <p>ASD's answer is not one magical tool. It is a contract plus a discipline. The <code>transcript-mining</code> method requires at least 5 evidence records before it will even run. Once available evidence exists, <code>asd method-run --methodId transcript-mining</code> returns the contract: phase research, owner researcher, output <code>insight-set</code>, acceptance <code>min-nodes: 4</code>, <code>min-evidence-per-node: 2</code>, and non-empty <code>theme</code>. The Critic rejects any insight that merely paraphrases a flagged line without adding a distinct theme. That last clause is essential. It stops the model from copying the corpus into a prettier voice and calling it synthesis.</p>
+
+  <div class="code-label">terminal / asd method-run --methodId transcript-mining</div>
+  <pre><code>asd method-run --methodId transcript-mining   --projectId calder-research-ops-4e2f9a11</code></pre>
+
+  <div class="code-label">transcript-mining.method-contract.json</div>
+  <pre><code>{
+  "method": {
+    "id": "transcript-mining",
+    "name": "Transcript Mining",
+    "phase": "research",
+    "reviewGate": "critic"
+  },
+  "inputs": [
+    {
+      "kind": "evidence-set",
+      "min": 5,
+      "note": "call, chat or interview transcripts"
+    }
+  ],
+  "acceptance": [
+    {
+      "rule": "min-nodes",
+      "min": 4
+    },
+    {
+      "rule": "min-evidence-per-node",
+      "min": 2
+    },
+    {
+      "rule": "field-non-empty",
+      "field": "theme"
+    }
+  ],
+  "outputKind": "insight-set"
+}</code></pre>
+
+  <p>Calder used this contract against a rolling corpus. Interviews came in waves. So did evidence. The bank never waited for interview 200 before learning something. That would have been wasteful. Instead the transcript-mining pass re-ran on the growing evidence base, while the codebook evolved at declared checkpoints rather than by casual drift. Week 3 might still be immature. Week 7 might genuinely stabilize a theme. The point is that the platform preserves both the finding and the conditions under which the finding was produced.</p>
+  <p>Coding frames matter here. Calder did not let every analyst invent categories on the fly. The codebook version moved in declared steps: seed codes for access, effort, trust, status visibility, fees, handoffs, staff capability, and life events; then add or merge codes only at checkpoint reviews. That gave the team two benefits. First, disagreement became inspectable. If one agent tagged a line as <code>status visibility</code> and another tagged it as <code>fees</code>, the dispute had a bounded vocabulary and could be resolved against the codebook rather than by charisma. Second, rolling synthesis stayed comparable week to week. The cluster named in week 4 still meant the same thing in week 7 unless the codebook change log said otherwise.</p>
+  <p>The coding frame is also where good research operations resists false precision. A code is not a verdict. It is a lens. I can tag a line as <code>handoff opacity</code> without claiming I have already solved the bank's organizational design. The mistake is to let coding drift straight into solutioning. ASD prevents that by making the method output an <code>insight-set</code>, not a roadmap. The next role still has to do its own work.</p>
+  <p>Now saturation. I treat saturation as a reporting discipline, not a mystical threshold. If rural branch seniors have only 14 completed interviews against a planned 18, I say so. If decline cases in SME onboarding came in below target because the bank refused another contact wave, I say so. That honesty is not a weakness. It tells the next phase which claims are strong, which are moderate, and which need another pass.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Stratum</th>
+        <th>Target</th>
+        <th>Completed</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>SME owners who abandoned onboarding</td>
+        <td>8</td>
+        <td>6</td>
+        <td>Gap remains explicit; no false saturation claim.</td>
+      </tr>
+      <tr>
+        <td>Branch-loyal seniors in at-risk rural areas</td>
+        <td>18</td>
+        <td>18</td>
+        <td>Target met; branch-closure evidence is decision-grade.</td>
+      </tr>
+      <tr>
+        <td>Recent complainants by unresolved outcome</td>
+        <td>12</td>
+        <td>12</td>
+        <td>Target met; complaint handoff themes triangulated.</td>
+      </tr>
+      <tr>
+        <td>Complaint handlers and branch staff</td>
+        <td>22</td>
+        <td>24</td>
+        <td>Over target; operational counter-evidence available.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>My take:</strong> Honest gaps strengthen the readout because they tell the sponsor where uncertainty still lives. Fake completeness does the opposite. The first hard question blows it up.</div>
+
+<h3 id="s-05-5">Case Spine: Calder's 200 Interviews and Aster Grove's Synthetic Setup</h3>
+
+<p>Calder is the heavy-duty spine. Two hundred interviews. Forty-five shadow days. Eight hundred diary entries. A ten-week research program with a board ready to challenge every conclusion. The agent team handled the transcript-facing work: ingestion discipline, evidence extraction, rolling clustering, review gates, and factcheck. Humans handled interviewing, consent, and the judgment calls around quota trade-offs. The result was not "AI did the research." The result was that the human research team stopped drowning in post-fieldwork admin and could keep the full corpus alive long enough to learn from it.</p>
+  <p>Calder's weekly operating rhythm is worth naming because it is where scaled research usually breaks. Monday and Tuesday were field-heavy. Wednesday night the new transcripts were ingested and verified. Thursday the rolling synthesis pass refreshed cluster counts and highlighted contradictions. Friday the designer and client leads reviewed only the red items: quota gaps, PII incidents, weak clusters, and any Critic veto. That cadence kept the corpus alive without forcing a giant end-of-program synthesis panic. It also meant the board saw evidence maturity rising over time rather than being asked to believe a single dramatic reveal.</p>
+  <p>Seen this way, the agent team is less like a replacement researcher and more like a disciplined research-ops layer. It makes the infrastructure of inquiry explicit. That is what lets a 200-interview program remain legible enough to challenge, defend, and hand over.</p>
+  <p>Aster Grove is the complementary lesson. Article 39 begins with a fictional service and a live tutorial workflow. The service case is synthetic. The BUZZ roster and Canvas round trip are real. That makes it the perfect example of how to start safely when I need to teach the loop, rehearse a method, or demonstrate a host integration boundary. I create an isolated project, add synthetic evidence rows with clear labels, then run the method and review loop honestly as synthetic practice. Nothing in that move is lesser. It is only dangerous if I later pretend the seeded evidence came from live participants.</p>
+
+  <div class="code-label">terminal / Aster Grove synthetic evidence setup</div>
+  <pre><code>asd project-create --name "Aster Grove Makerspace"   --client "Fictional composite — Aster Grove City Libraries"   --sector "public libraries and community making"   --service "makerspace equipment lending and workshop programming"
+
+asd evidence-add --projectId aster-grove-makerspace-6a8498ef   --source librarian-01 --kind quote   --body "Members ask what they can make before they ask what they can borrow."
+
+asd evidence-add --projectId aster-grove-makerspace-6a8498ef   --source usage-2026-08 --kind telemetry   --body "Laser cutter bookings full 9 of 12 Saturdays; induction no-show rate 27 percent."
+
+asd evidence-add --projectId aster-grove-makerspace-6a8498ef   --source policy-03 --kind document   --body "Members must complete induction before borrowing supervised equipment."
+
+asd method-run --methodId transcript-mining   --projectId aster-grove-makerspace-6a8498ef</code></pre>
+
+  <p>That shell block is the right way to teach or rehearse. It uses real commands. It uses the real evidence vocabulary. It keeps the fictional boundary visible in the project name, client field, and source rows. It does not invent a parallel demo mode.</p>
+  <p>Between Calder and Aster Grove, the operational lesson becomes clear. Scale is not the enemy. Ambiguity is. Calder proves that a 200-interview corpus can stay tractable when the plan, evidence, method contract, review, and factcheck all stay explicit. Aster Grove proves that synthetic evidence can be legitimate when it is labelled, isolated, and never upgraded into fake field proof. Same engine. Different evidence boundary. Same honesty rule.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Synthetic evidence is useful for workflow proof, host proof, and teaching. It is useless for claiming customer truth. Keep those lanes separate.</div>
+
+  <p>So here is the operational formula I keep coming back to. Start with a typed research plan. Run contextual inquiry where lived behavior matters. Mine transcripts against a declared contract instead of a vibe. Track coverage honestly. Keep synthetic setups clearly synthetic. And never let scale tempt you into summarizing away the evidence. Once I do that, the research operation stops being a bottleneck and starts being a durable production capability.</p>
+  <p>What matters is repeatability. When another designer opens the project six months later, the plan, evidence, codebook, gaps, and review rows still explain themselves.</p>
+  <p>Teams copying this operation usually want a concrete starter sequence. Week one: create the project, write the research plan artifact, and load the codebook you intend to hold yourself to. Week two: capture evidence in bursts, running <code>evidence-query</code> at the end of each burst so gaps surface while fieldwork can still fill them. Week three: run <code>method-run</code> for synthesis, write the insight register, and let the Critic reject every claim that leaned on paraphrase instead of verbatim rows. That cadence fits a normal sprint, produces an auditable register, and, most importantly, survives the departure of whichever person happened to remember the interviews.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="04.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 04</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 04</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</p>
+        </div>
+      </div>
+    </a>
+    <a href="06.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 06</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mixed Methods &amp; Evidence-Backed Segmentation</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 06</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mixed Methods &amp; Evidence-Backed Segmentation</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Mixed Methods &amp; Evidence-Backed Segmentation</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Quant and qual under one evidence roof</p>
+        </div>
+        <a href="06.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

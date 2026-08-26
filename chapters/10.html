@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-10" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 10</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">The operational X-ray of a service</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">15 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-10-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Why Blueprints Beat Journeys for Operations</a>
+        <a href="#s-10-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Five Canonical Lanes</a>
+        <a href="#s-10-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Line of Visibility, Fail Points, and Wait Semantics</a>
+        <a href="#s-10-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Blueprint Acceptance Rules</a>
+        <a href="#s-10-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Fernwood Council</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-10-1" data-section="s-10-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why Blueprints Beat Journeys for Operations</span></a>
+          <a href="#s-10-2" data-section="s-10-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Five Canonical Lanes</span></a>
+          <a href="#s-10-3" data-section="s-10-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Line of Visibility, Fail Points, and Wait Semantics</span></a>
+          <a href="#s-10-4" data-section="s-10-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Blueprint Acceptance Rules</span></a>
+          <a href="#s-10-5" data-section="s-10-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Fernwood Council</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-10-1" data-section="s-10-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why Blueprints Beat Journeys for Operations</span></a>
+          <a href="#s-10-2" data-section="s-10-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Five Canonical Lanes</span></a>
+          <a href="#s-10-3" data-section="s-10-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Line of Visibility, Fail Points, and Wait Semantics</span></a>
+          <a href="#s-10-4" data-section="s-10-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Blueprint Acceptance Rules</span></a>
+          <a href="#s-10-5" data-section="s-10-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Fernwood Council</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-10-1">Why Blueprints Beat Journeys for Operations</h3>
+
+<p>When a service is failing, the journey map gives me the symptoms. The blueprint gives me the mechanics. That is why I reach for blueprinting when the question becomes operational: where is the wait formed, which actor actually owns the handoff, which backstage step creates the frontstage silence, which support system is making the team look incompetent, and which fail point is expensive enough to deserve redesign first.</p>
+  <p>The blueprint is powerful because it preserves chronology while revealing production. I still move left to right through the customer's errand, but now I can look vertically and see what stands behind each visible moment. A missed appointment is no longer just a customer frustration. It becomes a chain: a notification design choice, a scheduling rule, a support-system blind spot, a contractor incentive, a parts feed that arrived late, or a manual invoice cycle that trapped the job in limbo. That vertical logic is why blueprints belong in serious service work.</p>
+  <p>ASD turns that logic into artifact discipline. The service blueprint template declares a `service-blueprint` artifact. The renderer draws the diagram deterministically from typed data. The runtime checks acceptance rules before the artifact is treated as trustworthy. The Critic then reviews it. That matters because blueprints are vulnerable to a particular kind of nonsense: they look authoritative even when half their boxes are guesses.</p>
+  <p>I have seen endless blueprints that were really compressed org charts. They named departments, not actions. They merged current and future states. They buried waits in vague backstage clouds. They treated support systems as one generic rectangle called "platform." They often looked polished. They were useless. The ASD grammar is a corrective. It keeps the blueprint close to observable service production.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A blueprint is not a broader journey map. It is the operational underside of the journey, column by column, with each visible moment tied to the work that enables or obstructs it.</div>
+  <p>The authored flagship skill for `service-blueprinting` makes this plain. It exists as the only hand-authored flagship among the 81 skill sources because blueprinting needs extra judgment guidance beyond the generated manifest. The compiler ships 80 skills, not 81, because the authored flagship replaces its generated twin. That detail matters here because it tells you something about the method: the machine contract is stable, but the craft layer matters enough to author by hand.</p>
+  <p>The flagship skill also keeps the promise modest. It says blueprinting is for diagnosing a current-state operation, specifying a future-state service, or aligning a cross-functional team on who does what behind the line of visibility. It explicitly says not to use a blueprint for a single-touchpoint fix or a purely digital flow with no meaningful organizational backstage. I agree. Blueprinting is heavy equipment. Use it where seams, handoffs, waits, and hidden work actually exist.</p>
+  <div class="code-label">service-blueprinting-skill.txt</div>
+  <pre><code>Canonical procedure:
+1. Lay out physical evidence, customer actions, frontstage and backstage work, and support processes.
+2. Annotate the line of visibility and mark waits, failures, handoffs, and moments of truth.
+3. Reject placeholder lanes and invented nodes.
+4. Keep current state and future state as separate artifacts.
+5. Send the artifact through Critic review before any downstream handoff.</code></pre>
+  <p>That procedure sounds stricter than many design teams are used to. Good. The cost of loose blueprinting is real. Teams build channels to cover process defects instead of fixing the defects. They fund chatbots to answer questions that the operation itself should have made unnecessary. They celebrate better scripts while leaving the root cause below the line of visibility untouched. The blueprint exists to prevent that misallocation.</p>
+  <div class="callout"><strong>My take:</strong> If a service is generating high volumes of status-chasing, the answer is almost never "another contact surface." The answer is usually a blueprint that makes the silence legible and expensive.</div>
+
+<h3 id="s-10-2">The Five Canonical Lanes</h3>
+
+<p>The ASD blueprint grammar begins with five lane names and I use them exactly: <strong>Physical Evidence</strong>, <strong>Customer Actions</strong>, <strong>Frontstage Interactions</strong>, <strong>Backstage Operations</strong>, and <strong>Support Processes</strong>. Those names are not loose suggestions. They are the canonical structure of the method. If I rename them casually, merge them, or dump extra concerns into a sixth unnamed bucket, I weaken the diagnostic.</p>
+  <p>The sequence matters. Physical Evidence sits above the customer because customers interpret services through traces: screens, forms, letters, uniforms, spaces, trackers, receipts, QR codes, and notification banners. Customer Actions form the spine because chronology belongs to the person living the service. Frontstage Interactions show what the customer sees the organization doing. Backstage Operations show the invisible human work that makes the frontstage possible. Support Processes carry systems, policy, third parties, and other enabling structures.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Canonical lane</th>
+        <th>What belongs there</th>
+        <th>Common mistake</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Physical Evidence</td>
+        <td>Things the customer can sense: letters, dashboards, messages, desks, passes, receipts</td>
+        <td>Leaving the lane empty because the team is thinking only in software actions</td>
+      </tr>
+      <tr>
+        <td>Customer Actions</td>
+        <td>Observable customer behavior in customer language</td>
+        <td>Writing internal process labels instead of actions</td>
+      </tr>
+      <tr>
+        <td>Frontstage Interactions</td>
+        <td>Visible staff or service behavior above the line of visibility</td>
+        <td>Confusing customer-facing scripts with the systems that enable them</td>
+      </tr>
+      <tr>
+        <td>Backstage Operations</td>
+        <td>Invisible human work, triage, scheduling, exception handling, coordination</td>
+        <td>Using the lane as a dumping ground for anything vague</td>
+      </tr>
+      <tr>
+        <td>Support Processes</td>
+        <td>Systems, policies, third parties, integrations, infrastructure</td>
+        <td>Drawing a single giant system box with no meaningful distinction</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Physical Evidence is routinely underestimated. Teams treat it as decorative output when it is often where the service makes or breaks trust. A job reference in every message, a live tracker page, a clear QR pickup pass, a slot offer, an outcome summary, or a compensation receipt can materially reduce failure demand because it changes what the customer has to ask about. Missing evidence is itself diagnostic. If nothing visible tells the customer that work has progressed, the frontstage is forced into reassurance theater.</p>
+  <p>Customer Actions must stay observable. "Feels anxious" is not an action. "Checks the app again" is. "Calls to chase status" is. "Prints the referral and carries it to the specialist" is. When I let inference creep into the action lane, I flatten the chronology and weaken later measurement.</p>
+  <p>Frontstage Interactions are the behaviors the customer can hold the organization accountable for directly. A call-centre agent re-explains a wait. A store associate scans the return and initiates a refund. A coordinator offers slot options. A gate agent makes an announcement. These steps matter because they absorb the consequences of backstage and support design. They are visible labor, more than interface moments.</p>
+  <p>Backstage Operations are where the real diagnostic work often happens. Triage queues, scheduler trade-offs, supervisor assignments, parts ordering, manual exception handling, invoice chasing, recovery decisions, shift briefs. Customers do not see these steps, but they feel the latency, inconsistency, and rework they generate. The flagship skill is right to warn that backstage is not a dumping ground. Every backstage node should enable a frontstage moment or consume a support process. Orphaned backstage boxes usually mean invented process or missing research.</p>
+  <p>Support Processes are the base layer: legacy databases, rules engines, policy constraints, third-party portals, notification routers, audit logs, payment rails, and batch integrations. The mistake here is either oversimplification or fetishization. I do not need every database field. I do need the support structure that materially shapes the experience. The lane exists to expose where the service is leaning on systems and partners that are invisible to customers but decisive in outcomes.</p>
+  <div class="code-label">service-blueprint-template.md</div>
+  <pre><code>## Lanes (five, all mandatory)
+| Lane | Nodes (evidence-cited) |
+|---|---|
+| Physical evidence | what the customer senses |
+| Customer actions | observable actions |
+| Frontstage interactions | visible actor behaviors |
+| Backstage operations | invisible human work |
+| Support processes | systems, policy, third parties |</code></pre>
+  <p>Notice the method's conservatism. Five lanes, all mandatory. That is a feature. It forces the team to confront missing work instead of hiding it in a merged bucket called "operations" or "system." The blueprint becomes readable because each row has one job.</p>
+
+<h3 id="s-10-3">Line of Visibility, Fail Points, and Wait Semantics</h3>
+
+<p>The line of visibility is the most famous boundary in blueprinting and still the one teams misuse most often. It is not a decorative separator. It is a design decision about accountability. Everything above the line can be perceived directly by the customer. Everything below it is hidden production. Where I draw the line shapes how I interpret responsibility, which means it changes what redesign moves make sense.</p>
+  <p>If a contractor reschedules a housing-repair visit below the line of visibility, the resident blames the frontstage agent who answers the chase call. If the operation emits no visible status event, the resident experiences silence, not honest process. In other words, the line is not about metaphysics. It is about what the customer can reasonably perceive and therefore judge.</p>
+  <p>I still use the line of interaction above Frontstage Interactions and the line of internal interaction above Support Processes as craft aids, but the line of visibility is the essential load-bearing cut. It tells me where backstage failure becomes frontstage consequence. It also tells me where a new piece of physical evidence could relieve pressure. Silence below the line often implies a missing visible trace above it.</p>
+  <p>Fail points and wait points give the blueprint teeth. A fail point is not any unpleasant thing. It is a structural point where the service predictably breaks down or creates avoidable rework. A wait point is a delay that matters enough to the experience or cost structure to deserve explicit marking. When I annotate F and W on a blueprint, I expect them to be ledger-bound. Frequency, duration, and cost should trace back to evidence, not hunches.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Structural mark</th>
+        <th>What I mean by it</th>
+        <th>What evidence should back it</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Wait</td>
+        <td>A delay with experiential or operational consequence</td>
+        <td>Observed timing, telemetry, or documented SLA miss</td>
+      </tr>
+      <tr>
+        <td>Failure point (F)</td>
+        <td>A recurring breakdown that creates extra demand or rework</td>
+        <td>Quotes plus volume, frequency, or exception evidence</td>
+      </tr>
+      <tr>
+        <td>Handoff</td>
+        <td>A transfer of work, accountability, or information</td>
+        <td>Observed workflow or documented process row</td>
+      </tr>
+      <tr>
+        <td>Moment of truth</td>
+        <td>A visible moment that disproportionately shapes trust</td>
+        <td>Strong customer evidence, often repeated across sources</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The line of visibility also helps me distinguish symptom from cause. Status-chasing happens in the customer lane. The root cause often sits below visibility: triage queue lag, overnight batch sync, invisible contractor calendars, parts ordered only after the first visit, or a manual finance cycle keeping completion uncertain. Without the blueprint, a team will treat the symptom as a communication problem. With the blueprint, I can show where communication is only the visible face of a deeper production issue.</p>
+  <div class="warning"><strong>CAUTION:</strong> Do not place an experience problem below the line just because the team is uncomfortable owning it. If the customer experiences it directly, the symptom belongs above the line even if the cause sits below it.</div>
+  <p>Wait semantics deserve a special note. Not every delay is a failure. Some waits are expected and tolerable if the service explains them well and manages uncertainty honestly. The problem is unbounded, silent, or contradictory waiting. That is why a visible tracker, acknowledgement, or predictable status event can radically change the experience without changing the underlying throughput yet. The blueprint lets me show both truths at once: the service still waits, but the wait is no longer invisible or confusing.</p>
+  <div class="callout"><strong>My take:</strong> Whenever a team wants to add a chatbot to a failing service, I ask one question first: what exactly will it be able to see below the line of visibility? If the answer is "the same broken status data the human sees," the chatbot is just a prettier apology.</div>
+
+<h3 id="s-10-4">Blueprint Acceptance Rules</h3>
+
+<p>Because blueprints look convincing even when they are wrong, ASD treats acceptance rules as non-negotiable. The authored template and flagship skill define the craft. The runtime checks the structure. The current machine rules are intentionally small: minimum nodes, minimum evidence per node, non-empty lane, and a deny-list that blocks placeholders such as `unknown`, `tbd`, and `n/a`.</p>
+  <p>The small rule set is enough. It stops the worst failure modes without pretending the engine can judge operational elegance. The engine does not know whether a handoff is politically smart. It does know whether I left the support lane as a shell. It does know whether I cited nothing for a fail point. It does know whether I tried to sneak a future-state promise into a current-state artifact by leaving a placeholder for later.</p>
+  <div class="code-label">service-blueprint-acceptance.json</div>
+  <pre><code>{
+  "acceptance": [
+    { "rule": "min-nodes", "min": 4 },
+    { "rule": "min-evidence-per-node", "min": 1 },
+    { "rule": "field-non-empty", "field": "lane" },
+    { "rule": "forbid-field-values", "field": "lane", "deny": ["unknown", "tbd", "n/a"] }
+  ],
+  "reviewGate": "critic"
+}</code></pre>
+  <p>There is a subtle but important lifecycle implication here. A failing write is still persisted as draft with its failure report attached. That makes remediation specific. I do not lose the artifact. I repair it in place. An accepted write is still only draft until Critic review passes. That is healthy pressure. It prevents teams from treating structurally valid garbage as final just because the JSON compiled.</p>
+  <p>The Critic's job is narrower and more useful than many people assume. It does not redesign the blueprint. It attacks unsupported claims, weak attribution, missing evidence, and poor structural discipline. If a fail point lacks a meaningful recovery implication, the Critic can say so. If a number is ledger-wrong, it can say so. If a customer problem is being blamed on the customer despite evidence showing a support-system root cause, it can say so. That adversarial pressure is where the blueprint gets honest.</p>
+  <p>Current and future states must also stay separate. This is one of the flagship skill's strongest craft rules and I agree with it completely. A mixed blueprint is seductive because it lets teams narrate the desired future without fully confronting the current state. The result is a hybrid artifact that neither diagnoses nor specifies cleanly. Separate artifacts are more work and far better.</p>
+  <div class="code-label">blueprint-review-checklist.txt</div>
+  <pre><code>- every lane named and non-empty
+- every node cites at least one resolvable evidence row
+- waits carry duration where known
+- fail points carry frequency or impact where known
+- current-state and future-state artifacts are distinct
+- no placeholder language in lane fields or node labels
+- every backstage node enables a visible or support step</code></pre>
+  <p>These checks are boring. That is why they work. The point of method infrastructure is to catch boring failures before they become expensive programme confusion.</p>
+
+<h3 id="s-10-5">Case: Fernwood Council</h3>
+
+<p>Fernwood Council is the textbook argument for blueprinting as operational diagnosis. The service was reactive housing repairs across roughly 19,000 council homes. It handled about 28,000 repair requests a year, which turned into 30,200 jobs once follow-on works were included. The headline pain was familiar and misleading: residents kept calling to chase status. A weaker team would have started with channel expansion. The blueprint showed why that would have been a waste.</p>
+  <p>Forty-one percent of jobs attracted at least one status-chase contact. That meant about 12,400 jobs producing roughly 37,200 status-chase contacts a year, around 3,100 a month, at a fully loaded cost of €6.40 per contact. First-time-fix sat at 62%. Nineteen percent of first visits ended in no-access or no-show. The service was burning money reassuring residents that something might eventually happen.</p>
+  <p>The current-state blueprint gave the service its proper grammar. In Physical Evidence, the traces were bleak: a web form with no reference number, an acknowledgement letter on day three, an appointment letter days before the visit, and paper job sheets. In Customer Actions, residents noticed faults, reported them, repeated details, waited, chased status, hosted missed or unprepared visits, and sometimes re-reported linked follow-on work because the job lineage broke. In Frontstage Interactions, agents re-keyed data and operatives explained follow-on delays they did not fully control. In Backstage Operations, triage queues, nominal-capacity scheduling, manual supervisor assignment, and post-visit parts ordering created delay and rework. In Support Processes, three systems coexisted without a shared job ID: RepairsDB, ContractorLink, and AssetPlan.</p>
+  <p>That last point mattered more than any script improvement. The blueprint traced the resident's visible frustration down through the line of visibility into a support-layer truth: nine percent of jobs could not be matched cleanly across systems, and the overnight sync pattern meant frontstage staff were often blind to the freshest contractor state. A chatbot would have answered from the same blind systems. The blueprint made that obvious.</p>
+  <p>The fail-point logic got sharper under review. Codex challenged the first draft's attribution of no-access to "resident not in." The logs showed that 62% of no-access visits had been preceded by a contractor-initiated reschedule within the prior 48 hours. The root cause moved from customer blame to support and scheduling design. That single correction is why blueprints need adversarial review. Teams are quick to blame the visible actor at the top of the column.</p>
+  <div class="code-label">fernwood-current-state-lane-table.csv</div>
+  <pre><code>lane,node,evidence,mark,overlay
+Physical Evidence,Web form with no reference number,INT-04;LOG-03,F-01,duplicate admin cost €14 per job
+Customer Actions,Chases status,LOG-05,F-05,41 percent of jobs; about €238k yearly demand
+Frontstage Interactions,Agent re-keys into RepairsDB,INT-27;RDE-01,F-01,7.2 minute average handling time
+Backstage Operations,Triage queue,LOG-04,F-02;W-02,1.8 days; 14 percent re-triaged
+Backstage Operations,Parts ordered after first visit,LOG-09;RDE-05,W-04,4.6 days; first-time-fix baseline 62 percent
+Support Processes,No shared job ID across three systems,LOG-01,root cause,9 percent unmatched jobs</code></pre>
+  <p>Once the blueprint made the real structure visible, the future-state direction became more disciplined. Fernwood did not replace RepairsDB within the programme horizon. The redesign wrapped it. A unified job-record API sat across the legacy systems. A status event bus emitted six core state changes to residents through SMS and a live tracker page. Operatives received digital job cards. Completion summaries replaced opaque silence. In other words, the team moved the line of visibility deliberately by creating better physical evidence and tighter support coherence.</p>
+  <p>The illustrative pilot outcome showed why that mattered. Status-chase contacts fell materially, first-time-fix improved, and routine waits shortened because the operation itself became more coordinated and more legible. Communication improved because the process improved and because its traces improved. That sequence matters. It is the difference between cosmetic messaging and actual service redesign.</p>
+  <div class="callout"><strong>My take:</strong> Fernwood's breakthrough was brutally simple: the council did not need a better story about repairs. It needed a repair system capable of emitting trustworthy status. The blueprint made the silence visible, and once the silence had a structure, the redesign finally had somewhere real to act.</div>
+  <p>That is the master blueprint in practice. Five canonical lanes. A real line of visibility. Structural marks that mean something. Acceptance rules that block placeholders. And one case after another proving the same lesson: if you want to change how a service feels, you eventually have to change how the service is made.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="09.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 09</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Living Journey Maps: From Transcripts to Sentiment Curves</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 09</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Living Journey Maps: From Transcripts to Sentiment Curves</p>
+        </div>
+      </div>
+    </a>
+    <a href="11.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 11</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 11</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Where agents act, and how we gate them</p>
+        </div>
+        <a href="11.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

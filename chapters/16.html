@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Service Quality Management &amp; CX Maturity Governance - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-16" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 16</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Service Quality Management &amp; CX Maturity Governance</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">From projects to permanent capability</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">12 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-16-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Build quality loops that actually close</a>
+        <a href="#s-16-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Run good-services-audit as a recurring factcheck job</a>
+        <a href="#s-16-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">CX maturity needs governance boards, not inspirational language</a>
+        <a href="#s-16-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Use the six report kinds to keep leadership on one truth</a>
+        <a href="#s-16-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Kestrel and Titan show the two levels of permanent capability</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-16-1" data-section="s-16-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Build quality loops that actually close</span></a>
+          <a href="#s-16-2" data-section="s-16-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Run good-services-audit as a recurring factcheck job</span></a>
+          <a href="#s-16-3" data-section="s-16-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>CX maturity needs governance boards, not inspirational language</span></a>
+          <a href="#s-16-4" data-section="s-16-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Use the six report kinds to keep leadership on one truth</span></a>
+          <a href="#s-16-5" data-section="s-16-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Kestrel and Titan show the two levels of permanent capability</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-16-1" data-section="s-16-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Build quality loops that actually close</span></a>
+          <a href="#s-16-2" data-section="s-16-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Run good-services-audit as a recurring factcheck job</span></a>
+          <a href="#s-16-3" data-section="s-16-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>CX maturity needs governance boards, not inspirational language</span></a>
+          <a href="#s-16-4" data-section="s-16-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Use the six report kinds to keep leadership on one truth</span></a>
+          <a href="#s-16-5" data-section="s-16-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Kestrel and Titan show the two levels of permanent capability</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-16-1">Build quality loops that actually close</h3>
+
+<p>Service quality decays for a simple reason. Most organizations launch changes as projects and manage operations as if the service will hold itself together afterward. It will not. Scripts drift. Workarounds multiply. One team optimizes handle time while another promises clarity and ownership. The customer experiences the combined effect and has no interest in your org chart. That is why I think in loops, not rollouts.</p>
+  <p>A quality loop has five moving parts. First, a clear service standard. Second, evidence showing whether the standard held. Third, a review rhythm that names root causes instead of admiring top-line averages. Fourth, a decision path that can change the service, not merely describe it. Fifth, a check that proves the change did what it claimed. If any one of those parts is weak, the loop stays open and quality drift wins.</p>
+  <p>Kestrel Energy is the useful example because the organization had already improved some journeys in an earlier phase. The unresolved problem was operational entropy. Billing queries, connection appointments, and SME service moments still varied too much by team and month. Avoidable failure demand remained high because the organization had redesign wins without a standing machinery for defending them. That is a classic service-design transition point. The work stops being about brilliant artifact production and becomes about operating discipline.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Loop stage</th>
+        <th>Question I ask</th>
+        <th>Typical ASD artifact or tool</th>
+        <th>Named owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Standard</td>
+        <td>What promise are we actually making?</td>
+        <td>Service standard set, blueprint, metric definition</td>
+        <td>Journey owner or service owner</td>
+      </tr>
+      <tr>
+        <td>Observe</td>
+        <td>Did the promise hold in live use?</td>
+        <td>Evidence register, telemetry extracts, surveys, support logs</td>
+        <td>Measurer and operations lead</td>
+      </tr>
+      <tr>
+        <td>Audit</td>
+        <td>Where did quality slip and why?</td>
+        <td><code>good-services-audit</code>, insight set, traceability matrix</td>
+        <td>Researcher plus critic gate</td>
+      </tr>
+      <tr>
+        <td>Decide</td>
+        <td>What changes, who funds it, and by when?</td>
+        <td>Governance board, decision matrix, report pack</td>
+        <td>Human council or named executive sponsor</td>
+      </tr>
+      <tr>
+        <td>Verify</td>
+        <td>Did the fix hold and reduce failure demand?</td>
+        <td><code>sd_factcheck</code>, rerun audit, updated report</td>
+        <td>Presenter, measurer, critic</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>I call this a closing loop because many organizations only do the middle three steps badly. They gather evidence. They review it. They talk. Then nothing binding happens. Or a change happens and nobody checks whether it truly improved the service. A real loop closes only when the service standard or operating model changes and the next cycle confirms the effect. That is why I keep the word governance attached to quality. Without governance, the loop is a dashboard ritual.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Quality management is not the act of measuring decline. It is the act of creating enough authority and evidence to stop the decline from repeating.</div>
+
+  <p>Kestrel made this concrete with touchpoint-level standards and a monthly operating rhythm. A bill could be technically correct and still fail functionally if the explanation was opaque. A connection appointment could be technically scheduled and still feel broken if the promise window was vague or unkept. The quality loop therefore had to combine technical and functional signals. That is why Kestrel used a touchpoint MOS model, reviewed avoidable failure demand, and tied the resulting issues back to named owners rather than generic &ldquo;customer experience&rdquo; goals.</p>
+
+  <div class="callout"><strong>My take:</strong> Most quality programmes die because they confuse visibility with control. A dashboard gives visibility. Decision rights give control. I want both in the same room.</div>
+
+<h3 id="s-16-2">Run <code>good-services-audit</code> as a recurring factcheck job</h3>
+
+<p>The <code>good-services-audit</code> method is useful precisely because it refuses vibes. It expects a live or shipped blueprint or journey map plus at least two evidence inputs such as support logs, user feedback, or post-launch telemetry. It returns an <code>insight-set</code>. The researcher scores the service against the checklist. The Critic rejects any below-target score that lacks cited evidence. That rule matters. A quality audit without evidence becomes a brand exercise in disguise.</p>
+  <p>I often describe this as a factcheck job because the audit should not stand alone. In ASD the clean pattern is: run the audit method, write the resulting insight set, then run <code>sd_factcheck</code> so integrity, acceptance, and review are replayed before the insight enters the governance pack. If the evidence references do not resolve, if the artifact fails acceptance, or if the Critic verdict is missing, the pipeline fails closed. I want that. A weak audit should break the meeting packet rather than quietly poisoning it.</p>
+
+  <div class="code-label">quality-audit-cycle.sh</div>
+  <pre><code>PID="kestrel-quality-2026"
+
+asd method-run --projectId "$PID" --methodId good-services-audit
+# write the audit insight-set through asd artifact-write
+# record critic review through asd review
+asd factcheck --projectId "$PID"
+
+asd export-report --projectId "$PID" --kind traceability-matrix
+asd export-report --projectId "$PID" --kind method-log</code></pre>
+
+  <p>Notice the order. I do not export the board report first and pray the underlying work is sound. I force the soundness check before the governance surface exists. That sequence is a surprisingly big cultural shift. In many organizations, reporting is a storytelling layer floating above inconsistent source material. In ASD, reporting is downstream of the typed artifacts and their gates. That reduces performative confidence because the system will happily tell you the work is still draft if the audit was weak.</p>
+  <p>Kestrel benefited from this discipline because the monthly review pack became harder to game. The team could no longer say, &ldquo;billing feels better this month,&rdquo; while hiding unresolved touchpoint failures underneath. The audit insight set named where standards slipped, which evidence supported the score, and which owner needed to respond. The follow-on factcheck forced the evidence chain and review state to be complete before the issue reached leadership. That is what I mean by a factcheck job. It does not replace judgment. It forces honesty before judgment happens.</p>
+  <p>I also like the side effect on organizational behavior. Once teams know the audit will surface below-target scores only when evidence exists, the conversation shifts. People stop arguing abstractly about whether the service is &ldquo;good.&rdquo; They argue over the root cause and the fix. That is where design and operations should meet.</p>
+
+  <div class="warning"><strong>CAUTION:</strong> Do not run audits as theatre after the real decisions are already made. If the board cannot still change funding, standards, or owner assignments after the audit, you built reporting without governance.</div>
+
+<h3 id="s-16-3">CX maturity needs governance boards, not inspirational language</h3>
+
+<p>Quality loops work inside a service. Maturity governance works across the enterprise. Titan Manufacturing needed the second problem solved. The organization had five business units, multiple portals, fragmented service promises, and no forum with the authority to resolve cross-unit customer issues. Customers buying from more than one unit felt the seams immediately: multiple logins, unclear ownership, duplicate escalation paths, and wildly different standards across journeys that should have felt connected.</p>
+  <p>This is where <code>cx-maturity-assessment</code> becomes useful. The method takes process, tooling, and governance evidence and writes a <code>maturity-assessment</code> artifact. Its gate is evidence-cited scoring. No support, no score. That is exactly right for executive work because maturity claims are notoriously easy to inflate. Titan had many customer-related activities already. Activity did not equal capability. The assessment forced the enterprise to distinguish between isolated effort and repeatable operating discipline.</p>
+  <p>Titan used the six-discipline model as the frame: strategy, customer understanding, design, measurement, governance, and culture. The most important governance idea was the limiting-discipline rule. A company does not mature to the level of its most polished slide deck. It matures to the level of its weakest discipline that still blocks the customer from experiencing coherence. Titan&rsquo;s bottlenecks were measurement and governance. Once that became explicit, the operating-model decision was clearer.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Governance question</th>
+        <th>Weak answer</th>
+        <th>Stronger answer in a federated model</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Who owns a cross-BU journey?</td>
+        <td>&ldquo;Everyone contributes&rdquo;</td>
+        <td>One named journey owner with explicit escalation rights</td>
+      </tr>
+      <tr>
+        <td>Who sets measurement definitions?</td>
+        <td>Each unit chooses locally</td>
+        <td>Central measurement discipline defines shared metrics and evidence rules</td>
+      </tr>
+      <tr>
+        <td>Who can block a customer-impacting change?</td>
+        <td>No one formally</td>
+        <td>Council or standards board with review-gate authority</td>
+      </tr>
+      <tr>
+        <td>How do local teams keep agency?</td>
+        <td>They resist centralization informally</td>
+        <td>Delivery stays in business units while standards and review gates are shared</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>I almost always land on a federated model in complex enterprises. A heavy central office becomes a corporate inspector and triggers resistance. Pure decentralization preserves local autonomy and institutionalizes customer inconsistency. The federated model is a better service design move. A small central capability owns standards, definitions, review gates, and the governance rhythm. Business units keep delivery ownership and local expertise. Cross-unit journeys get named owners. Councils have authority over trade-offs that customers would otherwise feel as fragmentation.</p>
+  <p>Titan improved because the governance model gained teeth. The executive council was sponsored by the COO, not tucked under a digital transformation side programme. A journey owner forum handled cross-unit issues before they became chronic customer pain. Standards changes, owner registries, and measurement definitions lived in one reviewable repository. The maturity discussion stopped being motivational. It became operational.</p>
+
+  <div class="callout"><strong>My take:</strong> A governance board without the power to change funding, block releases, or reassign ownership is a support group. I am interested in governance only when it can alter reality.</div>
+
+<h3 id="s-16-4">Use the six report kinds to keep leadership on one truth</h3>
+
+<p>Governance breaks down fast when every audience gets a different version of the truth. One team has a workshop mural. Another has a PowerPoint summary. Finance has a spreadsheet. Operations has a dashboard. Nobody can trace the disagreement back to the source artifact easily. ASD fixes that by exporting deterministic reports from the same project inputs. There are six report kinds. I keep all six in play because each serves a distinct governance job.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Report kind</th>
+        <th>Primary audience</th>
+        <th>Why I use it</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>engagement</code></td>
+        <td>Full steering group</td>
+        <td>Gives the complete engagement record: summary, evidence base, artifacts, traceability, and method log</td>
+      </tr>
+      <tr>
+        <td><code>executive-summary</code></td>
+        <td>Decision-makers under time pressure</td>
+        <td>Keeps the argument short without severing it from the artifact index and next steps</td>
+      </tr>
+      <tr>
+        <td><code>research-findings</code></td>
+        <td>Research, design, and operations leads</td>
+        <td>Focuses attention on findings without burying them in delivery detail</td>
+      </tr>
+      <tr>
+        <td><code>artifact-dossier</code></td>
+        <td>Audit, design assurance, and reviewers</td>
+        <td>Resolves each artifact with its linked evidence so claims can be challenged cleanly</td>
+      </tr>
+      <tr>
+        <td><code>traceability-matrix</code></td>
+        <td>Governance, QA, and regulated domains</td>
+        <td>Shows provenance from evidence to artifact to decision</td>
+      </tr>
+      <tr>
+        <td><code>method-log</code></td>
+        <td>Process owners and practice leads</td>
+        <td>Makes the method sequence and gates inspectable instead of anecdotal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>These reports are not hand-composed summaries. They are deterministic exports. That matters. If I re-export the same project inputs, I should get the same argument, apart from the controlled <code>generatedAt</code> field where applicable. This stability is a governance feature. It means the council is not debating whose deck is newest. It is debating the underlying evidence and artifact state.</p>
+
+  <div class="code-label">governance-report-pack.sh</div>
+  <pre><code>PID="titan-cx-governance-2026"
+
+asd export-report --projectId "$PID" --kind engagement
+asd export-report --projectId "$PID" --kind executive-summary
+asd export-report --projectId "$PID" --kind research-findings
+asd export-report --projectId "$PID" --kind artifact-dossier
+asd export-report --projectId "$PID" --kind traceability-matrix
+asd export-report --projectId "$PID" --kind method-log</code></pre>
+
+  <p>At Kestrel, the <code>traceability-matrix</code> and <code>method-log</code> were especially helpful because they made the quality programme feel less like CX rhetoric and more like an auditable operating cadence. At Titan, the <code>executive-summary</code> and <code>artifact-dossier</code> did heavy lifting. The executive group needed a concise decision surface. The operating teams and reviewers needed the deeper chain from maturity evidence to governance choices. One project could support both because the exports came from the same truth set.</p>
+  <p>I also like what this does to meeting behavior. Once the board knows a dossier can be opened to inspect the resolved evidence behind a claim, casual hand-waving declines. People either bring stronger arguments or they ask for better evidence. Both outcomes improve governance.</p>
+  <p>There is another governance benefit hiding here. The report pack makes human approval boundaries clearer. Agents can assemble the evidence, render the dossier, and highlight the unresolved gaps. They do not get to declare the quality issue closed on their own. A council chair, journey owner, or named executive still has to decide whether a standard changes, whether funding moves, or whether a release pauses. I want that asymmetry preserved. Automation accelerates the preparation of judgment. It does not replace accountable judgment in a mature service organization.</p>
+  <p>That is why I pair the six reports deliberately. The <code>executive-summary</code> tells leaders what decision is needed now. The <code>artifact-dossier</code> gives reviewers the supporting body. The <code>traceability-matrix</code> lets audit-minded stakeholders inspect the chain from evidence to recommendation. The <code>method-log</code> shows whether the team actually followed the promised process. Together they keep governance from collapsing into rhetoric or tunnel vision.</p>
+
+<h3 id="s-16-5">Kestrel and Titan show the two levels of permanent capability</h3>
+
+<p>Kestrel Energy and Titan Manufacturing taught related lessons at different altitudes. Kestrel was the service-level problem. The organization needed a standing service quality management loop for billing, connections, and SME onboarding. Titan was the enterprise-level problem. The company needed cross-unit governance so customer journeys could survive its own internal fragmentation.</p>
+  <p>Kestrel&rsquo;s work focused on quality as an operating rhythm. The standards library, touchpoint MOS model, avoidable failure-demand view, and recurring audits turned quality from a lagging complaint conversation into a structured management system. The best part of the case is how concrete the loop became. Below-target scores triggered audit insights. Audit insights entered factchecked report packs. Those report packs drove standards changes and owner actions. The next cycle verified whether failure demand and promise-keeping actually improved. That is a loop closed in the only way that matters: the service behavior changed.</p>
+  <p>Titan&rsquo;s work focused on maturity as a political and structural problem. The company already had customer-facing activity. It lacked common definitions, journey ownership, review-gate authority, and a shared measurement architecture. The maturity assessment made the weakness visible. The federated model gave the enterprise a way to respond without destroying local expertise. The governance forums then turned the model into a lived operating system. Cross-BU ownership improved because the authority became real, not advisory. Portal login improved because one lighthouse journey proved the model before scope ballooned into a full-platform fantasy.</p>
+  <p>Put differently: Kestrel answered, &ldquo;How do we keep a service honest every month?&rdquo; Titan answered, &ldquo;How do we keep an enterprise from producing five conflicting services at once?&rdquo; ASD helped in both cases because it linked methods, artifacts, evidence, reports, and gates into one contract. Agents could draft, aggregate, or challenge. Humans still made the approval decisions. That boundary is healthy. Quality governance should be evidence-rich and automation-assisted. It should never become self-authorizing.</p>
+  <p>I end this chapter with a practical stance. If your service work stops at launch, you are building decay into the system. If your governance model cannot change funding, ownership, or standards, you are documenting decline elegantly. Permanent capability comes from loops that close, audits that can fail closed, maturity models grounded in evidence, and report surfaces that keep every audience on one truth. That is harder than shipping a redesign. It is also where the real leverage lives.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="15.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 15</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Transformative Services, Behavior Change &amp; Recovery Engineering</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 15</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Transformative Services, Behavior Change &amp; Recovery Engineering</p>
+        </div>
+      </div>
+    </a>
+    <a href="17.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 17</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD MCP Server</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 17</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD MCP Server</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">The ASD MCP Server</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Thirty tools, 228 resources, ten prompts — over stdio</p>
+        </div>
+        <a href="17.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

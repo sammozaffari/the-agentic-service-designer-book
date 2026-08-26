@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Agentic Service Designer — How AI Agents and Service Blueprints-as-Code Are Transforming Service Design</title>
+  <meta name="author" content="Mehran Mozaffari">
+  <meta name="description" content="The Agentic Service Designer: How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.">
+  <meta property="og:type" content="book">
+  <meta property="og:title" content="The Agentic Service Designer">
+  <meta property="og:description" content="How AI Agents, Claude Design, Open Design, and the New Design Tool Ecosystem Are Transforming Product Design">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #cdabfe;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+
+    .btn-hover {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .btn-hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.08);
+      transition: left 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+      z-index: 0;
+    }
+    .btn-hover:hover::before {
+      left: 0;
+    }
+    .btn-hover > * {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- ===== Header ===== -->
+    <!-- ===== Header ===== -->
+    <!-- ===== Header ===== -->
+    <!-- ===== Header ===== -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight" style="font-family: 'Beausite Classic Medium', sans-serif">AD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">'26</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm text-black">
+        <a href="about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary bg-lavender"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="changelog.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary bg-lavender"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Changelog</span>
+            <span class="nav-text-clone">Changelog</span>
+          </span>
+        </a>
+        <a href="index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary bg-lavender"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section id="hero-section" class="relative bg-black overflow-hidden">
+    <!-- Interactive Shader Background -->
+    <canvas id="hero-shader-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+    
+    <div class="relative z-10 flex max-w-6xl flex-col items-start px-4 py-16 md:flex-row md:items-center md:py-24 ml-0 mr-auto">
+      <div class="flex-1 text-white">
+        <h1 class="text-6xl font-bold leading-[0.9] tracking-tight sm:text-7xl md:text-8xl lg:text-9xl" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">
+          The Agentic<br>Designer
+        </h1>
+        <p class="mt-6 max-w-md text-lg leading-snug tracking-tight text-white/70" style="font-family: 'Beausite Classic Regular', sans-serif">
+          How AI agents, design tools, and the new ecosystem are transforming product design
+        </p>
+        <div class="mt-6 flex items-center gap-4">
+          <a href="#chapters" class="bg-coral px-6 py-3 text-sm font-medium text-black font-mono">Read the Book</a>
+          <p class="font-mono text-[10px] uppercase tracking-wider text-white/40">
+            By Mehran Mozaffari &middot; May 2026
+          </p>
+        </div>
+      </div>
+      <div class="mt-12 flex-shrink-0 md:ml-16 md:mt-0 w-[280px] sm:w-[320px] md:w-[360px]">
+        <!-- 3D Book Cover with Perspective & Tilt -->
+        <div class="perspective-container relative w-full flex items-center justify-center" style="perspective: 1000px;">
+          <a href="https://github.com/imehr/the-agentic-designer" target="_blank" rel="noopener" class="tilt-card block relative w-full h-auto transition-all duration-300 ease-out" style="transform-style: preserve-3d; will-change: transform;">
+            <img src="images/cover.webp" alt="The Agentic Service Designer Book Cover" class="w-full h-auto pointer-events-none select-none" style="transform: translateZ(30px); transform-style: preserve-3d; filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.45));">
+            <div class="glare absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300" style="transform: translateZ(31px); mix-blend-mode: overlay; background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 75%);"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== Inflection Point + Stats (Grid Aesthetic) ===== -->
+  <section class="border-t border-black bg-white">
+    <div class="px-4 py-12 md:py-16 max-w-6xl mr-auto ml-0">
+      <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/50">
+        An Inflection Point
+      </p>
+      <h2 class="max-w-3xl font-sans text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-5xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+        In 2025, designers were experimenting with AI. In 2026, they&rsquo;re rebuilding their entire design workflow around AI agents.
+      </h2>
+    </div>
+
+    <!-- Stats Zero-Gap Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 border-t border-b border-black divide-y lg:divide-y-0 lg:divide-x divide-black">
+      <!-- Left Column: Visual Diagram -->
+      <div class="lg:col-span-7 relative bg-neutral-100 flex items-center justify-center overflow-hidden min-h-[300px] lg:min-h-0">
+        <img src="images/ch01-fig-03--web.webp" alt="The Agentic Design Ecosystem Diagram" class="w-full h-full object-cover">
+      </div>
+      <!-- Right Column: Stats Cards -->
+      <div class="lg:col-span-5 flex flex-col divide-y divide-black">
+        <!-- Stat 1: Lavender Card -->
+        <div class="flex-1 p-8 lg:p-12 bg-[#cdabfe]/25 flex flex-col justify-center">
+          <p class="font-sans text-7xl lg:text-8xl font-bold leading-none tracking-tight text-black mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">14</p>
+          <p class="font-sans text-lg lg:text-xl font-medium leading-snug text-black/80" style="font-family: 'Beausite Classic Medium', sans-serif">Chapters covering the full agentic design ecosystem</p>
+        </div>
+        <!-- Stat 2: Sage Card -->
+        <div class="flex-1 p-8 lg:p-12 bg-[#597e87]/15 flex flex-col justify-center">
+          <p class="font-sans text-7xl lg:text-8xl font-bold leading-none tracking-tight text-black mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">75+</p>
+          <p class="font-sans text-lg lg:text-xl font-medium leading-snug text-black/80" style="font-family: 'Beausite Classic Medium', sans-serif">Figures, screenshots, and comparison diagrams</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About Section (Layout Quote and Coverage Grid) ===== -->
+  <section id="about" class="bg-white">
+    <div class="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-black border-b border-black">
+      <!-- Left Column: Biography & Author Coordinates Quote -->
+      <div class="lg:col-span-6 flex flex-col justify-between bg-white">
+        <div class="p-8 lg:p-12 space-y-6">
+          <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/50">
+            About the Book
+          </p>
+          <p class="text-lg leading-relaxed text-black/90 font-medium" style="font-family: 'Beausite Classic Medium', sans-serif">
+            <em>The Agentic Service Designer</em> covers the full breadth of the agentic design paradigm: agent platforms, design-for-agents harnesses, design-as-code workflows, and multi-agent systems orchestration.
+          </p>
+          <p class="text-sm leading-relaxed text-black/70">
+            Written with AI assistance using an agentic publishing pipeline. The author directed, reviewed, and approved all content. Technical review by Claude Opus 4.6 and Gemini 3.1 Pro. Free for personal use under a personal use license.
+          </p>
+          <p class="text-sm leading-relaxed text-black/70">
+            The book includes 14 chapters, 3 appendices with battle-tested prompts, copy-paste code examples, and four real-world case studies with honest assessments of what worked and what fell apart. Whether you&rsquo;re a designer curious about AI agents or an engineer building design tools, this book provides the mental models and practical workflows you need.
+          </p>
+        </div>
+        
+        <!-- Quote Panel at bottom of Left Column -->
+        <div class="border-t border-black p-6 bg-neutral-50 flex items-start gap-4">
+          <a href="https://www.linkedin.com/in/mehran-mozaffari-94302232/" target="_blank" rel="noopener" class="flex-shrink-0 block group">
+            <img src="images/mehran.png" alt="Mehran Mozaffari" class="size-24 object-cover border border-black group-hover:border-coral transition-colors" style="border-radius: 0;">
+          </a>
+          <div>
+            <p class="mb-2 font-sans text-sm italic leading-snug text-black/90" style="font-family: 'Beausite Classic Regular', sans-serif">
+              &ldquo;Agent choice matters less than agent configuration. A well-configured agent with a good skill file will outperform a bare agent every time.&rdquo;
+            </p>
+            <a href="https://www.linkedin.com/in/mehran-mozaffari-94302232/" target="_blank" rel="noopener" class="group block">
+              <p class="text-xs font-bold text-black group-hover:text-coral transition-colors">Mehran Mozaffari &rarr;</p>
+              <p class="font-mono text-[9px] uppercase tracking-wider text-black/50">
+                Author, Sydney, Australia &middot; AI Operator &amp; Systems Designer
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Covers List & Action Banner -->
+      <div class="lg:col-span-6 flex flex-col justify-between bg-[#f4f7f6]">
+        <div class="p-8 lg:p-12 flex-1">
+          <p class="mb-6 font-mono text-[10px] uppercase tracking-wider text-black/60">
+            What the book covers:
+          </p>
+          <ul class="border-t border-b border-black divide-y divide-black font-mono text-xs text-black">
+            <li class="py-3.5 flex justify-between items-center">
+              <span>Agent platforms (Claude Code, OpenCode, Gemini CLI)</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+            <li class="py-3.5 flex justify-between items-center">
+              <span>Design-for-agents harnesses &amp; skill files</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+            <li class="py-3.5 flex justify-between items-center">
+              <span>Design-as-code workflows &amp; design systems</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+            <li class="py-3.5 flex justify-between items-center">
+              <span>Motion &amp; video design (Remotion, Hyperframes)</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+            <li class="py-3.5 flex justify-between items-center">
+              <span>MCP server integrations (Figma, Miro)</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+            <li class="py-3.5 flex justify-between items-center">
+              <span>Multi-agent team orchestration case studies</span>
+              <span class="text-black/40 font-sans">&rarr;</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Solid Black Action Button (Flush at bottom) -->
+        <a href="#chapters" class="block w-full bg-black hover:bg-neutral-900 text-white font-mono text-xs uppercase tracking-widest py-5 text-center border-t border-black transition-colors">
+          Browse all chapters &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Large Quote ===== -->
+  <section class="border-t border-black px-4 py-16">
+    <blockquote class="max-w-4xl font-sans text-2xl leading-snug sm:text-3xl md:text-4xl ml-0 mr-auto" style="font-family: 'Beausite Classic Medium', sans-serif">
+      AI coding agents are now operating design tools, generating visual artifacts, and closing the loop from design intent to production output.
+    </blockquote>
+  </section>
+
+  <!-- ===== Chapter: Foundations (Coral) ===== -->
+  <section class="relative overflow-hidden bg-[#fe7141] px-4 py-12 text-black" style="background-image: url('./assets/gradients/gradient_coral_peach.png'); background-size: cover; background-position: center;">
+    <div class="relative z-10 grid gap-8 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          Part I &middot; Foundations
+        </p>
+        <h2 class="mb-4 font-sans text-3xl leading-tight sm:text-4xl md:text-5xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+          The agentic design paradigm
+        </h2>
+        <p class="mb-6 text-base leading-relaxed text-black/80">
+          Before you can design with agents, you need to understand what they are, how they learn, and why design files are becoming code artifacts. These four chapters establish the mental model that makes every workflow in the rest of the book possible.
+        </p>
+        <p class="mb-3 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          In this section:
+        </p>
+        <ul class="mb-8 space-y-2">
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 01: The Agentic Design Paradigm</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 02: Your Agent Toolkit</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 03: Teaching Agents to Design</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 04: Design-as-Code</li>
+        </ul>
+        <a href="chapters/01.html" class="inline-flex items-center gap-2 bg-black px-5 py-3 text-sm font-medium text-white">
+          Read Part I
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+      <div class="relative hidden lg:block">
+        <img src="images/ch02-fig-01--web.webp" alt="Agent Platforms" class="object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Chapter: Tools & Workflows (Lavender) ===== -->
+  <section class="relative overflow-hidden bg-[#cdabfe] px-4 py-12 text-black" style="background-image: url('./assets/gradients/gradient_lavender_violet.png'); background-size: cover; background-position: center;">
+    <div class="relative z-10 grid gap-8 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          Part II &middot; Tools &amp; Workflows
+        </p>
+        <h2 class="mb-4 font-sans text-3xl leading-tight sm:text-4xl md:text-5xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+          The connected canvas
+        </h2>
+        <p class="mb-6 text-base leading-relaxed text-black/80">
+          Five tools dominate the agentic design space: Paper, Pencil, Open Design, OpenPencil, and Huashu Design. This section walks through each one&mdash;setup, workflows, and real output. Every code block is copy-paste ready.
+        </p>
+        <p class="mb-3 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          In this section:
+        </p>
+        <ul class="mb-8 space-y-2">
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 05: Paper and Pencil</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 06: Open Design and OpenPencil</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 07: Huashu Design</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 08: Design Systems and Tokens</li>
+        </ul>
+        <a href="chapters/05.html" class="inline-flex items-center gap-2 bg-black px-5 py-3 text-sm font-medium text-white">
+          Read Part II
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+      <div class="relative hidden lg:block">
+        <img src="images/ch06-fig-01--web.webp" alt="Open Design" class="object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Chapter: Advanced Topics (Sage) ===== -->
+  <section class="relative overflow-hidden bg-[#597e87] px-4 py-12 text-black" style="background-image: url('./assets/gradients/gradient_sage_yellow.png'); background-size: cover; background-position: center;">
+    <div class="relative z-10 grid gap-8 lg:grid-cols-2">
+      <div>
+        <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          Part III &middot; Advanced Topics
+        </p>
+        <h2 class="mb-4 font-sans text-3xl leading-tight sm:text-4xl md:text-5xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+          From motion to multi-agent
+        </h2>
+        <p class="mb-6 text-base leading-relaxed text-black/80">
+          Video is becoming a first-class output of AI agent workflows. MCP connects agents to every design tool. Multiple agents can work in parallel on a single design. And the gap between a canvas design and production code is closing fast.
+        </p>
+        <p class="mb-3 font-mono text-[10px] uppercase tracking-wider text-black/60">
+          In this section:
+        </p>
+        <ul class="mb-8 space-y-2">
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 09: Motion and Video</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 10: MCP Integrations</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 11: Multi-Agent Design Teams</li>
+          <li class="border-b border-black pb-2 font-mono text-sm">Ch 12: Production UI from Design</li>
+        </ul>
+        <a href="chapters/09.html" class="inline-flex items-center gap-2 bg-black px-5 py-3 text-sm font-medium text-white">
+          Read Part III
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+      <div class="relative hidden lg:block">
+        <img src="images/ch10-fig-01--web.webp" alt="MCP Architecture" class="object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Chapter: Case Studies + Future (White) ===== -->
+  <section id="case-studies" class="border-t border-black px-4 py-12">
+    <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/50">
+      Part IV &middot; Practice &amp; Outlook
+    </p>
+    <h2 class="mb-2 font-sans text-3xl leading-tight sm:text-4xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+      Theory is useful. Practice is essential.
+    </h2>
+
+    <!-- Chapter Grid (Practice & Outlook) with Zero Gap & Fit Images -->
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-0 border border-black divide-y sm:divide-y-0 sm:divide-x divide-black">
+      <!-- Chapter 13 Card -->
+      <a href="chapters/13.html" class="group flex flex-col justify-between bg-white text-black transition-colors hover:bg-neutral-50/50">
+        <!-- Card Text Content -->
+        <div class="p-6 flex-1">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+          <h3 class="mt-2 font-sans text-xl font-bold leading-tight text-black" style="font-family: 'Beausite Classic Bold', sans-serif">
+            Real-World Case Studies
+          </h3>
+          <p class="mt-2 text-sm text-black/60 leading-relaxed">
+            Four real agentic design workflows with honest assessments
+          </p>
+        </div>
+        <!-- Card Image: Full bleed, fit, no cropping -->
+        <div class="border-t border-b border-black aspect-[1200/747] w-full overflow-hidden bg-[#fbfbfb]">
+          <img src="images/ch13-fig-01--web.webp" alt="Real-World Case Studies Flowchart" class="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.02]">
+        </div>
+        <!-- Card Button -->
+        <div class="bg-black text-white font-mono text-[11px] uppercase tracking-wider py-4 text-center group-hover:bg-neutral-900 transition-colors border-t border-black">
+          Read the chapter &rarr;
+        </div>
+      </a>
+
+      <!-- Chapter 14 Card -->
+      <a href="chapters/14.html" class="group flex flex-col justify-between bg-white text-black transition-colors hover:bg-neutral-50/50">
+        <!-- Card Text Content -->
+        <div class="p-6 flex-1">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+          <h3 class="mt-2 font-sans text-xl font-bold leading-tight text-black" style="font-family: 'Beausite Classic Bold', sans-serif">
+            The Future of Agentic Design
+          </h3>
+          <p class="mt-2 text-sm text-black/60 leading-relaxed">
+            Trends, predictions for 2027-2028, and the risks ahead
+          </p>
+        </div>
+        <!-- Card Image: Full bleed, fit, no cropping -->
+        <div class="border-t border-b border-black aspect-[1200/747] w-full overflow-hidden bg-[#fbfbfb]">
+          <img src="images/ch14-fig-01--web.webp" alt="Ecosystem Evolution Timeline" class="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-[1.02]">
+        </div>
+        <!-- Card Button -->
+        <div class="bg-black text-white font-mono text-[11px] uppercase tracking-wider py-4 text-center group-hover:bg-neutral-900 transition-colors border-t border-black">
+          Read the chapter &rarr;
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== Appendices ===== -->
+  <section class="border-t border-black px-4 py-12">
+    <p class="mb-4 font-mono text-[10px] uppercase tracking-wider text-black/50">
+      Appendices
+    </p>
+    <h2 class="mb-2 font-sans text-3xl leading-tight sm:text-4xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+      Reference materials
+    </h2>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-0 border border-black divide-y divide-black md:divide-y-0 md:divide-x">
+      <!-- Appendix A -->
+      <a href="chapters/A.html" class="group relative flex flex-col justify-between p-8 min-h-[380px] transition-all duration-300 hover:brightness-[0.98] text-black" style="background-color: #cc7373; background-image: url('assets/gradients/gradient_coral_peach.png'); background-size: cover; background-position: center;">
+        <div class="relative z-10 flex flex-col justify-between h-full w-full">
+          <div>
+            <p class="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="mt-4 font-sans text-2xl font-bold leading-tight tracking-[-0.02em] text-black" style="font-family: 'Beausite Classic Bold', sans-serif">
+              Tool Comparison Matrix
+            </h3>
+            <p class="mt-2 text-sm text-black/70 leading-relaxed max-w-xs">
+              Side-by-side comparisons for every tool
+            </p>
+          </div>
+          <div class="mt-8">
+            <span class="inline-flex items-center gap-1.5 text-xs font-mono font-medium uppercase tracking-wider text-black border-b border-black/20 pb-0.5 group-hover:border-black transition-colors">
+              Read
+              <i data-lucide="arrow-right" class="size-3.5"></i>
+            </span>
+          </div>
+        </div>
+        <span class="absolute bottom-4 right-6 font-mono text-[160px] font-bold leading-none text-black/[0.06] select-none pointer-events-none group-hover:text-black/[0.1] transition-colors duration-300">A</span>
+      </a>
+
+      <!-- Appendix B -->
+      <a href="chapters/B.html" class="group relative flex flex-col justify-between p-8 min-h-[380px] transition-all duration-300 hover:brightness-[0.98] text-black" style="background-color: #4e9b7a; background-image: url('assets/gradients/gradient_emerald_olive.png'); background-size: cover; background-position: center;">
+        <div class="relative z-10 flex flex-col justify-between h-full w-full">
+          <div>
+            <p class="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="mt-4 font-sans text-2xl font-bold leading-tight tracking-[-0.02em] text-black" style="font-family: 'Beausite Classic Bold', sans-serif">
+              MCP Server Reference
+            </h3>
+            <p class="mt-2 text-sm text-black/70 leading-relaxed max-w-xs">
+              Every MCP server and configuration
+            </p>
+          </div>
+          <div class="mt-8">
+            <span class="inline-flex items-center gap-1.5 text-xs font-mono font-medium uppercase tracking-wider text-black border-b border-black/20 pb-0.5 group-hover:border-black transition-colors">
+              Read
+              <i data-lucide="arrow-right" class="size-3.5"></i>
+            </span>
+          </div>
+        </div>
+        <span class="absolute bottom-4 right-6 font-mono text-[160px] font-bold leading-none text-black/[0.06] select-none pointer-events-none group-hover:text-black/[0.1] transition-colors duration-300">B</span>
+      </a>
+
+      <!-- Appendix C -->
+      <a href="chapters/C.html" class="group relative flex flex-col justify-between p-8 min-h-[380px] transition-all duration-300 hover:brightness-[0.98] text-black" style="background-color: #8d7ab5; background-image: url('assets/gradients/gradient_lavender_violet.png'); background-size: cover; background-position: center;">
+        <div class="relative z-10 flex flex-col justify-between h-full w-full">
+          <div>
+            <p class="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="mt-4 font-sans text-2xl font-bold leading-tight tracking-[-0.02em] text-black" style="font-family: 'Beausite Classic Bold', sans-serif">
+              Prompt Library
+            </h3>
+            <p class="mt-2 text-sm text-black/70 leading-relaxed max-w-xs">
+              Battle-tested prompts for design tasks
+            </p>
+          </div>
+          <div class="mt-8">
+            <span class="inline-flex items-center gap-1.5 text-xs font-mono font-medium uppercase tracking-wider text-black border-b border-black/20 pb-0.5 group-hover:border-black transition-colors">
+              Read
+              <i data-lucide="arrow-right" class="size-3.5"></i>
+            </span>
+          </div>
+        </div>
+        <span class="absolute bottom-4 right-6 font-mono text-[160px] font-bold leading-none text-black/[0.06] select-none pointer-events-none group-hover:text-black/[0.1] transition-colors duration-300">C</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== All Chapters List ===== -->
+  <section id="chapters" class="border-t border-black px-4 py-16">
+    <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+      <div class="max-w-sm">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="flex h-10 items-center bg-black px-3">
+            <span class="font-sans text-base font-bold tracking-tight text-white" style="font-family: 'Beausite Classic Medium', sans-serif">AD</span>
+            <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">'26</span>
+          </div>
+        </div>
+        <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+        <p class="mt-3 font-sans text-sm text-black/40">How AI agents, design tools, and the new ecosystem are transforming product design. By Mehran Mozaffari. First Edition, May 2026.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1 w-full">
+        <a href="chapters/preface.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Preface</h3>
+        </a>
+        <a href="chapters/copyright.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright &amp; License</h3>
+        </a>
+        <a href="chapters/01.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Agentic Design Paradigm</h3>
+        </a>
+        <a href="chapters/02.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Your Agent Toolkit</h3>
+        </a>
+        <a href="chapters/03.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Teaching Agents to Design</h3>
+        </a>
+        <a href="chapters/04.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Design-as-Code</h3>
+        </a>
+        <a href="chapters/05.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Paper and Pencil</h3>
+        </a>
+        <a href="chapters/06.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Open Design and OpenPencil</h3>
+        </a>
+        <a href="chapters/07.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Huashu Design</h3>
+        </a>
+        <a href="chapters/08.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Design Systems and Tokens</h3>
+        </a>
+        <a href="chapters/09.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Motion and Video</h3>
+        </a>
+        <a href="chapters/10.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">MCP Integrations</h3>
+        </a>
+        <a href="chapters/11.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Multi-Agent Design Teams</h3>
+        </a>
+        <a href="chapters/12.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Production UI from Design</h3>
+        </a>
+        <a href="chapters/13.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Real-World Case Studies</h3>
+        </a>
+        <a href="chapters/14.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Agentic Design</h3>
+        </a>
+        <a href="chapters/A.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Tool Comparison Matrix</h3>
+        </a>
+        <a href="chapters/B.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">MCP Server Reference</h3>
+        </a>
+        <a href="chapters/C.html" class="group border-b border-black pb-4">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+          <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prompt Library</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA / Dark Section ===== -->
+  <section class="bg-[#1a1a1a] px-4 py-16 text-white">
+    <div class="max-w-xl text-left ml-0 mr-auto">
+      <h2 class="mb-4 font-sans text-2xl leading-tight sm:text-3xl" style="font-family: 'Beausite Classic Medium', sans-serif">
+        Get the book &amp; stay updated
+      </h2>
+      <p class="mb-8 text-base text-white/70">
+        Free for personal use. Download the HTML version or read online. Get notified about new chapters, tools coverage, and edition updates.
+      </p>
+      <div class="flex flex-col gap-4 sm:flex-row sm:justify-start">
+        <a href="#chapters" class="inline-flex items-center justify-center gap-2 bg-[#fe7141] px-6 py-3 text-sm font-medium text-black">
+          Read the Book
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+        <a href="https://github.com/imehr/the-agentic-designer" class="btn-hover inline-flex items-center justify-center gap-2 border border-white/20 px-6 py-3 text-sm font-medium text-white hover:border-white/40">
+          View on GitHub
+        </a>
+      </div>
+      <p class="mt-6 font-mono text-[10px] leading-relaxed text-white/40">
+        CC BY-NC-SA 4.0 &middot; Personal use free, commercial requires permission &middot; Written with AI assistance
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="relative z-40 bg-black text-white border-t border-white">
+    
+    <!-- Stats Section inside Footer (Crisp Inset-Bordered Grid) -->
+    <div class="w-full border-b border-white bg-black">
+      <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 border-l border-r border-white">
+        <div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-white">
+          <!-- Col 1 -->
+          <div class="p-8 flex flex-col justify-between">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">The Dataset</p>
+            <p class="font-sans text-xl font-bold leading-tight mt-6" style="font-family: 'Beausite Classic Medium', sans-serif">
+              This project draws from
+            </p>
+          </div>
+          <!-- Col 2 -->
+          <div class="p-8 flex flex-col justify-between">
+            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">15+</p>
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Design &amp; code tools explored</p>
+          </div>
+          <!-- Col 3 -->
+          <div class="p-8 flex flex-col justify-between">
+            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">20+</p>
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Open-source repos &amp; schemas</p>
+          </div>
+          <!-- Col 4 -->
+          <div class="p-8 flex flex-col justify-between">
+            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">75+</p>
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Figures &amp; comparison diagrams</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Name Branding Block -->
+    <div class="w-full border-b border-white bg-black text-white relative">
+      <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 py-24 md:py-36 px-6 md:px-12 lg:px-20">
+        <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Designer</h2>
+        <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+          <p class="font-sans text-lg md:text-xl text-white">How AI agents, design tools, and the new ecosystem are transforming product design</p>
+          <p class="font-mono text-[13px] text-white/70">By Mehran Mozaffari</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright & Links (Aligned with Inset) -->
+    <div class="w-full bg-black text-white border-t border-white">
+      <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 py-6">
+        <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+          <div class="font-mono text-[11px] text-white/50 leading-relaxed">
+            <p>&copy;2026 Mehran Mozaffari. All rights reserved.</p>
+            <p class="mt-1">First Edition. Published May 2026. All content, code examples, and illustrations are the original work of the author.</p>
+          </div>
+          <div class="flex items-center gap-6">
+            <a href="#about" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+            <a href="changelog.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Changelog</a>
+            <a href="#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+            <a href="https://github.com/imehr/the-agentic-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+            <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // ===== 3D Apple TV-style Tilt Effect for Book Cover =====
+    document.querySelectorAll('.perspective-container').forEach(container => {
+      const card = container.querySelector('.tilt-card');
+      const glare = container.querySelector('.glare');
+      
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateY = ((x - centerX) / centerX) * 12;
+        const rotateX = -((y - centerY) / centerY) * 12;
+        
+        card.style.transition = 'transform 0.1s ease-out';
+        card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+        
+        if (glare) {
+          glare.style.transition = 'opacity 0.1s ease-out';
+          glare.style.opacity = '1';
+          const angle = Math.atan2(y - centerY, x - centerX) * 180 / Math.PI;
+          glare.style.background = `linear-gradient(${angle + 90}deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 75%)`;
+        }
+      });
+      
+      container.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s ease-out';
+        card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        if (glare) {
+          glare.style.transition = 'opacity 0.5s ease-out';
+          glare.style.opacity = '0';
+        }
+      });
+    });
+
+    // ===== Interactive Hero Background Shader (WebGL + Canvas 2D Fallback) =====
+    (function() {
+      const canvas = document.getElementById('hero-shader-canvas');
+      if (!canvas) return;
+      const section = document.getElementById('hero-section');
+      if (!section) return;
+
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      
+      // Fallback to Canvas 2D if WebGL is not available
+      if (!gl) {
+        initCanvas2DFallback(canvas, section);
+        return;
+      }
+
+      // Vertex Shader source (full screen quad)
+      const vsSource = `
+        attribute vec2 position;
+        void main() {
+          gl_Position = vec4(position, 0.0, 1.0);
+        }
+      `;
+
+      // Fragment Shader source (organic domain-warped clouds mixing dynamically with mouse movement)
+      const fsSource = `
+        precision mediump float;
+        uniform vec2 u_resolution;
+        uniform vec2 u_mouse;
+        uniform float u_time;
+        uniform vec3 u_injectedColor;
+
+        // Pseudo-random noise
+        float hash(vec2 p) {
+          return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+        }
+
+        float noise(vec2 p) {
+          vec2 i = floor(p);
+          vec2 f = fract(p);
+          vec2 u = f * f * (3.0 - 2.0 * f);
+          return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+                     mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+        }
+
+        // Fractional Brownian Motion (4 octaves)
+        float fbm(vec2 p) {
+          float v = 0.0;
+          float a = 0.5;
+          vec2 shift = vec2(100.0);
+          mat2 rot = mat2(0.87758, 0.47942, -0.47942, 0.87758); // cos(0.5), sin(0.5)
+          for (int i = 0; i < 4; ++i) {
+            v += a * noise(p);
+            p = rot * p * 2.0 + shift;
+            a *= 0.5;
+          }
+          return v;
+        }
+
+        void main() {
+          vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+          vec2 p = uv - 0.5;
+          p.x *= u_resolution.x / u_resolution.y;
+
+          vec2 mouse = u_mouse / u_resolution.xy - 0.5;
+          mouse.x *= u_resolution.x / u_resolution.y;
+
+          float t = u_time * 0.08; // Very slow drift for cloud billows
+
+          // Vector from pixel to mouse
+          vec2 toMouse = p - mouse;
+          float distToMouse = length(toMouse);
+
+          // Localized mouse vortex / swirl displacement to "mix" the clouds
+          float swirlForce = exp(-distToMouse * 3.5) * 0.45;
+          vec2 mouseWarp = vec2(-toMouse.y, toMouse.x) * swirlForce;
+
+          // Domain Warping (fbm within fbm) to produce complex cloud formations
+          vec2 q = vec2(
+            fbm(p * 2.0 + mouseWarp + vec2(0.0, t)),
+            fbm(p * 2.0 + mouseWarp + vec2(5.2, t + mouse.x * 0.1))
+          );
+
+          vec2 r = vec2(
+            fbm(p * 2.0 + 4.0 * q + vec2(1.7, t * 1.2 - mouse.y * 0.1)),
+            fbm(p * 2.0 + 4.0 * q + vec2(8.3, t * 0.8))
+          );
+
+          // Final cloud density factor
+          float f = fbm(p * 2.2 + 4.0 * r);
+
+          // Subtle brand color palette definitions
+          vec3 coral = vec3(0.996, 0.443, 0.255);    // #fe7141
+          vec3 lavender = vec3(0.804, 0.671, 0.996); // #cdabfe
+          vec3 gold = vec3(0.996, 0.69, 0.228);      // #feb03a
+          vec3 violet = vec3(0.537, 0.278, 0.957);   // #8947f4
+          vec3 sage = vec3(0.349, 0.494, 0.529);     // #597e87
+          vec3 base = vec3(0.005, 0.005, 0.007);     // Darker base
+
+          // Compose cloud layers sequentially (using static base colors)
+          vec3 color = base;
+          
+          // Background cloud base (sage & lavender)
+          color = mix(color, sage, q.x * 0.22);
+          color = mix(color, lavender, q.y * 0.18);
+
+          // Midground cloud swirls (coral & gold)
+          color = mix(color, coral, r.x * r.x * 0.22);
+          color = mix(color, gold, r.y * 0.15);
+
+          // High-density highlights (violet)
+          color = mix(color, violet, f * f * 0.18);
+
+          // Localized organic cloud under the mouse position
+          // Warp distance to mouse with noise to create organic cloud-shaped mask
+          float localNoise = fbm(p * 2.5 + 2.0 * r + vec2(0.0, t * 0.5));
+          float localMask = smoothstep(0.65, 0.0, distToMouse);
+          float localCloudDensity = localNoise * localMask;
+
+          // Mix the speed-reactive color (purple/yellow) as an organic cloud layer under the cursor
+          // We use mix() to blend it, avoiding the additive "flashlight" effect entirely
+          color = mix(color, u_injectedColor, localCloudDensity * 0.65);
+
+          // Film grain overlay
+          float grain = (fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.014;
+          color += vec3(grain);
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+      function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+          gl.deleteShader(shader);
+          return null;
+        }
+        return shader;
+      }
+
+      const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
+      const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+      if (!vs || !fs) return;
+
+      const program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error('Program linking error:', gl.getProgramInfoLog(program));
+        return;
+      }
+
+      const positionLoc = gl.getAttribLocation(program, 'position');
+      const resolutionLoc = gl.getUniformLocation(program, 'u_resolution');
+      const mouseLoc = gl.getUniformLocation(program, 'u_mouse');
+      const timeLoc = gl.getUniformLocation(program, 'u_time');
+      const injectedColorLoc = gl.getUniformLocation(program, 'u_injectedColor');
+
+      const positionBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1.0, -1.0,
+         1.0, -1.0,
+        -1.0,  1.0,
+        -1.0,  1.0,
+         1.0, -1.0,
+         1.0,  1.0,
+      ]), gl.STATIC_DRAW);
+
+      let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      let targetMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      let mouseVel = { x: 0, y: 0 };
+      let lastMouse = { x: mouse.x, y: mouse.y };
+
+      // Listen on window to capture broad movements
+      window.addEventListener('mousemove', function(e) {
+        const rect = section.getBoundingClientRect();
+        targetMouse.x = e.clientX - rect.left;
+        targetMouse.y = rect.height - (e.clientY - rect.top);
+      });
+
+      let width, height;
+      function resize() {
+        width = section.clientWidth;
+        height = section.clientHeight;
+        canvas.width = width;
+        canvas.height = height;
+        gl.viewport(0, 0, width, height);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      let startTime = Date.now();
+      function render() {
+        // Spring physics: easing + lag/delay
+        const spring = 0.015;
+        const friction = 0.92;
+        mouseVel.x += (targetMouse.x - mouse.x) * spring;
+        mouseVel.y += (targetMouse.y - mouse.y) * spring;
+        mouseVel.x *= friction;
+        mouseVel.y *= friction;
+        mouse.x += mouseVel.x;
+        mouse.y += mouseVel.y;
+
+        // Calculate speed for color shift
+        const dx = mouse.x - lastMouse.x;
+        const dy = mouse.y - lastMouse.y;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        lastMouse.x = mouse.x;
+        lastMouse.y = mouse.y;
+
+        // Interpolate between Purple (#8a47f4) and Golden Yellow (#ffd700) based on speed
+        const purple = [138 / 255, 71 / 255, 244 / 255];
+        const yellow = [255 / 255, 215 / 255, 0 / 255];
+        
+        let factor = Math.min(speed / 12.0, 1.0);
+        factor = Math.pow(factor, 1.2); // ignition curve
+
+        const injectedColor = [
+          purple[0] + (yellow[0] - purple[0]) * factor,
+          purple[1] + (yellow[1] - purple[1]) * factor,
+          purple[2] + (yellow[2] - purple[2]) * factor
+        ];
+
+        const time = (Date.now() - startTime) * 0.001;
+
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(program);
+
+        gl.uniform2f(resolutionLoc, width, height);
+        gl.uniform2f(mouseLoc, mouse.x, mouse.y);
+        gl.uniform1f(timeLoc, time);
+        gl.uniform3fv(injectedColorLoc, injectedColor);
+
+        gl.enableVertexAttribArray(positionLoc);
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        requestAnimationFrame(render);
+      }
+      requestAnimationFrame(render);
+
+      // Canvas 2D Fallback - Interactive "Cloud Particles" mixing
+      function initCanvas2DFallback(canvas, section) {
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let targetMouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let mouseVel = { x: 0, y: 0 };
+        let lastMouse = { x: mouse.x, y: mouse.y };
+
+        window.addEventListener('mousemove', function(e) {
+          const rect = section.getBoundingClientRect();
+          targetMouse.x = e.clientX - rect.left;
+          targetMouse.y = e.clientY - rect.top;
+        });
+
+        let width, height;
+        function resize() {
+          width = section.clientWidth;
+          height = section.clientHeight;
+          canvas.width = width;
+          canvas.height = height;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // 6 cloud nodes with different colors and behavior (reduced opacity)
+        const clouds = [
+          { r: 254, g: 113, b: 65, a: 0.11, rx: 0.15, ry: 0.12, speed: 0.06, scale: 0.65 }, // Coral
+          { r: 205, g: 171, b: 254, a: 0.09, rx: -0.12, ry: 0.15, speed: 0.05, scale: 0.7 },  // Lavender
+          { r: 254, g: 176, b: 58, a: 0.07, rx: 0.18, ry: -0.14, speed: 0.07, scale: 0.58 }, // Gold
+          { r: 137, g: 71, b: 244, a: 0.06, rx: -0.15, ry: -0.11, speed: 0.045, scale: 0.72 }, // Violet
+          { r: 89, g: 126, b: 135, a: 0.08, rx: 0.09, ry: 0.16, speed: 0.055, scale: 0.62 }, // Sage
+          { r: 205, g: 171, b: 254, a: 0.07, rx: -0.18, ry: -0.16, speed: 0.04, scale: 0.68 }  // Extra Lavender
+        ];
+
+        let startTime = Date.now();
+        function draw() {
+          // Spring physics: easing + lag/delay
+          const spring = 0.015;
+          const friction = 0.92;
+          mouseVel.x += (targetMouse.x - mouse.x) * spring;
+          mouseVel.y += (targetMouse.y - mouse.y) * spring;
+          mouseVel.x *= friction;
+          mouseVel.y *= friction;
+          mouse.x += mouseVel.x;
+          mouse.y += mouseVel.y;
+
+          // Calculate speed
+          const dx = mouse.x - lastMouse.x;
+          const dy = mouse.y - lastMouse.y;
+          const speed = Math.sqrt(dx * dx + dy * dy);
+          lastMouse.x = mouse.x;
+          lastMouse.y = mouse.y;
+
+          let factor = Math.min(speed / 12.0, 1.0);
+          factor = Math.pow(factor, 1.2);
+
+          const purple = { r: 138, g: 71, b: 244 };
+          const yellow = { r: 255, g: 215, b: 0 };
+          const curR = Math.round(purple.r + (yellow.r - purple.r) * factor);
+          const curG = Math.round(purple.g + (yellow.g - purple.g) * factor);
+          const curB = Math.round(purple.b + (yellow.b - purple.b) * factor);
+          const cursorColor = `rgba(${curR}, ${curG}, ${curB}, 0.22)`;
+
+          const time = (Date.now() - startTime) * 0.001;
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 0, width, height);
+
+          // Draw and mix each cloud particle
+          clouds.forEach((c, i) => {
+            // Ambient floating coordinate center
+            let cX = width / 2 + Math.sin(time * c.speed + i) * (width * c.rx);
+            let cY = height / 2 + Math.cos(time * c.speed * 1.1 + i * 2.0) * (height * c.ry);
+
+            // Mix / swirl force from mouse position
+            const dxMouse = mouse.x - cX;
+            const dyMouse = mouse.y - cY;
+            const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse) + 0.1;
+            const maxDist = Math.min(width, height) * 0.6;
+
+            if (distMouse < maxDist) {
+              // Mouse pulls and rotates the cloud particles to mix them
+              const force = (1.0 - distMouse / maxDist) * 120.0;
+              cX += (-dyMouse / distMouse) * force * 0.5;
+              cY += (dxMouse / distMouse) * force * 0.5;
+            }
+
+            // Proximity to cursor for color shift (using cX, cY after swirl displacement)
+            const dxCursor = mouse.x - cX;
+            const dyCursor = mouse.y - cY;
+            const distCursor = Math.sqrt(dxCursor * dxCursor + dyCursor * dyCursor);
+            const influenceRad = Math.min(width, height) * 0.7;
+
+            let mixFactor = 0;
+            if (distCursor < influenceRad) {
+              mixFactor = (1.0 - distCursor / influenceRad) * 0.5; // Mix up to 50% with the cursor's speed-reactive color
+            }
+
+            const mixedR = Math.round(c.r + (curR - c.r) * mixFactor);
+            const mixedG = Math.round(c.g + (curG - c.g) * mixFactor);
+            const mixedB = Math.round(c.b + (curB - c.b) * mixFactor);
+            const particleColor = `rgba(${mixedR}, ${mixedG}, ${mixedB}, ${c.a})`;
+
+            const rad = Math.min(width, height) * c.scale;
+            let grad = ctx.createRadialGradient(cX, cY, 0, cX, cY, rad);
+            grad.addColorStop(0, particleColor);
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+          });
+
+          // Render a cluster of 3 soft, drifting, overlapping cloud particles at the cursor
+          const mouseClouds = [
+            { ox: 0, oy: 0, scale: 0.38, alpha: 0.20 },
+            { ox: -25, oy: 15, scale: 0.28, alpha: 0.15 },
+            { ox: 20, oy: -20, scale: 0.32, alpha: 0.12 }
+          ];
+
+          mouseClouds.forEach((mc, i) => {
+            const driftX = Math.sin(time * 1.5 + i) * 12;
+            const driftY = Math.cos(time * 1.3 + i) * 12;
+            const cX = mouse.x + mc.ox + driftX;
+            const cY = mouse.y + mc.oy + driftY;
+            const rad = Math.min(width, height) * mc.scale;
+
+            let grad = ctx.createRadialGradient(cX, cY, 0, cX, cY, rad);
+            grad.addColorStop(0, `rgba(${curR}, ${curG}, ${curB}, ${mc.alpha})`);
+            grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+          });
+
+          requestAnimationFrame(draw);
+        }
+        requestAnimationFrame(draw);
+      }
+    })();
+  </script>
+<script src="assets/menu.js"></script>
+</body>
+</html>

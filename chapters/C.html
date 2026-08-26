@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The 20-Book Canonical Cross-Reference - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="appendix-C" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">APPENDIX C</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The 20-Book Canonical Cross-Reference</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">The knowledge corpus behind the methods, served to hosts as book resources under asd://books/&lt;book&gt;</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">9 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#C.1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Corpus</a>
+        <a href="#C.2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Books to Methods Map</a>
+        <a href="#C.3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Reading Paths</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#C.1" data-section="C.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Corpus</span></a>
+          <a href="#C.2" data-section="C.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Books to Methods Map</span></a>
+          <a href="#C.3" data-section="C.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Reading Paths</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#C.1" data-section="C.1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Corpus</span></a>
+          <a href="#C.2" data-section="C.2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Books to Methods Map</span></a>
+          <a href="#C.3" data-section="C.3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Reading Paths</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="C.1">The Corpus</h3>
+
+<p>The corpus is intentionally mixed. Some books are hands-on practice manuals. Some are theory, some are business translation, some are method encyclopedias, and some are service-quality classics that keep the platform from collapsing into design theatre. That blend explains the method library better than any single origin story would. Research planning comes from one corner. Journey craft comes from another. Blueprint rigor, CX maturity, service recovery, orchestration, and profit-chain logic each pull from their own shelves.</p>
+  <p>The important runtime point is simple: these books are not decorative citations. Their chapter syntheses are part of the served resource space. A client can browse them through MCP the same way it browses article notes, and the method manifests cite them directly in structured provenance. That is why a tool like <code>sd_knowledge</code> can filter by book id, book chapter, or article number without guessing what the source means.</p>
+  <p>A practical way to read the corpus is to see four layers at once. First come the field manuals: books that tell me how to plan research, run workshops, map journeys, and blueprint services. Then come the theory books that explain value, systems, and emergence, which stops the runtime from becoming a box of workshop rituals with no model of why services behave the way they do. Then come the management and quality texts that keep operations, economics, and frontline reality in the room. Finally come the method catalogs that widen the tactical repertoire when a project needs something more specific than the usual playbook.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Corpus fact</th>
+        <th>Current value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Books in the served corpus</td><td>20</td></tr>
+      <tr><td>Chapter files across those books</td><td>159</td></tr>
+      <tr><td>Book resource URI forms</td><td><code>asd://books/&lt;book&gt;</code> and <code>asd://books/&lt;book&gt;/&lt;chapter&gt;</code></td></tr>
+      <tr><td>Total MCP resources when article roots are present too</td><td>228</td></tr>
+      <tr><td>Why the corpus exists</td><td>To give method manifests, prompts, and knowledge queries a bounded source base instead of hand-wavy references.</td></tr>
+    </tbody>
+  </table>
+  <p>I like this split because it keeps the platform from sounding smarter than it is. The runtime can answer “which sources ground this method?” because the source base is finite. It can expose chapter resources through MCP because the corpus has already been normalized into book and chapter files. It can refuse unsupported provenance claims because every manifest is supposed to point back to concrete book chapters or article notes, not an inferred school of thought.</p>
+
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The book corpus is reference material, not license to inflate claims. A chapter served under <code>asd://books/&lt;book&gt;</code> proves the knowledge is available to the runtime. It does not prove a host executed any specific method against a live project.</div>
+
+<h3 id="C.2">Books to Methods Map</h3>
+
+<table>
+    <thead>
+      <tr>
+        <th>Book title</th>
+        <th>Authors</th>
+        <th>Corpus span</th>
+        <th>Representative ASD methods</th>
+        <th>Primary artifact kinds</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><em>This Is Service Design Doing</em></td>
+        <td>Marc Stickdorn, Adam Lawrence, Markus Hormess, Jakob Schneider</td>
+        <td>10 chapters</td>
+        <td><code>research-plan-design</code>, <code>stakeholder-mapping</code>, <code>storyboard-authoring</code>, <code>service-blueprinting</code></td>
+        <td><code>research-plan</code>, <code>stakeholder-map</code>, <code>storyboard</code>, <code>service-blueprint</code></td>
+      </tr>
+      <tr>
+        <td><em>This Is Service Design Thinking</em></td>
+        <td>Marc Stickdorn &amp; Jakob Schneider</td>
+        <td>6 chapters</td>
+        <td><code>stakeholder-mapping</code>, <code>service-safari</code>, <code>story-mapping</code></td>
+        <td><code>stakeholder-map</code>, <code>insight-set</code>, <code>story-map</code></td>
+      </tr>
+      <tr>
+        <td><em>Service Design: From Insight to Implementation</em></td>
+        <td>Andy Polaine, Lavrans Løvlie, Ben Reason</td>
+        <td>8 chapters</td>
+        <td><code>journey-from-transcripts</code>, <code>service-blueprinting</code>, <code>prototype-ladder-gating</code>, <code>implementation-roadmap</code></td>
+        <td><code>journey-map</code>, <code>service-blueprint</code>, <code>decision-matrix</code>, <code>roadmap</code></td>
+      </tr>
+      <tr>
+        <td><em>Service Design for Business</em></td>
+        <td>Ben Reason, Lavrans Løvlie, Melvin Brand Flu</td>
+        <td>8 chapters</td>
+        <td><code>stakeholder-mapping</code>, <code>service-standard-authoring</code>, <code>frontline-enablement</code>, <code>raci-definition</code></td>
+        <td><code>stakeholder-map</code>, <code>service-standard-set</code>, <code>raci-matrix</code></td>
+      </tr>
+      <tr>
+        <td><em>Good Services</em></td>
+        <td>Lou Downe</td>
+        <td>7 chapters</td>
+        <td><code>good-services-audit</code>, <code>good-services-audit-15</code>, <code>experience-audit</code></td>
+        <td><code>insight-set</code>, <code>experience-audit</code></td>
+      </tr>
+      <tr>
+        <td><em>The Service Innovation Handbook</em></td>
+        <td>Lucy Kimbell</td>
+        <td>8 chapters</td>
+        <td><code>business-model-canvas-build</code>, <code>value-proposition-canvas-build</code>, <code>implementation-roadmap</code></td>
+        <td><code>business-model-canvas</code>, <code>value-proposition-canvas</code>, <code>roadmap</code></td>
+      </tr>
+      <tr>
+        <td><em>Designing for Service: Key Issues</em></td>
+        <td>Daniela Sangiorgi &amp; Alison Prendiville, editors</td>
+        <td>8 chapters</td>
+        <td><code>co-design-workshop</code>, <code>desirability-testing</code>, <code>experience-audit</code>, <code>service-recovery-design</code></td>
+        <td><code>concept-set</code>, <code>test-report</code>, <code>experience-audit</code>, <code>recovery-playbook</code></td>
+      </tr>
+      <tr>
+        <td><em>Orchestrating Experiences</em></td>
+        <td>Chris Risdon &amp; Patrick Quatromoni</td>
+        <td>8 chapters</td>
+        <td><code>orchestration-canvas</code>, <code>ecosystem-value-mapping</code>, <code>journey-from-transcripts</code></td>
+        <td><code>ecosystem-map</code>, <code>journey-map</code></td>
+      </tr>
+      <tr>
+        <td><em>Mapping Experiences</em></td>
+        <td>James Kalbach</td>
+        <td>8 chapters</td>
+        <td><code>experience-mapping</code>, <code>mental-model-alignment</code>, <code>mental-model-diagramming</code>, <code>service-blueprinting</code></td>
+        <td><code>journey-map</code>, <code>mental-model-map</code>, <code>service-blueprint</code></td>
+      </tr>
+      <tr>
+        <td><em>The User's Journey</em></td>
+        <td>Donna Lichaw</td>
+        <td>6 chapters</td>
+        <td><code>story-mapping</code>, <code>storyboard-authoring</code>, <code>desktop-walkthrough</code></td>
+        <td><code>story-map</code>, <code>storyboard</code>, <code>walkthrough-script</code></td>
+      </tr>
+      <tr>
+        <td><em>Design Unbound</em></td>
+        <td>Ann M. Pendleton-Jullian &amp; John Seely Brown</td>
+        <td>10 chapters</td>
+        <td><code>opportunity-matrix-2x2</code>, <code>nuf-triple-lens-filter</code>, <code>blueprint-to-backlog</code></td>
+        <td><code>opportunity-matrix</code>, <code>concept-set</code>, <code>roadmap</code></td>
+      </tr>
+      <tr>
+        <td><em>Service-Dominant Logic</em></td>
+        <td>Stephen L. Vargo &amp; Robert F. Lusch</td>
+        <td>7 chapters</td>
+        <td><code>ecosystem-value-mapping</code>, <code>value-proposition-canvas-build</code>, <code>business-model-canvas-build</code></td>
+        <td><code>ecosystem-map</code>, <code>value-proposition-canvas</code>, <code>business-model-canvas</code></td>
+      </tr>
+      <tr>
+        <td><em>The Experience Economy</em></td>
+        <td>B. Joseph Pine II &amp; James H. Gilmore</td>
+        <td>7 chapters</td>
+        <td><code>experience-audit</code>, <code>desirability-testing</code>, <code>service-roleplay</code></td>
+        <td><code>experience-audit</code>, <code>test-report</code>, <code>storyboard</code></td>
+      </tr>
+      <tr>
+        <td><em>Outside In</em></td>
+        <td>Harley Manning &amp; Kerry Bodine</td>
+        <td>8 chapters</td>
+        <td><code>behavioural-personas</code>, <code>experience-audit</code>, <code>cx-maturity-assessment</code>, <code>customer-typology-mapping</code></td>
+        <td><code>persona-set</code>, <code>experience-audit</code>, <code>maturity-assessment</code></td>
+      </tr>
+      <tr>
+        <td><em>Change by Design</em></td>
+        <td>Tim Brown</td>
+        <td>11 chapters</td>
+        <td><code>bodystorming</code>, <code>hmw-formulation</code>, <code>co-design-workshop</code>, <code>wizard-of-oz</code></td>
+        <td><code>concept-set</code>, <code>hmw-set</code>, <code>prototype-plan</code></td>
+      </tr>
+      <tr>
+        <td><em>The Design of Business</em></td>
+        <td>Roger Martin</td>
+        <td>6 chapters</td>
+        <td><code>concept-brief-authoring</code>, <code>decision-matrix</code>, <code>wwhtbt-evidence-gate</code></td>
+        <td><code>concept-set</code>, <code>decision-matrix</code></td>
+      </tr>
+      <tr>
+        <td><em>101 Design Methods</em></td>
+        <td>Vijay Kumar</td>
+        <td>9 chapters</td>
+        <td><code>hmw-formulation</code>, <code>morphological-concept-matrix</code>, <code>opportunity-matrix-2x2</code>, <code>business-model-canvas-build</code></td>
+        <td><code>hmw-set</code>, <code>concept-set</code>, <code>opportunity-matrix</code>, <code>business-model-canvas</code></td>
+      </tr>
+      <tr>
+        <td><em>Universal Methods of Design</em></td>
+        <td>Bella Martin &amp; Bruce Hanington</td>
+        <td>7 chapters</td>
+        <td><code>discussion-guide-design</code>, <code>contextual-inquiry</code>, <code>affinity-diagramming</code>, <code>usability-testing-moderated</code></td>
+        <td><code>interview-guide</code>, <code>insight-set</code>, <code>test-report</code></td>
+      </tr>
+      <tr>
+        <td><em>Service Management and Marketing</em></td>
+        <td>Christian Grönroos</td>
+        <td>9 chapters</td>
+        <td><code>service-blueprinting</code>, <code>service-quality-diagnostic</code>, <code>service-recovery-design</code>, <code>frontline-enablement</code></td>
+        <td><code>service-blueprint</code>, <code>experience-audit</code>, <code>recovery-playbook</code>, <code>service-standard-set</code></td>
+      </tr>
+      <tr>
+        <td><em>The Service Profit Chain</em></td>
+        <td>James L. Heskett, W. Earl Sasser, Leonard A. Schlesinger</td>
+        <td>8 chapters</td>
+        <td><code>kpi-tree-design</code>, <code>service-profit-chain-mapping</code>, <code>three-tier-measurement</code>, <code>frontline-enablement</code></td>
+        <td><code>kpi-tree</code>, <code>service-profit-chain</code>, <code>service-standard-set</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The table is not claiming one-to-one ownership. A single method often draws from several books, and a single book often informs several phases. That is the right shape for a living practice. What the table does give me is a dependable spine: if I need journey craft, I know which shelves are strongest; if I need theory of value co-creation, recovery, maturity, or frontline economics, I know where the runtime’s assumptions came from.</p>
+  <p>I also read the table as a map of tensions inside the practice. <em>This Is Service Design Doing</em>, <em>Service Design: From Insight to Implementation</em>, and <em>Mapping Experiences</em> push the craft toward visible service structure: plans, journeys, blueprints, and prototypes. <em>Service-Dominant Logic</em> and <em>Design Unbound</em> pull the other way. They remind me that value is co-created, systems are adaptive, and neat diagrams can lie if they freeze living service behavior into a static story. ASD works because it keeps both impulses: operational specificity and theoretical humility.</p>
+  <p>The business-facing books do a different job. <em>Outside In</em>, <em>The Service Profit Chain</em>, and <em>The Design of Business</em> keep the library accountable to growth, capability, and decision quality. Without them, the measurement phase would drift into generic dashboards or satisfaction slogans. With them, methods such as <code>kpi-tree-design</code>, <code>service-profit-chain-mapping</code>, and <code>cx-maturity-assessment</code> can anchor service change to operating consequences the rest of an organization will actually recognize.</p>
+  <p>Then there are the quality and frontline texts. <em>Good Services</em> and <em>Service Management and Marketing</em> are load-bearing because they force the runtime to respect legibility, recovery, and support operations. Those sources are why the platform cares about standards, service recovery, and evidence-backed audits rather than treating delivery as a vague “handoff to implementation.” When a blueprint reaches the delivery or measurement phase, these are the books that stop it from becoming a polished fiction.</p>
+  <p>The method encyclopedias matter too. <em>101 Design Methods</em> and <em>Universal Methods of Design</em> widen the repertoire without breaking the contract model. They do not flood the runtime with every method ever named. Instead, they justify why a specific subset made the cut and why each retained method still has to pass through outputs, acceptance rules, review gates, and provenance. In other words: broad inspiration upstream, strict runtime discipline downstream.</p>
+
+  <div class="callout"><strong>My take:</strong> The method library feels practical because the corpus refuses to stay in one discipline. The best service-design systems always borrow shamelessly from operations, management, ethnography, and design craft, then force those borrowings back through a common evidence standard.</div>
+
+<h3 id="C.3">Reading Paths</h3>
+
+<p>If I am orienting a new teammate, I rarely tell them to read the whole corpus in order. I give them a path based on the job in front of them. The runtime encourages the same habit. The method manifests cite the exact sources they need, and the MCP resource surface makes those sources fetchable without a scavenger hunt.</p>
+  <p>There is another way to use these reading paths. I use them to diagnose blind spots in a team. If a workshop-heavy group keeps producing clever concepts with weak measurement logic, I send them toward the business and quality shelves. If a delivery-heavy team has standards and roadmaps but weak evidence, I push them back to the research and synthesis books. If a technically strong team keeps drawing system diagrams without a service view, I hand them the mapping and orchestration cluster.</p>
+  <ul>
+    <li><strong>For end-to-end service design practice:</strong> start with <em>This Is Service Design Doing</em>, then pair it with <em>Service Design: From Insight to Implementation</em> and <em>Mapping Experiences</em>.</li>
+    <li><strong>For research craft:</strong> move through <em>Universal Methods of Design</em>, <em>This Is Service Design Doing</em>, and the research-heavy chapters of <em>Outside In</em>.</li>
+    <li><strong>For multi-channel and systems work:</strong> read <em>Orchestrating Experiences</em>, <em>Mapping Experiences</em>, and <em>Service-Dominant Logic</em> together.</li>
+    <li><strong>For prototype and concept generation:</strong> combine <em>Change by Design</em>, <em>101 Design Methods</em>, and <em>The User’s Journey</em>.</li>
+    <li><strong>For delivery, quality, and operations:</strong> use <em>Service Management and Marketing</em>, <em>Good Services</em>, and <em>Service Design for Business</em>.</li>
+    <li><strong>For business case and measurement:</strong> pull from <em>Outside In</em>, <em>The Service Profit Chain</em>, and <em>The Design of Business</em>.</li>
+    <li><strong>For theory and discipline-level framing:</strong> read <em>Design Unbound</em>, <em>Service-Dominant Logic</em>, and <em>The Experience Economy</em>.</li>
+  </ul>
+  <p>What I do not recommend is reading only the books that flatter your home discipline. Designers who skip operations and service quality end up with elegant artifacts that fail in contact with frontline work. Operators who skip journeys, personas, and narrative structure end up with efficient systems nobody can navigate. Strategists who skip field research and prototype testing end up with confident abstractions. The corpus is strongest when it is used as a corrective, not a mirror.</p>
+  <p>That is why Appendix C belongs in this book at all. It turns provenance from a polite bibliography into an inspectable design decision. When a host asks for a prompt, when a method manifest cites a chapter, or when the knowledge tool returns a matching resource, the platform is leaning on this bounded library. That is the quiet contract under the louder runtime features.</p>
+
+  <p>That is enough. Appendix C is supposed to be a compass, not a seminar. The core fact to carry forward is that the platform’s method and artifact claims sit on a bounded, inspectable 20-book corpus, and that corpus is available to tools under the same URI space the rest of the runtime already uses.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="B.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix B</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">CLI &amp; MCP Tool Specification</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Appendix B</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">CLI &amp; MCP Tool Specification</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

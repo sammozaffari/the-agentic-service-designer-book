@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-11" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 11</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Where agents act, and how we gate them</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">14 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-11-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Sixth Lane: Agent Decisions</a>
+        <a href="#s-11-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Autonomy Patterns and Gate Semantics</a>
+        <a href="#s-11-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Typed Agent Handoffs as Durable Records</a>
+        <a href="#s-11-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Failure Modes: Drift, Loops, Silent Fallbacks</a>
+        <a href="#s-11-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Sable &amp; Slate and Halo Care</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-11-1" data-section="s-11-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Sixth Lane: Agent Decisions</span></a>
+          <a href="#s-11-2" data-section="s-11-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Autonomy Patterns and Gate Semantics</span></a>
+          <a href="#s-11-3" data-section="s-11-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Typed Agent Handoffs as Durable Records</span></a>
+          <a href="#s-11-4" data-section="s-11-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Failure Modes: Drift, Loops, Silent Fallbacks</span></a>
+          <a href="#s-11-5" data-section="s-11-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Sable &amp; Slate and Halo Care</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-11-1" data-section="s-11-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Sixth Lane: Agent Decisions</span></a>
+          <a href="#s-11-2" data-section="s-11-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Autonomy Patterns and Gate Semantics</span></a>
+          <a href="#s-11-3" data-section="s-11-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Typed Agent Handoffs as Durable Records</span></a>
+          <a href="#s-11-4" data-section="s-11-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Failure Modes: Drift, Loops, Silent Fallbacks</span></a>
+          <a href="#s-11-5" data-section="s-11-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Sable &amp; Slate and Halo Care</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-11-1">The Sixth Lane: Agent Decisions</h3>
+
+<p>I do not add a sixth lane because agents are exciting. I add it because they make a specific class of work visible: interpretation, recommendation, tool selection, escalation, and refusal. None of that fits cleanly inside Support Processes. A database does not decide whether it has enough confidence to continue. A notification router does not weigh ambiguity and ask for help. An agent does.</p>
+  <p>The five canonical lanes remain intact: Physical Evidence, Customer Actions, Frontstage Interactions, Backstage Operations, and Support Processes. The Agent Decision Lane extends that structure for AI-native blueprints. It does not replace the old grammar. It sits alongside it so I can show where probabilistic reasoning touches deterministic infrastructure and human judgment.</p>
+  <p>That distinction is crucial because many service teams still describe AI as if it were a smarter rules engine. It is not. Rules engines execute declared logic. Agents interpret, choose, and sometimes drift. If I hide that inside Support Processes, I erase the exact moments where the service can go wrong in new ways: overconfident automation, silent fallback, escalation with missing context, looping between tools, or a confident answer unsupported by evidence.</p>
+  <p>The sixth lane also lets me distinguish between a system action and an agent decision in the same column. A scheduler database can return capacity. An agent can decide whether the returned capacity is sufficient to auto-confirm a slot or whether a human should review the proposal. Those are different kinds of moves. They deserve different marks, different review logic, and often different safety boundaries.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The Agent Decision Lane is where I model interpretation, choice, and escalation. If a step can fail through ambiguity rather than pure process breakdown, it belongs here, not hidden inside a generic systems box.</div>
+  <p>I keep the lane definition concrete. For every agentic node I want five things named: trigger, evidence basis, permitted action, escalation path, and boundary condition. Trigger says what wakes the agent. Evidence basis says what rows, artifacts, or signals it is allowed to consider. Permitted action says whether it may recommend, write, dispatch, or only classify. Escalation path names the human or downstream role. Boundary condition names the stop rule.</p>
+  <div class="code-label">agent-decision-node.json</div>
+  <pre><code>{
+  "lane": "Agent Decision Lane",
+  "nodeId": "care-routing-eval",
+  "trigger": "new urgent request plus current capacity snapshot",
+  "evidenceBasis": ["journey-map:urgent-request-v1", "telemetry:wait-stats-aug"],
+  "mode": "recommend-only",
+  "permittedActions": ["classify_acuity", "propose_route"],
+  "escalationTarget": "clinical-ops-lead",
+  "boundary": "stop on missing evidence or safety-stop rule"
+}</code></pre>
+  <p>Notice what the node does not claim. It does not claim that the agent is the service owner. It does not claim the host can magically spawn another agent. It does not confuse a logged decision record with live transport. That restraint is important across ASD. The platform is very explicit that ACP is `asd-acp/1`, record-only, and fail-closed on the generic surface. A lane can describe a decision. It cannot fabricate a capability.</p>
+  <div class="callout"><strong>My take:</strong> The sixth lane is less about adding intelligence to the diagram and more about stopping people from lying about where judgment now lives. If an agent is making a meaningful decision, I want it visible enough to argue with.</div>
+
+<h3 id="s-11-2">Autonomy Patterns and Gate Semantics</h3>
+
+<p>The biggest mistake I see in AI service work is binary thinking. Teams talk as if a step is either automated or manual. Real services need a richer autonomy spectrum. Some actions are safe to automate. Some are safe only to recommend. Some are reversible but still sensitive. Some should stop outright and demand human review. The lane is useful only if it carries that nuance.</p>
+  <p>I use four autonomy patterns repeatedly. <strong>Classify-and-recommend</strong> means the agent proposes a route or summary but does not act. <strong>Auto-execute low-risk</strong> means the agent can perform a bounded action with a clear rollback path. <strong>Human-gated execution</strong> means the agent prepares the action, packages the context, and waits for approval. <strong>Safety stop</strong> means the agent halts because the case crossed a risk boundary, violated a policy rule, or lacked enough evidence to proceed honestly.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Pattern</th>
+        <th>What the agent may do</th>
+        <th>When I use it</th>
+        <th>Failure I am containing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Classify-and-recommend</td>
+        <td>Read, classify, propose next step</td>
+        <td>Ambiguous requests, early triage, narrative synthesis</td>
+        <td>Premature automation on partial context</td>
+      </tr>
+      <tr>
+        <td>Auto-execute low-risk</td>
+        <td>Perform bounded, reversible action</td>
+        <td>Status messaging, artifact preparation, low-stakes routing</td>
+        <td>Needless human load on routine work</td>
+      </tr>
+      <tr>
+        <td>Human-gated execution</td>
+        <td>Prepare action and wait for approval</td>
+        <td>Commercial offers, staffing changes, guest-facing memory use</td>
+        <td>Overconfident action with social or operational cost</td>
+      </tr>
+      <tr>
+        <td>Safety stop</td>
+        <td>Refuse, escalate, and preserve context</td>
+        <td>Clinical risk, consent breach, unsupported evidence, policy boundary</td>
+        <td>Silent failure or unsafe improvisation</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>These patterns are useless without gate semantics. A gate is not a vibe check. It is a named boundary. For service design artifacts the review gate is often the Critic. For service operations the gate might be a clinician, a privacy officer, a journey owner, or a supervisor. What matters is that the lane shows who can authorize the transition and what record the authorization attaches to.</p>
+  <p>In Halo Care, the design principle was brutally clear: clinical safety was non-negotiable. Success criteria included virtual wait under eight minutes, DNA under ten percent, first-visit resolution above seventy-five percent, and no safety-event trend increase. That last criterion changes everything. It means speed and convenience can never silently outrank safety. So the agentic blueprint cannot merely optimize throughput. It must encode where the service stops, who reviews, and which Critic rows and gate minutes persist the decision.</p>
+  <p>In Sable &amp; Slate the safety question was different but just as real. The brand promise depended on memory and recognition without crossing into dossier behavior. The non-negotiables were explicit: no visible tracking, no "algorithmic" service language, and human final authority. That means a memory-related agent can summarize consented facts and boundaries, but it cannot infer traits or stage a guest-visible performance without human judgment. Same lane. Different gate logic.</p>
+  <div class="code-label">autonomy-policy.yaml</div>
+  <pre><code>version: 1
+policies:
+  - id: low-risk-status
+    mode: auto-execute
+    allowed_actions:
+      - prepare_status_message
+      - attach_traceability_rows
+    requires_human_approval: false
+  - id: staffing-or-clinical-route
+    mode: human-gated
+    allowed_actions:
+      - propose_route
+      - assemble_context
+    requires_human_approval: true
+  - id: consent-or-safety-breach
+    mode: safety-stop
+    allowed_actions: []
+    requires_human_approval: true
+    stop_reasons:
+      - missing_consent
+      - unsupported_evidence
+      - red_flag_condition</code></pre>
+  <p>The nice thing about this policy style is that it keeps the conversation operational. We are no longer talking about whether the AI is "smart enough." We are talking about which actions are safe to permit, which records must exist first, and how refusal behaves. That is design language I can defend.</p>
+  <div class="warning"><strong>CAUTION:</strong> An agent that never escalates is not proof of quality. It may be proof that you forgot to design refusal, dissent, or uncertainty into the service.</div>
+
+<h3 id="s-11-3">Typed Agent Handoffs as Durable Records</h3>
+
+<p>Once a service includes several roles or several agents, handoff quality becomes a first-class design problem. Chat is not enough. Memory of a conversation is not enough. A screenshot of a thread is definitely not enough. ASD's answer is durable, typed handoffs. They are records of condition plus artifact pointer, and the pointer must resolve inside the same project if one is declared.</p>
+  <p>The ACP contract is specific here. Event types include `handoff`, `orchestration`, `dispatch`, `critic-veto`, and `human-gate`. The generic CLI and MCP surface expose exactly one ACP capability: `{"protocolVersion":"asd-acp/1","capabilities":["record-only"]}`. Record-only means the platform can validate and persist a handoff record. It cannot pretend that a host process appeared, that another agent definitely replied, or that some external transport succeeded. This boundary is one of the healthiest things about the platform.</p>
+  <p>For blueprints, typed handoffs matter because the sixth lane often bridges human and agent work. A mapper hands a reviewed blueprint to an ideator. A triage agent hands a proposed route to a clinician. A concierge context service hands a guest brief to the front-desk ambassador. A care-routing agent hands a warm-handoff card to a clinician. In all these cases the receiving role needs the condition and the artifact, not vague recollection.</p>
+  <div class="code-label">typed-handoff.json</div>
+  <pre><code>{
+  "projectId": "halo-care-8fbf1a5a",
+  "planId": "plan-care-routing",
+  "from": "mapper",
+  "to": "prototyper",
+  "condition": "Warm handoff blueprint has passed Critic review and is cleared for storyboard walkthrough.",
+  "artifactId": "68897cff12ba43a581451187b4918bf2",
+  "artifactKind": "service-blueprint"
+}</code></pre>
+  <p>This record has consequences. If the `artifactId` is missing while `artifactKind` is supplied, the handoff fails before recording. If the artifact exists but is the wrong kind, it fails. If the pointer is dangling, it fails. That is precisely what I want. An agentic workflow should fail early on referential sloppiness. Otherwise the system ends up pretending it handed off a real thing when it only handed off a sentence.</p>
+  <p>The same logic shows up in the service-blueprinting flagship skill itself. Its declared handoff says that after the Critic review passes, the `service-blueprint` goes to the ideator with evidence and provenance intact. The wording matters. Handoffs are about continuity of truth, more than task delegation. The receiver should inherit the exact artifact that survived review, including the provenance basis that made it trustworthy.</p>
+  <p>In operational services, typed handoffs improve human experience too. Halo Care's warm handoff pattern is a good example. The design fix was a sixty-second handoff protocol: patient plus context card in thirty seconds, open clinical question in twenty, confirmation and next contact in ten. Rule: no new assessment in the handoff; red flag means urgent class. That compactness is only safe because the handoff payload is explicit and bounded. A naked escalation where the next clinician must restart the story is a service failure and usually a safety failure too.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Handoff quality</th>
+        <th>Weak pattern</th>
+        <th>Typed ASD pattern</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Trigger</td>
+        <td>"Someone should look at this"</td>
+        <td>Named condition recorded in a handoff event</td>
+      </tr>
+      <tr>
+        <td>Payload</td>
+        <td>Chat summary or screenshot</td>
+        <td>Resolvable artifact pointer plus context fields</td>
+      </tr>
+      <tr>
+        <td>Capability assumption</td>
+        <td>Assume another host or agent exists</td>
+        <td>Record-only unless the host proves dispatch capability</td>
+      </tr>
+      <tr>
+        <td>Safety</td>
+        <td>Receiver rebuilds state from scratch</td>
+        <td>Boundary, provenance, and unresolved risks travel with the handoff</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>My take:</strong> Most bad handoffs are not about missing effort. They are about missing shape. People think they passed the work because they passed a message. They did not. They passed a rumor.</div>
+
+<h3 id="s-11-4">Failure Modes: Drift, Loops, Silent Fallbacks</h3>
+
+<p>The sixth lane earns its keep when I use it to model failure honestly. Three patterns show up repeatedly. The first is <strong>drift</strong>: the agent's internal framing diverges from the actual evidence or policy basis. The second is <strong>looping</strong>: the service keeps re-querying, re-escalating, or re-summarizing without resolving the condition. The third is <strong>silent fallback</strong>: the service quietly degrades in a way the customer or downstream worker cannot interpret.</p>
+  <p>Drift often begins with over-broad summary. An agent compresses a guest history into a trait judgment, or a care request into a false urgency class, or a staffing problem into a generic capacity note. Once the summary drifts, every downstream step looks plausible and wrong. This is why Sable &amp; Slate's no-trait-inference veto matters so much. The represented concept brief inserted "guest seems anxious" into the solution field. The Critic vetoed it. Correctly. Memory stores facts, requests, and boundaries only; never trait judgments. That is a design rule and a dignity rule at the same time.</p>
+  <p>Looping usually appears where ownership is unclear. An agent proposes a route, a human rejects it without a typed fix, the same route gets proposed again, and the customer experiences delay disguised as diligence. Or two agents keep handing a case back and forth because the condition for completion was never formalized. Typed handoffs help here, but only if the conditions are specific enough to break the loop.</p>
+  <p>Silent fallback is the most dangerous pattern because it looks smooth. A service quietly shifts from intelligent assistance to generic script, or from evidence-backed route to queue default, without preserving the customer's context or explaining the change. In hospitality that feels cold. In healthcare it can become unsafe. In public services it creates expensive chase demand. The antidote is visible degradation design: if the service falls back, the next actor gets the context and the customer gets a coherent explanation.</p>
+  <div class="code-label">failure-mode-checklist.txt</div>
+  <pre><code>- drift: does any summary introduce traits, diagnoses, or motives not present in evidence?
+- loop: can two roles hand the same unresolved condition back and forth indefinitely?
+- silent fallback: if automation stops, does the next actor inherit usable context and a clear boundary?
+- unsupported dispatch: are we assuming a host capability ACP does not claim?
+- fake finality: did an artifact skip Critic review or a human gate?</code></pre>
+  <p>ASD's record-keeping helps because it preserves the review and veto trail. A `review-veto-log` is not glamorous, but it is the living memory of what the service was not allowed to claim. In agentic systems that negative memory is invaluable. It reminds the team which optimizations crossed consent, safety, or measurability boundaries.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The sixth lane should show how the service stops as well as how it succeeds. Refusal, escalation, and recovery are part of the design, not embarrassing exceptions to hide later.</div>
+
+<h3 id="s-11-5">Case: Sable &amp; Slate and Halo Care</h3>
+
+<p>Sable &amp; Slate and Halo Care make a useful pair because they sit at opposite ends of tone and risk. One is luxury hospitality, where memory and recognition create value but must never become surveillance theater. The other is telehealth and virtual ward care, where any redesign has to move with clinical safety still in charge. Both cases needed the sixth lane because both involved agentic help under hard human boundaries.</p>
+  <p>Sable &amp; Slate had nine properties, €680 ADR, and a brand promise built around remembered stays. A three-year digital programme had accidentally stripped out the memory by removing human continuity. Guests repeated preferences. Staff lost context across shifts. Turnover at thirty-four percent drained tacit expertise. The tempting move was obvious: build a guest emotion score and a magical memory engine. The platform refused the worst version of that fantasy.</p>
+  <p>The first major veto came in concept review. A context-memory concept included trait inference in the solution field. The Critic blocked it under `no-trait-inference`. The fix was sharp: memory stores facts, requests, and boundaries only; never trait judgments. That one move defined the design ethic for the whole service. The future-state blueprint then positioned the agentic work where it belonged: a backstage, consent-bound brief assembly step plus a visible human performance step in frontstage. The system cues. The staff perform. Human final authority remains intact.</p>
+  <p>A second Sable &amp; Slate lesson came from shift handoff. The operational analysis found that a sixty-second brief degraded to three minutes under short staffing. The fix became a two-tier handoff: minimum brief and complete brief. That is classic sixth-lane work. The agentic layer can assemble the brief. It cannot decide that no handoff is needed. The boundary is the service design.</p>
+  <p>Halo Care had a harsher operating context. It needed to improve access without increasing safety-event trends. The redesign work registered 1,983 evidence rows in the synthetic scenario and used Critic vetoes plus signed human gate minutes as the governance mechanism. One review blocked a route that would have quietly returned patients to the old five-day queue. Another set of safety rules bounded the warm handoff and the context service. The point was clear: no service move that improved flow was acceptable if it undermined clinical safety or consent.</p>
+  <p>The warm handoff pattern became the emblematic sixth-lane design. The patient should not retell the whole story at each transition. The context card should follow. But the handoff rule stays clinically humble: no new assessment in the handoff, and any red flag escalates to urgent class. That is a perfect example of bounded autonomy. The agentic part assembles and carries context. The clinical judgment stays with the clinician.</p>
+  <div class="code-label">safety-gate-record.json</div>
+  <pre><code>{
+  "projectId": "halo-care-8fbf1a5a",
+  "type": "human-gate",
+  "condition": "Warm handoff route passed Critic review; clinical lead approves regional pilot.",
+  "linkedReviewLogId": "2de447148c3b4f36b294524d813fef40",
+  "approvalRole": "clinical-lead",
+  "boundary": "No region rollout if safety-event trend increases or consent rules are weakened."
+}</code></pre>
+  <p>Both cases underline the same point. The sixth lane is not where I celebrate autonomy. It is where I discipline it. At Sable &amp; Slate the discipline protects dignity, brand, and consent. At Halo Care it protects safety, continuity, and professional authority. In both, typed handoffs and Critic review make the service more legible to the people who must trust it.</p>
+  <div class="callout"><strong>My take:</strong> The real test of an agentic service is whether the humans inside it feel better informed and better protected after the automation arrives. If staff and customers both end up reconstructing context from scratch, the intelligence is fake no matter how elegant the demo looked.</div>
+  <p>That is why I keep the sixth lane close to the rest of the blueprint rather than treating it as a separate AI architecture diagram. The customer still sees a service. The frontline still carries the brand. The backstage still absorbs trade-offs. The support layer still constrains what is possible. Agent decisions belong in that same production reality. Once I draw them there, I can finally ask the right questions: what may the agent do, what must it never do, who can veto it, how is the handoff typed, and how does the service fail without pretending nothing went wrong.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="10.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 10</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 10</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</p>
+        </div>
+      </div>
+    </a>
+    <a href="12.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 12</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Cross-Channel Orchestration &amp; Story Mapping</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 12</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Cross-Channel Orchestration &amp; Story Mapping</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Cross-Channel Orchestration &amp; Story Mapping</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">One service, many channels, zero drift</p>
+        </div>
+        <a href="12.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

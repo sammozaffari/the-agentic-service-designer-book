@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Plugins &amp; Host Packs: Claude Code and Beyond - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-18" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 18</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Plugins &amp; Host Packs: Claude Code and Beyond</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Install the whole practice into your coding agent</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">19 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-18-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The emitter and the pack tree</a>
+        <a href="#s-18-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The twelve-target matrix</a>
+        <a href="#s-18-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Claude Code: native plugin and marketplace</a>
+        <a href="#s-18-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Role mentions and the /asd command</a>
+        <a href="#s-18-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">OpenCode, Codex, Kimi, Grok, AGY, OMP, and Pi</a>
+        <a href="#s-18-6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">What verified means, and what it does not</a>
+        <a href="#s-18-7" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Choosing a surface per engagement</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-18-1" data-section="s-18-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The emitter and the pack tree</span></a>
+          <a href="#s-18-2" data-section="s-18-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The twelve-target matrix</span></a>
+          <a href="#s-18-3" data-section="s-18-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Claude Code: native plugin and marketplace</span></a>
+          <a href="#s-18-4" data-section="s-18-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Role mentions and the /asd command</span></a>
+          <a href="#s-18-5" data-section="s-18-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>OpenCode, Codex, Kimi, Grok, AGY, OMP, and Pi</span></a>
+          <a href="#s-18-6" data-section="s-18-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>What verified means, and what it does not</span></a>
+          <a href="#s-18-7" data-section="s-18-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Choosing a surface per engagement</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-18-1" data-section="s-18-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The emitter and the pack tree</span></a>
+          <a href="#s-18-2" data-section="s-18-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The twelve-target matrix</span></a>
+          <a href="#s-18-3" data-section="s-18-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Claude Code: native plugin and marketplace</span></a>
+          <a href="#s-18-4" data-section="s-18-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Role mentions and the /asd command</span></a>
+          <a href="#s-18-5" data-section="s-18-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>OpenCode, Codex, Kimi, Grok, AGY, OMP, and Pi</span></a>
+          <a href="#s-18-6" data-section="s-18-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>What verified means, and what it does not</span></a>
+          <a href="#s-18-7" data-section="s-18-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Choosing a surface per engagement</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-18-1">The emitter and the pack tree</h3>
+
+<p>The clean mental model is this: <code>platform/</code> is the source of truth, and every host pack is a projection. I start from ten canonical roles, eighty-one skill sources that ship as eighty executable skills after the authored <code>service-blueprinting</code> flagship replaces its generated twin, seven authored templates, and the shared runtime registry of thirty <code>sd_*</code> tools. The compiler turns that inventory into release data, then the emitter lays it out for each host without changing the underlying practice.</p>
+  <p>That is why the pack tree matters. It prevents the usual integration drift where every client team hand-copies prompts, renames folders, tweaks configs, and silently forks the method. ASD refuses that pattern. The canonical inventory also carries 228 corpus resources, 10 role prompts, 38 registered artifact-kind contracts, and 39 catalog vocabulary rows. Those counts belong to the platform, not to any single host. A host pack either receives that inventory in a form it can load, or it receives an explicitly bounded subset. Nothing is implied.</p>
+  <p>The distribution story follows the same rule. The monorepo emits the installable targets, then <code>scripts/publish-distribution-repos.mjs</code> republishes them into two standalone mirrors: <code>imehr/asd-plugin</code> for coding-agent host packs and native Claude Code marketplace install, and <code>imehr/asd-mcp</code> for the standalone MCP server. Each mirror carries a <code>provenance.json</code> file that records the source commit it came from. If that provenance record is missing or stale, I stop trusting the copy immediately.</p>
+
+  <figure id="fig-18-01" class="full">
+    <div class="figure__media"><img src="shared/platform/emit-packs.png" alt="emit-packs.mjs writing the distributable pack tree." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 18.1</span> <strong>Emitter writing the pack tree.</strong> This capture proves that <code>emit-packs.mjs</code> generated the distributable targets from the canonical source tree in one run. It does not prove that any native host loaded or executed those packs.</figcaption>
+  </figure>
+
+  <div class="code-label">emit-packs.sh</div>
+  <pre><code>pnpm --dir suite install
+node platform/compiler/compile.mjs
+node platform/compiler/generate-skills.mjs
+node platform/compiler/emit-packs.mjs --output /tmp/asd-packs</code></pre>
+
+  <p>That four-command sequence is the foundation for everything else in this chapter. <code>compile.mjs</code> refreshes the canonical manifest and capability inventory. <code>generate-skills.mjs</code> renders the executable method skills. <code>emit-packs.mjs</code> projects the same practice into twelve targets: <code>agy</code>, <code>buzz</code>, <code>claude-code</code>, <code>cli</code>, <code>codex</code>, <code>dsh</code>, <code>grok</code>, <code>kimi</code>, <code>mcp</code>, <code>omp</code>, <code>opencode</code>, and <code>pi</code>. The output directory is deliberately disposable because emission is a build product, not a place for hand-maintained edits.</p>
+  <div class="callout">
+    <strong>My take:</strong> The fastest way to corrupt an agentic practice is to patch the generated pack because it feels quicker than fixing the source. I have done it. It always comes back to bite. If the change belongs to the practice, I make it in <code>platform/agents</code>, <code>platform/skills</code>, <code>platform/templates</code>, or the emitter itself, then I regenerate every surface.
+  </div>
+  <p>That regeneration rule is more than tidy engineering. It is how ASD keeps one method contract across many shells. A Claude plugin, a Kimi project mirror, and a bare CLI install should differ in loading shape, not in what counts as acceptable evidence, what the Critic can veto, or who owns the phase gate. The whole point of the emitter is to keep those invariants boring.</p>
+
+<h3 id="s-18-2">The twelve-target matrix</h3>
+
+<p>Once I accept that a pack is a distribution boundary rather than a second implementation, the twelve-target matrix becomes easy to read. Some targets bundle the full runtime with roles, skills, and MCP wiring. Some are prompt-only or neutral trees by design. Some are native installs. Some are repo conventions. The job is not to force them into false equivalence. The job is to say, precisely, what each one contains and what evidence backs it.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Target</th>
+        <th>What it contains</th>
+        <th>Host shape</th>
+        <th>Current evidence boundary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>agy</code></td>
+        <td><code>review-session.md</code> carrying the ASD Critic posture for review work; no bundled runtime.</td>
+        <td>Review-session contract for AGY or Herdr style use.</td>
+        <td>Not a native plugin; live AGY prompt execution remains unverified.</td>
+      </tr>
+      <tr>
+        <td><code>buzz</code></td>
+        <td>Keyless Persona Pack with 10 persona definitions, 80 skill references, pack-relative MCP config, vendored MCP bundle, and compatibility projections.</td>
+        <td>Native BUZZ Persona Pack plus pack-local MCP.</td>
+        <td>Pack-local MCP boot is evidenced; authenticated channel membership, exact mention routing, visible replies, and durable ASD record binding need separate live receipts.</td>
+      </tr>
+      <tr>
+        <td><code>claude-code</code></td>
+        <td><code>.claude-plugin/plugin.json</code>, plugin-root <code>.mcp.json</code>, <code>agents/</code>, <code>skills/</code>, <code>commands/asd.md</code>, vendored <code>mcp/</code>, capability manifest.</td>
+        <td>Native Claude Code plugin and marketplace surface.</td>
+        <td>Marketplace installation and structural validation are available; native session execution still requires its own host receipt.</td>
+      </tr>
+      <tr>
+        <td><code>cli</code></td>
+        <td><code>asd</code> launcher plus <code>cli/bin/cli.mjs</code> and shared runtime data.</td>
+        <td>Standalone terminal runtime.</td>
+        <td>Isolated pack-local CLI boot and representative workflow verified.</td>
+      </tr>
+      <tr>
+        <td><code>codex</code></td>
+        <td><code>AGENTS.md</code>, <code>.codex/config.toml</code> block, vendored <code>mcp/</code>.</td>
+        <td>Repository conventions plus MCP registration, not a native plugin manifest.</td>
+        <td>MCP bundle has fresh stdio evidence; Codex-native loading and execution remain host-bounded.</td>
+      </tr>
+      <tr>
+        <td><code>dsh</code></td>
+        <td>Capability pointer and profile-facing distribution for the <code>@asd/ui</code> Studio adapter.</td>
+        <td>DeepSeek Harness Studio integration surface.</td>
+        <td>Pinned receipt exists for DSH <code>0.1.0-rc.5</code> and <code>@asd/ui</code> <code>0.5.0</code>; support is explicit, including one unsupported capability row.</td>
+      </tr>
+      <tr>
+        <td><code>grok</code></td>
+        <td>Ten role prompts under <code>prompts/</code>; no MCP bundle, no executable runtime.</td>
+        <td>Prompt-only interoperability target.</td>
+        <td>Prompt format inspected; native Grok discovery and live workflow unverified.</td>
+      </tr>
+      <tr>
+        <td><code>kimi</code></td>
+        <td><code>.kimi-code</code> agents, skills, MCP bundle, <code>mcp.json</code>, and project conventions.</td>
+        <td>Project-level Kimi mirror with workspace trust.</td>
+        <td>Pack-local MCP boot is evidenced; native Kimi loading remains a separate host claim.</td>
+      </tr>
+      <tr>
+        <td><code>mcp</code></td>
+        <td><code>mcp/bin/server.mjs</code>, <code>asd-mcp.json</code>, optional shim, corpus payload.</td>
+        <td>Standalone stdio MCP server.</td>
+        <td>Isolated stdio initialize and representative workflow verified.</td>
+      </tr>
+      <tr>
+        <td><code>omp</code></td>
+        <td>Neutral <code>agents/&lt;role&gt;/instructions.md</code> and <code>skills/&lt;skill&gt;/SKILL.md</code> trees only.</td>
+        <td>Source tree to copy into OMP discovery paths.</td>
+        <td>No bundled MCP or runtime; native OMP loading and execution unverified.</td>
+      </tr>
+      <tr>
+        <td><code>opencode</code></td>
+        <td><code>agent/</code>, <code>skills/</code>, vendored <code>mcp/</code>, and <code>opencode.json</code> command-array config.</td>
+        <td>Project adapter for OpenCode.</td>
+        <td>MCP bundle has fresh stdio evidence; native OpenCode discovery and execution remain unverified.</td>
+      </tr>
+      <tr>
+        <td><code>pi</code></td>
+        <td>Neutral role and skill trees, mirroring canonical content without runtime packaging.</td>
+        <td>Copy-only source material for Pi discovery paths.</td>
+        <td>No MCP or executable runtime in target; Pi host format and execution are unverified.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>There is a pattern hiding in that table. Runtime-equipped packs carry the same MCP engine and, when the corpus roots are present, expose 30 tools, 228 resources, and 10 prompts. Prompt-only and neutral targets do not pretend otherwise. That is why I read pack docs as capability boundaries, not marketing pages. A target either bundles MCP wiring, or it does not. A target either has a native install story, or it asks me to copy source material into host discovery paths. Both are valid. Confusing them is how false claims get published.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The host matrix is a truth table, not a feature grid. Read each target by what it concretely installs, which runtime it actually carries, and which proof artifacts exist for that specific layer.</div>
+
+<h3 id="s-18-3">Claude Code: native plugin and marketplace</h3>
+
+<p>Claude Code is the reference native plugin surface because it takes the whole practice in one install: ten role subagents, eighty executable method skills, the <code>/asd</code> orchestration command, and a vendored MCP server rooted at the plugin itself. I do not need a global <code>asd</code> binary. I do not need a sibling checkout. I do not need to guess where the server lives. The plugin carries its own wiring.</p>
+
+  <div class="code-label">claude-plugin-install.sh</div>
+  <pre><code>claude plugin marketplace add imehr/asd-plugin
+claude plugin install asd@asd-platform</code></pre>
+
+  <figure id="fig-18-02" class="full">
+    <div class="figure__media"><img src="shared/platform/plugin-install.png" alt="Installing the ASD plugin into Claude Code from the marketplace." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 18.2</span> <strong>Claude Code marketplace install.</strong> This capture proves that the ASD plugin can be added from <code>imehr/asd-plugin</code> and installed as <code>asd@asd-platform</code> in Claude Code. It does not prove that a later interactive Claude session executed every role or tool path inside the host.</figcaption>
+  </figure>
+
+  <p>That two-command path is the canonical user install. It is the one I recommend whenever the marketplace is available, because it keeps distribution honest. The published plugin comes from the emitted mirror repository, and its <code>provenance.json</code> tells me exactly which source commit it was synced from.</p>
+  <p>From a source checkout, I can install the same plugin through the local packs tree. The important detail is that this is still a plugin install, not a manual copy masquerading as one. Claude Code reads the marketplace manifest from the emitted packs directory and installs the generated plugin by its marketplace id.</p>
+
+  <div class="code-label">claude-plugin-from-source.sh</div>
+  <pre><code>REPO=/path/to/agentic-service-designer
+claude plugin marketplace add "$REPO/platform/packs"
+claude plugin install asd@asd-platform</code></pre>
+
+  <p>Inside the installed plugin, the critical file is the plugin-root <code>.mcp.json</code>. It points the host at the vendored server with a path that remains valid after installation:</p>
+
+  <div class="code-label">plugin-root.mcp.json</div>
+  <pre><code>{
+  "mcpServers": {
+    "asd": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>That one configuration block carries a lot of meaning. <code>${CLAUDE_PLUGIN_ROOT}</code> resolves inside the installed plugin, so the vendored server is self-contained. No PATH registration. No global npm install. No “clone the monorepo next to your host” footnote. Claude gets a native plugin manifest under <code>.claude-plugin/plugin.json</code>, the ten role files under <code>agents/</code>, the eighty method skills under <code>skills/</code>, the orchestration shortcut at <code>commands/asd.md</code>, and the runtime bundle under <code>mcp/</code>. Everything arrives together.</p>
+  <p>There is still a fallback when the marketplace is unavailable: emit the packs, copy the Claude pack into a project, merge the copied <code>.mcp.json</code> with the project configuration, and replace <code>${CLAUDE_PLUGIN_ROOT}</code> with a project-relative path. I use that only when I have to. It is a practical source-level fallback, but it is not the same claim as a native plugin install.</p>
+  <div class="callout">
+    <strong>My take:</strong> When I am evaluating a host for real team use, I look for one boring property first: can it install the whole pack without hand wiring? Claude Code passes that test. That is why it is the reference surface in this chapter, even though the runtime underneath is shared with the CLI and MCP server.
+  </div>
+
+<h3 id="s-18-4">Role mentions and the <code>/asd</code> command</h3>
+
+<p>Once the plugin is installed, the surface I actually work with is simple. The canonical role mentions are <code>@orchestrator</code>, <code>@researcher</code>, <code>@synthesizer</code>, <code>@mapper</code>, <code>@ideator</code>, <code>@prototyper</code>, <code>@measurer</code>, <code>@critic</code>, <code>@presenter</code>, and <code>@librarian</code>. Those ten names are stable across the pack ecosystem. They are not cosmetic aliases. They encode authority, inputs, outputs, veto rights, and human checkpoints drawn from the shared role contract.</p>
+  <p>The <code>/asd</code> command is the orchestrator shortcut layered on top of that role roster. I use it when I want the platform to frame an engagement from a brief, route work in the expected order, keep every write on the tool path, and stop at the points where a human decision is required. I do not use it because I want magic. I use it because it is the shortest route to a disciplined loop.</p>
+
+  <div class="code-label">claude-session.txt</div>
+  <pre><code>/asd
+@researcher run contextual-inquiry for lighthouse-transit and add every verbatim quote to the evidence register.
+@mapper run journey-from-transcripts over the register and write the current-state journey-map artifact.
+@critic review the journey-map before it can go final.</code></pre>
+
+  <p>That sequence shows the core interaction model. The command frames. The role mentions make the active discipline explicit. The skills in the background provide the SOP layer. The vendored MCP server persists the work. The runtime gates do the enforcement. The host shell stays conversational, but the storage path is deterministic: evidence first, method run, artifact write, Critic pass or veto, factcheck, then a human phase advance. The role prompt cannot bypass that sequence.</p>
+  <p>The role distinctions stay sharp for a reason. The Researcher gathers evidence and provenance. The Mapper writes journeys, blueprints, ecosystems, and mental models. The Critic does not “give feedback” in the hand-wavy workshop sense; it writes evidence-cited review rows and can veto a draft back to revision. The Presenter assembles from final artifacts only. The Librarian checks corpus grounding and pack drift. Once I start thinking in those operational contracts, the host UI becomes much less mysterious.</p>
+  <div class="warning"><strong>CAUTION:</strong> Do not read conversational delegation as transport. ACP is <code>asd-acp/1</code> and record-only. The platform can record orchestration plans, dispatch attempts, handoffs, retries, and human gates, but it must not be described as silently spawning external agents just because a role prompt asked for work.</div>
+  <p>That warning is load-bearing. A role mention is content plus host capability. It is never a blanket license to invent subprocess behavior. If the host can dispatch, the receipt must say so. If it cannot, ASD records the boundary explicitly rather than faking it. I would rather have an honest refusal than a slick demo that lies about what happened.</p>
+
+<h3 id="s-18-5">OpenCode, Codex, Kimi, Grok, AGY, OMP, and Pi</h3>
+
+<p>Claude Code is the cleanest native plugin story, but it is not the only useful surface. The other packs exist because real teams already live in different shells. The winning pattern is consistency at the practice layer and specificity at the host layer.</p>
+  <p><strong>OpenCode</strong> gets a proper project adapter. I copy <code>agent/</code> into <code>.opencode/agents/</code>, <code>skills/</code> into <code>.opencode/skills/</code>, place the vendored runtime under a project-local <code>mcp/</code>, and merge the emitted <code>opencode.json</code> block that runs <code>["node", "mcp/bin/server.mjs"]</code>. It is a strong fit when the team wants local project agents and an explicit MCP command array. The boundary is honest: emitted config and bundle are verified, but host loading stays unverified until an OpenCode-specific acceptance receipt says otherwise.</p>
+  <p><strong>Codex</strong> receives repository conventions plus MCP, not a native plugin manifest. The important files are <code>AGENTS.md</code>, the emitted TOML block for <code>.codex/config.toml</code>, and the vendored server copied to a stable path such as <code>.asd-mcp/bin/server.mjs</code>. I like this shape because it meets Codex where Codex already works: repo rules in plain text, runtime tools through MCP. I do not overclaim it. The Codex pack does not promise native subagent discovery just because the role prompts exist.</p>
+  <p><strong>Kimi</strong> is a project mirror under <code>.kimi-code/</code>. It carries the same ten agents, the same eighty skills, the same vendored MCP bundle, and a project-level <code>mcp.json</code> that points at <code>.kimi-code/mcp/bin/server.mjs</code>. The extra operational requirement is workspace trust. If the project has not been trusted, the pack is present on disk but not yet in a state where the host can be treated as live.</p>
+  <p><strong>Grok</strong> is intentionally lighter. It ships prompt files only. No bundled MCP. No runtime. If I want Grok to work against the ASD engine, I pair the role prompt with a separate MCP client that points at the standalone <code>mcp</code> pack. That is still useful. Prompt-only does not mean worthless. It means exactly what it says.</p>
+  <p><strong>AGY</strong> is narrower still. Its payload is a review-session contract that teaches the AGY or Herdr lane how to behave like an ASD Critic: inspect evidence, read acceptance rules, respect host capability boundaries, and keep human authority explicit. It is excellent for adversarial review. It is the wrong thing to call a native AGY plugin, because it is not one.</p>
+  <p><strong>OMP</strong> and <strong>Pi</strong> are neutral trees. They ship canonical role and skill source material in host-friendly folder layouts, but no runtime bundle and no MCP wiring. I use them when I want to port the practice into a host whose loading rules I control separately. They are deliberately conservative. The pack gives me the content and refuses to pretend the runtime question is solved.</p>
+  <p>Beneath all of those host adapters sit the two lowest-level surfaces: the standalone CLI and the standalone MCP server. When I need to prove the loop itself rather than the host sugar around it, I drop to one of those layers first.</p>
+
+  <figure id="fig-18-03" class="full">
+    <div class="figure__media"><img src="shared/platform/cli-create-evidence.png" alt="CLI creating a project and capturing first evidence in an isolated workspace." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 18.3</span> <strong>CLI creating the first evidence rows.</strong> This capture proves that the emitted terminal pack can create a project and add evidence in an isolated workspace using the shared runtime. It does not prove that any higher-level host pack invoked the same loop inside its own UI.</figcaption>
+  </figure>
+
+  <div class="code-label">cli-first-loop.sh</div>
+  <pre><code>PACK=/tmp/asd-packs/cli
+mkdir -p "$HOME/.local/bin"
+ln -sf "$PACK/asd" "$HOME/.local/bin/asd"
+export PATH="$HOME/.local/bin:$PATH"
+export ASD_WORKSPACE="$(mktemp -d)/projects"
+asd project-create --name "Metrovale Access" --client "Fictional composite" \
+  --sector public-transport --service "step-free journeys" --phase discover
+PROJECT_ID=metrovale-access-12345678
+asd evidence-add --projectId "$PROJECT_ID" --source interview-01 --kind quote \
+  --body "I cannot tell whether the lift is working before I travel."</code></pre>
+
+  <p>I keep that CLI loop in the chapter because it exposes the shared engine with nowhere to hide. The same gate logic appears here that later surfaces through Claude Code, OpenCode, Kimi, Codex, or a standalone MCP client. Evidence kinds are still exactly <code>quote</code>, <code>telemetry</code>, and <code>document</code>. A failing artifact write still persists as draft with machine-readable failure rows. A Critic pass still needs an evidence-cited proposal row. A veto still needs a defect and a fix. The host can change. The contract cannot.</p>
+
+<h3 id="s-18-6">What verified means, and what it does not</h3>
+
+<p>This is where most agent-platform documentation goes soft. ASD is stricter. It separates three proof layers that many teams lazily collapse into one sentence.</p>
+  <p><strong>First layer: emission.</strong> Emission proves the compiler generated the expected files and pack tree from the canonical source. That is what Figure 18.1 shows. It tells me the build product exists and that the generated layouts line up with the declared targets. Emission alone does not prove a native host loaded anything.</p>
+  <p><strong>Second layer: pack-local execution.</strong> For six emitted MCP bundles — <code>buzz</code>, <code>claude-code</code>, <code>codex</code>, <code>kimi</code>, <code>mcp</code>, and <code>opencode</code> — the current release matrix has fresh disposable stdio evidence. In each case the evidence covers <code>initialize</code>, the full set of 30 tools, 228 paginated resources, 10 prompts, a representative project-to-evidence-to-artifact-to-evidence-cited-review-to-factcheck workflow, and clean stderr with no ambient executable fallback. That is strong proof. It is still only pack-local proof.</p>
+  <p><strong>Third layer: native host execution.</strong> This is the layer that says a particular product version, in a particular integration mode, loaded the pack and exercised the behavior being claimed. Claude marketplace installation is one example. The DSH receipt is another. A BUZZ live channel walkthrough is another, but only for the exact bounded slice it captured. Host receipts are where I learn what really happened in the shell a human will use.</p>
+  <p>The practical consequence is simple: I never let a lower layer impersonate a higher one. A pack-local MCP initialize transcript does not become proof that BUZZ delivered a mention to the right runtime. A generated plugin manifest does not become proof that Claude executed a research session. A DSH compatibility pointer does not become proof that every provider and every chat mode is supported. I stay literal.</p>
+
+  <div class="code-label">host-verification.sh</div>
+  <pre><code>REPO=/path/to/agentic-service-designer
+claude plugin validate "$REPO/platform/packs/claude-code"</code></pre>
+
+  <p><code>claude plugin validate</code> is a good example of the distinction. It is meaningful. It proves the emitted Claude pack matches the host's structural expectations for a plugin. It is also not a session receipt. Validation tells me the door is shaped correctly. It does not tell me a user walked through it and completed a real loop.</p>
+  <div class="callout">
+    <strong>My take:</strong> I trust receipts that name the host, the version, the path, and the exact behavior exercised. Everything else is build evidence. Useful, necessary, and insufficient on its own.
+  </div>
+  <p>That discipline also keeps the language around BUZZ and DSH clean. BUZZ Article 37 shows an observed live slice: a private channel, genuine orchestrator reply and relay handoffs, and a Canvas index. It does not prove MCP persistence, durable Critic verdict rendering, reload or cleanup, or ACP spawn. DSH has a pinned receipt for its verified profile, slot set, test suite, and loopback Studio smoke. It does not claim every provider, chat surface, or external MCP-client combination under the sun. The boundaries are not weaknesses. They are the proof that the platform is being documented honestly.</p>
+
+<h3 id="s-18-7">Choosing a surface per engagement</h3>
+
+<p>So which surface should I choose? I start from the engagement constraint, not from the shininess of the host. If I need a native collaborative coding shell with the full pack intact, I choose Claude Code. If I need a machine-facing runtime for another client, I choose MCP. If I want the rawest possible proof path or CI integration, I choose the CLI. If a team already works inside a different host, I install the corresponding adapter and keep the evidence claims narrow.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Engagement need</th>
+        <th>Best surface</th>
+        <th>Why I choose it</th>
+        <th>What I still verify separately</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>I want the fullest native ASD experience in one install.</td>
+        <td>Claude Code plugin</td>
+        <td>It loads roles, skills, <code>/asd</code>, and vendored MCP together through a real plugin boundary.</td>
+        <td>Interactive host session behavior for the exact Claude environment I am using.</td>
+      </tr>
+      <tr>
+        <td>I need scripted runs, CI gates, or the cleanest possible runtime proof.</td>
+        <td>CLI</td>
+        <td>The shared engine is exposed directly with no host abstraction in the way.</td>
+        <td>Project workspace isolation and the artifact loop for the scenario at hand.</td>
+      </tr>
+      <tr>
+        <td>I need host-agnostic tool access from another app or agent client.</td>
+        <td>MCP</td>
+        <td>It is the standalone JSON-RPC runtime with the same 30 tools, 228 resources, and 10 prompts.</td>
+        <td>The client-specific config path and corpus-root availability.</td>
+      </tr>
+      <tr>
+        <td>The team already operates in OpenCode and wants project-local agents.</td>
+        <td>OpenCode</td>
+        <td>The adapter mirrors roles and skills into the host's discovery paths and keeps MCP local to the project.</td>
+        <td>Native OpenCode loading and invocation in the current host version.</td>
+      </tr>
+      <tr>
+        <td>The team uses Codex and wants repo conventions plus tool access.</td>
+        <td>Codex</td>
+        <td><code>AGENTS.md</code> plus MCP registration fits Codex's operating model cleanly.</td>
+        <td>Desktop or CLI host loading for the exact Codex build in use.</td>
+      </tr>
+      <tr>
+        <td>The team uses Kimi and accepts workspace-trust mechanics.</td>
+        <td>Kimi</td>
+        <td>The <code>.kimi-code/</code> mirror carries the same practice contract with a project-local server.</td>
+        <td>Trust prompts, discovery, and host execution in the active Kimi version.</td>
+      </tr>
+      <tr>
+        <td>I need a multi-agent network surface with explicit identities and mentions.</td>
+        <td>BUZZ</td>
+        <td>The Persona Pack gives me ten canonical personas plus local MCP, ready for owner-bound runtime materialization.</td>
+        <td>Identity audit, channel membership, exact mention routing, reply attribution, Canvas binding.</td>
+      </tr>
+      <tr>
+        <td>I need a Studio shell with sidebar, settings, and bounded capability projection.</td>
+        <td>DSH</td>
+        <td>The <code>@asd/ui</code> adapter plugs into a verified Harness profile and exposes the platform through Studio slots.</td>
+        <td>Compatibility revision, profile lifecycle, and the specific live receipt scope.</td>
+      </tr>
+      <tr>
+        <td>I only need role posture or a neutral source tree, not bundled runtime.</td>
+        <td>Grok, AGY, OMP, or Pi</td>
+        <td>These targets separate prompt content or neutral file layouts from runtime claims on purpose.</td>
+        <td>Any real MCP client, native discovery, or execution path I add around them.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>If I boil that decision down to one sentence, it is this: choose the thinnest surface that still matches the work you need to do, then verify the exact layer you plan to rely on. For teaching, debugging, and CI, I often start with the CLI or standalone MCP because the receipts are easiest to read. For live design work inside a coding agent, Claude Code is the reference because the whole pack lands intact. For adjacent hosts, I treat the emitted adapter as source material plus bounded evidence, then I earn stronger claims only by running the host-specific acceptance path.</p>
+  <p>That habit keeps the platform honest. It also makes it much easier to extend. Once I understand that a pack is just a deterministic projection of one canonical practice, I stop arguing about which host is “the real one.” The real one is the practice contract. The host is the shell I can validate today.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="17.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 17</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD MCP Server</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 17</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD MCP Server</p>
+        </div>
+      </div>
+    </a>
+    <a href="19.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 19</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">BUZZ: Multi-Agent Service Design on the Open Agent Network</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 19</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">BUZZ: Multi-Agent Service Design on the Open Agent Network</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">BUZZ: Multi-Agent Service Design on the Open Agent Network</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Ten personas, exact mentions, one Canvas</p>
+        </div>
+        <a href="19.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

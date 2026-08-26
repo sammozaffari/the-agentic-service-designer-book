@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Service-Dominant Logic &amp; Value Co-Creation in the Age of AI - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-03" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 03</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Why agent teams fit service-dominant practice</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">12 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-03-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Goods-Dominant vs Service-Dominant Thinking</a>
+        <a href="#s-03-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Operant Resources: Agents Join the Workforce</a>
+        <a href="#s-03-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Value Co-Creation and Value-in-Context</a>
+        <a href="#s-03-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Service Profit Chain, Instrumented</a>
+        <a href="#s-03-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">SDL Commitments in the Platform Contract</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-03-1" data-section="s-03-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Goods-Dominant vs Service-Dominant Thinking</span></a>
+          <a href="#s-03-2" data-section="s-03-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Operant Resources: Agents Join the Workforce</span></a>
+          <a href="#s-03-3" data-section="s-03-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Value Co-Creation and Value-in-Context</span></a>
+          <a href="#s-03-4" data-section="s-03-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Service Profit Chain, Instrumented</span></a>
+          <a href="#s-03-5" data-section="s-03-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>SDL Commitments in the Platform Contract</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-03-1" data-section="s-03-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Goods-Dominant vs Service-Dominant Thinking</span></a>
+          <a href="#s-03-2" data-section="s-03-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Operant Resources: Agents Join the Workforce</span></a>
+          <a href="#s-03-3" data-section="s-03-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Value Co-Creation and Value-in-Context</span></a>
+          <a href="#s-03-4" data-section="s-03-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Service Profit Chain, Instrumented</span></a>
+          <a href="#s-03-5" data-section="s-03-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>SDL Commitments in the Platform Contract</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-03-1">Goods-Dominant vs Service-Dominant Thinking</h3>
+
+<p>Service-dominant logic begins with a blunt correction. Service, singular, is the application of specialized competences for the benefit of another actor. Goods are only distribution mechanisms for service provision. That sounds academic until you look at how AI systems are currently sold. Most vendors promise faster answers, more summaries, more generated screens, more automated output. Those are goods-dominant promises. They assume value lives inside the object produced.</p>
+  <p>In practice, that assumption fails constantly. A generated journey map is worthless if the operations lead rejects its framing. An executive summary has no value if it cannot change a steering decision. A blueprint creates no value if it sits in a repo without changing the operating cadence, staffing logic, or service promise. The artifact is not the value. The artifact is a distribution mechanism through which value might later be co-created.</p>
+  <p>ASD aligns with SDL because it never treats an artifact as self-justifying. The system keeps dragging every claim back to its use context. Who is the beneficiary? What evidence shows the value proposition matters? What role does the human play in realizing it? What boundary conditions shape the outcome? When an architecture forces those questions, it becomes much harder to confuse production volume with service value.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Goods-dominant frame</th>
+        <th>Service-dominant frame</th>
+        <th>What ASD does differently</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Value is embedded in the output</td>
+        <td>Value is realized in use and in context</td>
+        <td>Artifacts remain in review until evidence, review verdicts, and human decision align</td>
+      </tr>
+      <tr>
+        <td>The provider delivers value</td>
+        <td>The provider offers a value proposition and participates in co-creation</td>
+        <td>Methods, reviews, and phase gates keep authority and consequence visible</td>
+      </tr>
+      <tr>
+        <td>The user consumes a product</td>
+        <td>The beneficiary integrates resources</td>
+        <td>Human context, field evidence, and operational constraints remain part of the contract</td>
+      </tr>
+      <tr>
+        <td>More output means more value</td>
+        <td>Only useful change in a concrete situation counts</td>
+        <td>Measurement ties artifacts to KPI trees and learning loops instead of vanity counts</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>This is why I resist describing ASD as a content generator for service design. It is a co-creation system. The role prompts, the skill library, the deterministic renderer, and the evidence loop are all there to improve the quality of actor-to-actor work between designers, stakeholders, frontline staff, and decision-makers. The artifact matters. The relationship between actors matters more.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> In ASD, an artifact is a value proposition under evidence and review. It becomes valuable only when a beneficiary integrates it into a real decision or service change.</div>
+  <p>That perspective also clarifies why the human phase gate is so important. If value is phenomenologically determined by the beneficiary, then the system must preserve explicit moments where institutional actors decide what they are willing to adopt, fund, or operationalize. A platform that tries to skip those moments may feel “more autonomous.” It is actually less service-aware.</p>
+
+<h3 id="s-03-2">Operant Resources: Agents Join the Workforce</h3>
+
+<p>SDL’s distinction between operand and operant resources is where agentic design starts to get interesting. Operand resources are acted upon. Operant resources do the acting. In a conventional software setup, data files, transcripts, dashboards, and PDFs are operand resources. Human expertise is the operant resource. In an agentic system, the picture changes: method manifests, role prompts, executable runtimes, and evidence structures all begin to act on the situation.</p>
+  <p>Agents are clearly operant resources. The Researcher can parse a large corpus. The Synthesizer can pattern-match across coded evidence. The Critic can challenge unsupported claims. The Measurer can structure a KPI tree. Each role applies competence rather than simply storing information. But the surprising shift in ASD is that evidence itself begins to behave like an operant resource once it becomes typed, queryable, and compulsory.</p>
+  <p>Raw notes in a folder are inert. Evidence rows in ASD are not. Because every row carries a kind, source, body, and content-addressed identity, the evidence register actively shapes what the rest of the system may claim. It constrains maps. It powers review. It blocks fabricated certainty. It redirects the work. In practice, that means evidence is no longer passive material waiting for a workshop. It becomes an active force in the service system.</p>
+
+  <div class="code-label">evidence-row.json</div>
+  <pre><code>{
+  "evidence": {
+    "id": "5ddb444f18bc3d27b30b5234346e90e05206c19af05c89506d7651625f2fd20f",
+    "kind": "quote",
+    "source": "maint-supervisor-04",
+    "body": "If the tracker goes quiet for three days, the whole plant assumes the job is lost.",
+    "capturedAt": "2026-08-23T09:14:00Z"
+  }
+}</code></pre>
+
+  <p>Once that row exists, it can be cited by a journey map, pulled into a service blueprint, challenged by the Critic, linked into a KPI rationale, and surfaced in a report. That is evidence acting through the system. It is still human evidence. ASD does not magically convert people into data exhaust. But it does convert fragile research memory into a structured operant resource the practice can keep applying.</p>
+  <div class="callout"><strong>My take:</strong> The moment a team treats evidence as an active resource instead of workshop wallpaper, the quality of disagreement improves. People stop arguing in slogans. They argue with the actual corpus.</div>
+  <p>Method execution deepens this shift. The system does not ask an agent to “do some synthesis.” It returns an SOP with role-attributed steps. That means the method itself becomes an operant resource too: a callable, inspectable pattern of action that organizes how capability gets applied.</p>
+
+  <div class="code-label">sd-method-run.json</div>
+  <pre><code>{
+  "method": {
+    "id": "kpi-tree-design",
+    "phase": "measurement",
+    "outputKind": "insight-set"
+  },
+  "steps": [
+    {"role": "measurer", "instruction": "Name the north-star outcome in beneficiary terms."},
+    {"role": "measurer", "instruction": "Decompose the outcome into driver branches and observable indicators."},
+    {"role": "critic", "instruction": "Reject branches with no evidence, baseline, or owner.", "gate": true}
+  ],
+  "acceptance": [
+    {"rule": "min-nodes", "min": 3},
+    {"rule": "min-evidence-per-node", "min": 1},
+    {"rule": "field-non-empty", "field": "metric"}
+  ]
+}</code></pre>
+
+  <p>This is the part many AI teams miss. A model alone is not a service system. An agent without an evidence discipline is not an operant resource I should trust in a serious design practice. ASD earns that trust by giving the operant side structure: explicit methods, bounded roles, review gates, and receipts.</p>
+
+<h3 id="s-03-3">Value Co-Creation and Value-in-Context</h3>
+
+<p>SDL’s most useful warning is that firms do not deliver value unilaterally. They participate in value co-creation, and the beneficiary determines value in context. That point lands with force in servitization work because outcome promises collapse the distance between the provider’s internal logic and the customer’s lived reality.</p>
+  <p>Aurora Vento is the clearest example in the ASD corpus. The company is a fictional composite industrial vendor trying to move from capital-equipment sales into uptime and performance partnerships. A goods-dominant response would focus on more telemetry, better dashboards, and more premium service bundles. An SDL response starts elsewhere: what does the customer plant actually experience as value, what resources must both sides contribute, and which interactions are true co-creation moments rather than backstage facilitation?</p>
+  <p>The Aurora Vento case makes the distinction concrete. The customer did not want “insights.” The customer wanted stable production windows, lower emergency freight, faster mean time to repair, and credible planning confidence. Aurora could propose a value architecture, but it could not honestly promise to deliver value in isolation because part of the outcome depended on shutdown windows, operator behavior, data freshness, and shared review cadence inside the plant.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Aurora question</th>
+        <th>Goods-dominant answer</th>
+        <th>SDL answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>What is being sold?</td>
+        <td>More intelligent equipment plus service add-ons</td>
+        <td>A better-maintained production system and outcome partnership</td>
+      </tr>
+      <tr>
+        <td>Who creates value?</td>
+        <td>The provider by shipping a superior offer</td>
+        <td>Provider and plant together through resource integration</td>
+      </tr>
+      <tr>
+        <td>What proves success?</td>
+        <td>Alerts sent, dashboards installed, contracts signed</td>
+        <td>Uptime, MTTR, first-time fix, renewal behavior, confidence in use</td>
+      </tr>
+      <tr>
+        <td>What can be guaranteed?</td>
+        <td>The outcome itself</td>
+        <td>Only controllable commitments, shared metrics, and governance rules</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>ASD supports this logic because its methods and artifacts keep asking what the beneficiary must do, what the provider must do, and what evidence shows the relationship is working. In the Aurora story, the operating model becomes a shared gameboard rather than a vendor dashboard. The Measurer does not merely chart internal service metrics. The Measurer structures a value-in-context system that both sides can use to judge whether the partnership is actually helping the plant.</p>
+  <p>That is why the service blueprint matters in SDL terms. A blueprint is more than a provider process map. It is a co-creation map that makes frontstage interactions, backstage work, support systems, customer actions, and agent decision logic visible together. If the customer action lane is thin, the blueprint is probably hiding a value fantasy. If the review cadence is missing, the partnership is probably wishful thinking dressed as transformation.</p>
+  <div class="warning"><strong>CAUTION:</strong> A service team drifts back into goods-dominant logic the moment it confuses internal activity with beneficiary value. More notifications, more dashboards, or more generated content do not matter if the customer’s lived situation stays unchanged.</div>
+  <p>SDL also clarifies why ASD preserves bounded host claims. Host execution itself is not the value. The service value appears when the host lets the team perform better co-creation work. Claude Code, MCP, BUZZ, and DSH are distribution mechanisms. The value lies in the improved design and operational decisions they help people make together.</p>
+
+<h3 id="s-03-4">The Service Profit Chain, Instrumented</h3>
+
+<p>The Service Profit Chain becomes much more concrete once I stop treating it as a motivational poster and start treating it as a measurement problem. Internal service quality shapes employee satisfaction and capability. That in turn shapes external service value, customer loyalty, and financial performance. In agentic work, internal service quality includes the quality of the decision-support system itself: evidence hygiene, method reliability, review fidelity, and whether frontline people receive better cognitive leverage or just more automated noise.</p>
+  <p>This is exactly where <code>kpi-tree-design</code> matters. A KPI tree forces the team to move from grand claims to causal structure. What is the beneficiary-defined outcome? Which drivers influence it? Which leading and lagging indicators signal movement? Which branches are controllable? Which are shared? Which metrics are vanity? The method turns the Service Profit Chain from theory into an inspectable artifact.</p>
+
+  <div class="code-label">kpi-tree.yaml</div>
+  <pre><code>north_star:
+  metric: uptime_in_agreed_window_pct
+  beneficiary: plant_maintenance_team
+  baseline: 92.1
+  target: 98.0
+branches:
+  - metric: mean_time_to_repair_days
+    driver_of: uptime_in_agreed_window_pct
+    baseline: 5.2
+    target: 3.0
+    evidence: [ops-log-12, telemetry-07]
+  - metric: first_time_fix_pct
+    driver_of: mean_time_to_repair_days
+    baseline: 61
+    target: 75
+    evidence: [service-orders-q2]
+  - metric: emergency_freight_incidents
+    driver_of: mean_time_to_repair_days
+    baseline: 14
+    target: 5
+    evidence: [parts-audit-02]
+review_gate: critic</code></pre>
+
+  <p>Once a team has that artifact, the Service Profit Chain stops being vague. Internal quality can be expressed as things like evidence freshness, method completion, field readiness, or tooling coherence for frontline teams. Employee capability can be linked to faster diagnosis, fewer handoff failures, lower rework, or clearer decision rights. External value can be observed through customer effort, uptime, resolution trust, or renewal behavior. Profit outcomes then become the downstream consequence of a designed and measured service system rather than a heroic hope.</p>
+  <p>Aurora Vento is useful again here because the company’s servitization move only works if internal quality improves first. If dispatch planning remains chaotic, if technicians lack the right part logic, if shared review rituals do not exist, then no amount of contractual language will create customer value. The Service Profit Chain reminds me that the backstage experience for staff and partners is part of the product. In ASD terms, that means the Measurer and the Critic become essential business roles, not reporting accessories.</p>
+  <div class="callout"><strong>My take:</strong> Most teams jump straight to customer metrics because they are easier to sell upstairs. That is usually too late. If the internal service system is incoherent, the customer measures are already downstream casualties.</div>
+  <p>This is why AI deployed only as a cost-cutting device often backfires. If the agent layer strips discretion, floods people with low-trust output, or hides accountability, internal quality deteriorates. The Service Profit Chain predicts the rest: frontline capability falls, customer value thins out, loyalty erodes, and the business calls the transformation disappointing. ASD tries to avoid that trap by using agents to strengthen the internal service system rather than to bypass it.</p>
+
+<h3 id="s-03-5">SDL Commitments in the Platform Contract</h3>
+
+<p>The final question is whether the theory actually shows up in the platform contract. I think it does, and I can say exactly where.</p>
+  <p>First, SDL’s insistence on value-in-context appears in the evidence discipline. Every consequential claim in ASD must connect to evidence, because the system refuses to treat internal conviction as beneficiary truth. Second, operant-resource logic appears in the role model and method surface. Roles are specialized competences. Methods are executable routines for applying those competences. Third, value co-creation appears in the artifact model itself: journeys, stakeholder maps, ecosystem maps, and blueprints all force the team to represent multiple actors and their relationships, rather than provider activity alone.</p>
+  <p>Fourth, the Service Profit Chain appears in the measurement surface. KPI trees, audits, and baselines force the system to make internal quality and external value legible. Fifth, institutional arrangements show up in the human gate. A phase-advance receipt is not bureaucracy for its own sake. It is the explicit institutional act that says a sponsor, service lead, or governance body is prepared to own the next commitment.</p>
+  <p>Even the Critic supports SDL. A veto is not merely a software safeguard. It is a protection against the provider-centric fantasy that a team can announce value without properly grounding it. The <code>review-veto-log</code> records where the system overreached. That is operational humility written into the platform.</p>
+
+  <div class="code-label">phase-advance.json</div>
+  <pre><code>{
+  "projectId": "aurora-vento-808ed8c3",
+  "toPhase": "develop",
+  "idempotencyKey": "gate-define-1",
+  "approvalReceipt": {
+    "receiptId": "gate-define-1",
+    "decision": "approve",
+    "rationale": "Value proposition, KPI tree, and co-creation boundaries accepted.",
+    "approvedBy": "service-lead",
+    "approvedAt": "2026-08-23T15:30:00Z"
+  }
+}</code></pre>
+
+  <p>That object is more than a control artifact. It formalizes what SDL has always implied: service systems move when actors commit resources under real institutional conditions. An LLM cannot will that commitment into existence. It can only help the organization prepare for it honestly.</p>
+  <p>This is where ASD earns its theoretical seriousness. The platform does not bolt service design language onto generic AI tooling. It encodes service-dominant commitments into the execution path: evidence before assertion, roles as competences, artifacts as provisional value propositions, review before promotion, measurement tied to value-in-use, and human authority at consequential boundaries.</p>
+  <p>So when I say agent teams fit service-dominant practice, I do not mean they are fashionable companions for workshops. I mean they can act as operant resources inside a rigorously designed co-creation system. They help me research faster, synthesize deeper, instrument the Service Profit Chain, and challenge weak claims earlier. They do not abolish the beneficiary. They do not replace the institution. They do not nullify the designer. They sharpen all three.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> The point of agentic service design is not to automate away co-creation. It is to build a runtime that makes co-creation more inspectable, more disciplined, and easier to sustain at scale.</div>
+  <p>That is the practical force of SDL inside ASD. It keeps the platform from becoming a very fast artifact factory. It keeps the work oriented toward lived service outcomes, shared operating routines, and measured value in context. Without that lens, agentic service design would degenerate into output theater. With it, the system becomes a serious instrument for designing and governing services that people can actually use, trust, and improve.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="02.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 02</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD Platform Architecture</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 02</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The ASD Platform Architecture</p>
+        </div>
+      </div>
+    </a>
+    <a href="04.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 04</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 04</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Handoffs are artifacts, never chat</p>
+        </div>
+        <a href="04.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

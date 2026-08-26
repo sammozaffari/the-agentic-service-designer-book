@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>DeepSeek Harness Studio: The Integrated Workbench - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-20" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 20</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">DeepSeek Harness Studio: The Integrated Workbench</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">ASD inside a browser studio</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">27 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-20-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Harness + Adapter: Division of Labour</a>
+        <a href="#s-20-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Installing the Profile</a>
+        <a href="#s-20-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Studio Slots: Activity, Conversation, Settings</a>
+        <a href="#s-20-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Loopback Routes and the RPC Allowlist</a>
+        <a href="#s-20-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Capability Projection: 24 Rows, One Unsupported</a>
+        <a href="#s-20-6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Portable Bundles and Isolation</a>
+        <a href="#s-20-7" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Center-Tab Studio</a>
+        <a href="#s-20-8" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Live Build, Running</a>
+        <a href="#s-20-9" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Wattle Grove Community Care</a>
+        <a href="#s-20-10" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Receipt Boundaries</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-20-1" data-section="s-20-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Harness + Adapter: Division of Labour</span></a>
+          <a href="#s-20-2" data-section="s-20-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Installing the Profile</span></a>
+          <a href="#s-20-3" data-section="s-20-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Studio Slots: Activity, Conversation, Settings</span></a>
+          <a href="#s-20-4" data-section="s-20-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Loopback Routes and the RPC Allowlist</span></a>
+          <a href="#s-20-5" data-section="s-20-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Capability Projection: 24 Rows, One Unsupported</span></a>
+          <a href="#s-20-6" data-section="s-20-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Portable Bundles and Isolation</span></a>
+          <a href="#s-20-7" data-section="s-20-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Center-Tab Studio</span></a>
+          <a href="#s-20-8" data-section="s-20-8" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Live Build, Running</span></a>
+          <a href="#s-20-9" data-section="s-20-9" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Wattle Grove Community Care</span></a>
+          <a href="#s-20-10" data-section="s-20-10" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Receipt Boundaries</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-20-1" data-section="s-20-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Harness + Adapter: Division of Labour</span></a>
+          <a href="#s-20-2" data-section="s-20-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Installing the Profile</span></a>
+          <a href="#s-20-3" data-section="s-20-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Studio Slots: Activity, Conversation, Settings</span></a>
+          <a href="#s-20-4" data-section="s-20-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Loopback Routes and the RPC Allowlist</span></a>
+          <a href="#s-20-5" data-section="s-20-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Capability Projection: 24 Rows, One Unsupported</span></a>
+          <a href="#s-20-6" data-section="s-20-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Portable Bundles and Isolation</span></a>
+          <a href="#s-20-7" data-section="s-20-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Center-Tab Studio</span></a>
+          <a href="#s-20-8" data-section="s-20-8" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Live Build, Running</span></a>
+          <a href="#s-20-9" data-section="s-20-9" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Wattle Grove Community Care</span></a>
+          <a href="#s-20-10" data-section="s-20-10" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Receipt Boundaries</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-20-1">Harness + Adapter: Division of Labour</h3>
+
+<p>The first thing I want clear is authorship of responsibility. DSH is the host. It owns the browser shell, the profile manager, the slot system, the settings surface, and the web server that serves the Studio on loopback. ASD does not fork the host and it does not patch the host source tree in place. The shipped pointer is <code>platform/packs/dsh/</code>, and the actual integration package is <code>@asd/ui</code>. That package composes into the official DSH profile beside <code>@deepseek-ai/dsh-base</code> and <code>@deepseek-ai/dsh-web-app</code>. If you remember one sentence from this section, remember this one: DSH supplies the room; <code>@asd/ui</code> brings in the workbench furniture and wires it back to the canonical ASD engine.</p>
+  <p>That arrangement keeps the architecture honest. The shared ASD payload stays the shared ASD payload: 10 roles, 80 shipped skills from 81 authored sources, 30 canonical <code>sd_*</code> runtime tools, 228 corpus resources, 10 role prompts, 38 registered artifact-kind contracts, 39 catalog rows, and 7 authored templates. The DSH surface does not invent a second project store, a second review system, or a second fact-check engine. The adapter validates the compatibility seam, registers the canonical tools and skills, injects the shared role contract into the system prompt, mounts the Studio browser, and routes the work back into the same workspace-backed service layer used by CLI and MCP. In other words: same governed practice, different shell.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>What it owns in the DSH surface</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DeepSeek Harness <code>0.1.0-rc.5</code></td>
+        <td>Profile lifecycle, slot system, loopback web host, conversation shell, settings host, sidebar host, and browser runtime.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/ui</code> <code>0.5.0</code></td>
+        <td>ASD host adapter, Studio client, role prompt registration, skill registration, settings plugin item, conversation and sidebar integration, loopback RPC bridge, and compatibility enforcement.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/core</code></td>
+        <td>Projects, evidence, artifacts, canvases, acceptance rules, Critic review, fact-check, phase-gate records, and ACP envelopes.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/engine</code></td>
+        <td>The canonical 30 <code>sd_*</code> tool definitions and execution handlers.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/knowledge</code></td>
+        <td>The method corpus, template catalog, artifact-kind contracts, provenance, and the 228-resource library exposed across surfaces.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/agents</code></td>
+        <td>The ten-role registry and bounded dispatch instructions the host can register.</td>
+      </tr>
+      <tr>
+        <td><code>@asd/runtime</code></td>
+        <td>The shared CLI and MCP runtime used by non-DSH surfaces. It remains the reference engine; it is not a second Studio.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong>My take:</strong> I distrust host integrations that blur their seams. When I cannot tell whether a feature belongs to the shell, the adapter, or the shared engine, I know I will not be able to debug it six months later. The DSH surface is good precisely because the line is visible.</div>
+  <p>The package README states this plainly: this pointer is not the old monolithic plugin, not a standalone web app, and not evidence that every emitted host pack runs inside DSH. The documentation page repeats the same discipline. One installed <code>@asd/ui</code> package. One composed profile. One loopback Studio. One canonical tool registry behind it. That is a cleaner story than the earlier historical descriptions, and it is the story that survives contact with receipts.</p>
+
+<h3 id="s-20-2">Installing the Profile</h3>
+
+<p>The profile lifecycle has to use the host’s official commands. No copying files into random folders. No editing the Harness checkout. No pretending a manifest pointer is an installer. The verified shape is the ordinary DSH lifecycle: add, update, remove, then launch the web host with the same profile. The placeholders below are intentional because the package or local bundle path is deployment-specific. What matters is the lifecycle shape, not a fake universal URL.</p>
+  <div class="code-label">dsh-profile-lifecycle.sh</div>
+  <pre><code># Run from the DeepSeek Harness checkout.
+dsh plugin --profile &lt;profile&gt; add &lt;asd-ui-package-or-bundle&gt;
+dsh plugin --profile &lt;profile&gt; update &lt;asd-ui-package-or-bundle&gt;
+dsh plugin --profile &lt;profile&gt; remove &lt;asd-ui-package-or-bundle&gt;
+
+dsh web --profile &lt;profile&gt; --port &lt;loopback-port&gt;</code></pre>
+  <p>For the pinned receipt, the profile name is <code>asd-live-review2</code>. The verified compatibility revision is <code>3f88a0f63f9788959b4e889b78653798bb7d6aae+asd-phase5-e94f006f2283</code>. I treat that revision string as a contract, not a convenience label. If my local host revision differs, I am outside the receipt. I can still experiment, but I am no longer entitled to reuse the claim that the rc.5 seam was proven.</p>
+  <p>The release gate is equally concrete. Official add/update/remove/reinstall must succeed. The six required slots must be present. The package must still be portable after install. The Studio must load on loopback. The project count and workspace root must be the expected disposable values in the smoke run. ASD-owned accessibility violations at serious or critical level must stay at zero for that smoke. Shutting down the server must remove the temporary workspace created for the check. That is why the profile story is worth documenting. It is lifecycle evidence backed by a receipt from a real machine.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Treat the host’s installer as part of the product surface. If add, update, remove, or reinstall is shaky, the integration is shaky, even if the UI looks polished after a lucky boot.</div>
+  <p>There is another quiet benefit to doing it this way. Because the adapter bundle carries its own inventory and compatibility expectations, the boot can fail loudly when the Harness seam drifts. The code checks the exact rc.5 package versions it depends on, validates the role, skill, template, and corpus inventories, and refuses to register the web routes when the host is not loopback. That is the correct failure mode. A partial Studio that appears to work is worse than a hard stop.</p>
+
+<h3 id="s-20-3">Studio Slots: Activity, Conversation, Settings</h3>
+
+<p>The receipt records six host slots: <code>sidebar.activity.action</code>, <code>sidebar.activity.panel</code>, <code>conversation.view</code>, <code>conversation.showView</code>, <code>settings.plugin.item</code>, and <code>layout.openActivity</code>. Three of those are user-visible surfaces. Three are the navigation seams that make the visible surfaces coherent. Together they let ASD appear as a first-class citizen inside the Harness instead of as a floating afterthought.</p>
+
+  <figure id="fig-20-01" class="full">
+    <div class="figure__media"><img src="shared/dsh/full-shell.png" alt="DeepSeek Harness Studio running the ASD adapter with sidebar activity and conversation view visible." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 20.1</span> <strong>ASD mounted inside the full shell.</strong> This capture proves that the Service Design activity and the Studio conversation view coexist inside the DeepSeek Harness shell; it does not prove that every provider, chat trajectory, or role dispatch path was exercised in that run.</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Slot</th>
+        <th>Function</th>
+        <th>What I experience in the UI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>sidebar.activity.action</code></td>
+        <td>Registers ASD as a sidebar activity.</td>
+        <td>A Service Design button appears in the sidebar activity rail.</td>
+      </tr>
+      <tr>
+        <td><code>sidebar.activity.panel</code></td>
+        <td>Registers the keyed panel body for that activity.</td>
+        <td>Clicking the Service Design button opens the docked workbench panel.</td>
+      </tr>
+      <tr>
+        <td><code>conversation.view</code></td>
+        <td>Adds ASD as a center-column conversation tab.</td>
+        <td>The Studio appears beside Chat and the host’s other conversation views.</td>
+      </tr>
+      <tr>
+        <td><code>conversation.showView</code></td>
+        <td>Switches a scoped session into the Studio view.</td>
+        <td><em>Open in Studio</em> deep links can jump the user from a tool card into the right workbench tab.</td>
+      </tr>
+      <tr>
+        <td><code>settings.plugin.item</code></td>
+        <td>Registers the ASD settings card.</td>
+        <td>Settings → Plugins shows the ASD entry where workspace root and default phase live.</td>
+      </tr>
+      <tr>
+        <td><code>layout.openActivity</code></td>
+        <td>Opens the sidebar activity programmatically.</td>
+        <td>Project or artifact deep links can open the panel to the correct section instead of dumping me at a generic home state.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>The important thing is that the Studio is mounted twice over one shared store. I can open it as a center-column tab or as a sidebar activity panel, and both surfaces read the same project, evidence, artifact, review, and report state. Article 36 describes this well: tool cards rendered in the chat for <code>sd_project_create</code>, <code>sd_evidence_add</code>, <code>sd_artifact_write</code>, <code>sd_artifact_get</code>, <code>sd_artifact_list</code>, and <code>sd_review</code> can carry an <em>Open in Studio</em> action that lands on the exact project or artifact the tool call touched. That is workbench design, not screen dressing. The browser and the tool runtime are pointing at the same object.</p>
+  <p>There are currently three user-facing entry points I rely on: the sidebar Service Design activity, the Studio conversation view, and the Settings → Plugins card. Those are the surfaces I touch. The other two names that sound more abstract — <code>conversation.showView</code> and <code>layout.openActivity</code> — are why the handoff feels integrated instead of clumsy. Without them, every click-out from chat would strand me in the wrong place.</p>
+
+<h3 id="s-20-4">Loopback Routes and the RPC Allowlist</h3>
+
+<p>The workbench lives on two loopback routes only: <code>/asd/app</code> serves the static Studio assets and <code>/asd/rpc</code> exposes a bounded JSON-RPC channel. The adapter refuses to register either route unless the Harness web server host is exactly <code>127.0.0.1</code>. That is not a suggestion. It is a boot-time guard. If the host is bound elsewhere, <code>@asd/ui</code> stops. I like that decision because it makes the threat model legible. This Studio is a local workbench, not a quietly internet-facing admin surface.</p>
+  <p>The static side is deliberately dull. The handler serves the Studio files under <code>/asd/app</code>, returns <code>index.html</code> for the bare prefix, sets the right content types, and rejects traversal attempts such as raw <code>/asd/app/../../../../etc/passwd</code> requests with a 404 instead of walking out of the asset root. It also rejects unsafe verbs. That sounds mundane. Good. Static serving should be boring.</p>
+  <p>The interesting boundary is the RPC channel. The source code labels it a closed allowlist: no eval, no passthrough, and nothing that writes. The methods validate their own parameters and read through <code>AsdService</code>. The allowlist covers project summaries, artifact and evidence reads, method and template browsing, review rows, canvases, fact-check projections, orchestration status, report generation, and related read models. Every browser request must be a <code>POST</code> with JSON content type. Cross-site browser requests are rejected. If an <code>Origin</code> header is present, it must be the loopback Harness origin on <code>http://127.0.0.1:&lt;port&gt;</code>. Request bodies are capped at 64 KB. Bad input resolves to a client error instead of a silent fallback.</p>
+  <div class="code-label">loopback-routes-probe.sh</div>
+  <pre><code>PORT=3788
+
+curl -i "http://127.0.0.1:${PORT}/asd/app"
+
+curl -i \
+  -X POST "http://127.0.0.1:${PORT}/asd/rpc" \
+  -H 'content-type: application/json' \
+  --data '{"method":"getProjectsSummary"}'</code></pre>
+  <p>The read-only posture of <code>/asd/rpc</code> is easy to miss if you only look at screenshots. The Studio can inspect and coordinate. The canonical tool runtime still owns mutations. That is the right split. I do not want an ad hoc browser method sneaking around the acceptance gate or the review contract. If the browser needs to show a review board, it asks for review rows. If I need to write an artifact, review it, or advance a phase, I go through the canonical operation path where the same rules fire as they do in CLI and MCP.</p>
+  <div class="warning"><strong>CAUTION:</strong> Loopback does not mean “security solved.” Any local browser surface still deserves explicit origin checks, verb limits, parameter validation, and size caps. The DSH adapter earns trust because the route boundary is narrow, not because it is visually hidden.</div>
+
+<h3 id="s-20-5">Capability Projection: 24 Rows, One Unsupported</h3>
+
+<p>The capability projection is where the DSH workbench stops being a vibe and starts being a machine-readable contract. The current <code>capabilities.json</code> for the DSH surface contains 24 rows. Twenty-three are supported. One is explicitly unsupported: <code>phase.gate.status</code>. That unsupported row is a feature, not an embarrassment. It tells me the boundary is enforced by proof rather than optimism.</p>
+  <p>The supported rows are not a claim that the Studio has 23 shiny buttons and therefore “covers the whole platform.” They say something more technical and more valuable: if the Studio advertises one of these operations, it executes the exact canonical tool definition named in the row. The source lists them one by one: <code>project.list</code>, <code>project.create</code>, <code>project.open</code>, <code>project.status.set</code>, <code>evidence.add</code>, <code>evidence.import</code>, <code>artifact.list</code>, <code>artifact.get</code>, <code>artifact.write</code>, <code>canvas.add</code>, <code>canvas.list</code>, <code>canvas.remove</code>, <code>method.list</code>, <code>template.list</code>, <code>template.get</code>, <code>schema.get</code>, <code>review.list</code>, <code>review.run</code>, <code>factcheck.run</code>, <code>orchestration.status</code>, <code>orchestration.dispatch</code>, <code>orchestration.handoff</code>, and <code>phase.advance</code>.</p>
+  <p>Two absences matter. <code>method.run</code> is a canonical tool concept, but it is not a separate direct Studio capability row. Neither is <code>evidence.query</code>. The browser can still expose supported query surfaces for those concepts, but clients must not invent new direct capability IDs. And when a client asks for something unsupported or unknown, the adapter fails closed. The documentation names the error contract clearly: <code>CAPABILITY_UNSUPPORTED</code>, no silent downgrade, no “close enough” reroute to some other method. The core capability source puts the same philosophy in code: <em>return a supported operation or fail loudly; never silently downgrade</em>.</p>
+
+  <figure id="fig-20-02" class="full">
+    <div class="figure__media"><img src="shared/dsh/review-board.png" alt="Review board panel inside the Studio showing an artifact and its review state." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 20.2</span> <strong>The review board inside the workbench.</strong> This capture proves that review state, acceptance re-runs, and linked evidence are surfaced inside the Studio; it does not prove that every host/provider combination completed the full case or that a visible row is automatically final and exportable.</figcaption>
+  </figure>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Capability row</th>
+        <th>Canonical tool</th>
+        <th>Status</th>
+        <th>Why it matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>project.list</code></td><td><code>sd_project_list</code></td><td>supported</td><td>Studio dashboards read the same project inventory as every other surface.</td></tr>
+      <tr><td><code>project.create</code></td><td><code>sd_project_create</code></td><td>supported</td><td>New projects are canonical records, not browser-local drafts.</td></tr>
+      <tr><td><code>project.open</code></td><td><code>sd_project_open</code></td><td>supported</td><td>Opening a project resolves against the shared workspace.</td></tr>
+      <tr><td><code>project.status.set</code></td><td><code>sd_project_status_set</code></td><td>supported</td><td>Kanban lifecycle moves ride the canonical status tool; legal transitions are enforced by the engine, not the board.</td></tr>
+      <tr><td><code>evidence.add</code></td><td><code>sd_evidence_add</code></td><td>supported</td><td>Evidence writes still hit the canonical kind and provenance rules.</td></tr>
+      <tr><td><code>evidence.import</code></td><td><code>sd_evidence_import</code></td><td>supported</td><td>Bulk capture remains an engine operation, not a custom UI loophole.</td></tr>
+      <tr><td><code>artifact.list</code></td><td><code>sd_artifact_list</code></td><td>supported</td><td>Artifact indexes stay consistent across Studio, CLI, and MCP.</td></tr>
+      <tr><td><code>artifact.get</code></td><td><code>sd_artifact_get</code></td><td>supported</td><td>The browser reads the same stored artifact object the tools wrote.</td></tr>
+      <tr><td><code>artifact.write</code></td><td><code>sd_artifact_write</code></td><td>supported</td><td>The acceptance gate stays on the write path.</td></tr>
+      <tr><td><code>canvas.add</code></td><td><code>sd_canvas_add</code></td><td>supported</td><td>External canvases are registered in the project store, not in browser memory.</td></tr>
+      <tr><td><code>canvas.list</code></td><td><code>sd_canvas_list</code></td><td>supported</td><td>The Studio can read linked canvases through the shared registry.</td></tr>
+      <tr><td><code>canvas.remove</code></td><td><code>sd_canvas_remove</code></td><td>supported</td><td>Canvas cleanup is explicit and canonical.</td></tr>
+      <tr><td><code>method.list</code></td><td><code>sd_method_list</code></td><td>supported</td><td>The method browser is reading the same corpus-backed manifest list.</td></tr>
+      <tr><td><code>template.list</code></td><td><code>sd_template_list</code></td><td>supported</td><td>Template discovery is shared across surfaces.</td></tr>
+      <tr><td><code>template.get</code></td><td><code>sd_template_get</code></td><td>supported</td><td>The authored template body comes from the shared pack.</td></tr>
+      <tr><td><code>schema.get</code></td><td><code>sd_schema_get</code></td><td>supported</td><td>Kind contracts are surfaced through the same schema path.</td></tr>
+      <tr><td><code>review.list</code></td><td><code>sd_review_list</code></td><td>supported</td><td>The board is a projection of the real review state.</td></tr>
+      <tr><td><code>review.run</code></td><td><code>sd_review</code></td><td>supported</td><td>Pass and veto remain canonical review operations.</td></tr>
+      <tr><td><code>factcheck.run</code></td><td><code>sd_factcheck</code></td><td>supported</td><td>The Studio can show deterministic gate output, not a separate browser opinion.</td></tr>
+      <tr><td><code>orchestration.status</code></td><td><code>sd_orchestration_status</code></td><td>supported</td><td>Plan traces are shared and inspectable.</td></tr>
+      <tr><td><code>orchestration.dispatch</code></td><td><code>sd_orchestration_dispatch</code></td><td>supported</td><td>Dispatch state is persisted, bounded, and visible.</td></tr>
+      <tr><td><code>orchestration.handoff</code></td><td><code>sd_orchestration_handoff</code></td><td>supported</td><td>Handoffs remain typed and recorded, never mere chat.</td></tr>
+      <tr><td><code>phase.advance</code></td><td><code>sd_phase_advance</code></td><td>supported</td><td>Phase movement is still explicit and receipt-bearing.</td></tr>
+      <tr><td><code>phase.gate.status</code></td><td>—</td><td>unsupported</td><td>The engine exposes phase advance, not a separate canonical direct status capability. The adapter says so instead of pretending otherwise.</td></tr>
+    </tbody>
+  </table>
+  <p>If you inspect the review board in Figure 20.2, you can see why this contract matters. Review is not decorative chrome around chat. The row carries status, gate, verdict, linked log artifacts, and acceptance failures. A refused write can sit there as a draft with explicit reasons. A passed review can sit there with evidence-cited rows. The board is useful because the operations beneath it are named and bounded.</p>
+
+<h3 id="s-20-6">Portable Bundles and Isolation</h3>
+
+<p>The DSH receipt is strong because it verifies properties most teams would leave implicit. It does not stop at “the plugin installed.” It pins the bundle hash, counts the bundle entries, checks for absolute paths and symlinks, proves byte-identical output across distinct checkout roots, records the official remove-and-reinstall cycle, and confirms that the live smoke used a disposable workspace that vanished cleanly when the server stopped. That is the level of evidence I want for a workbench that is supposed to travel between machines and profiles.</p>
+  <div class="code-label">dsh-receipt-summary.json</div>
+  <pre><code>{
+  "package": {
+    "name": "@asd/ui",
+    "version": "0.5.0",
+    "bundleSha256": "8c7aa34f02c1df50030cf2faa6c0dd23098c38afbf1248d8607ef07fc8157484",
+    "entryCount": 502,
+    "absolutePaths": false,
+    "sourceTreeImports": false,
+    "symlinks": false
+  },
+  "verification": {
+    "uiTests": 120,
+    "workspaceTests": 701,
+    "bundleSafety": "pass"
+  },
+  "profile": {
+    "name": "asd-live-review2",
+    "slotCount": 6,
+    "officialRemoveReinstall": "pass"
+  },
+  "liveSmoke": {
+    "projectCount": 0,
+    "pluginOwnedSeriousOrCriticalAxeViolations": 0,
+    "serverStopped": true,
+    "temporaryWorkspaceRemoved": true
+  }
+}</code></pre>
+  <p>The portable-bundle claim has three parts. First, the archive is self-consistent: 502 entries, no absolute source paths, no source-tree imports, no symlinks. Second, the build is stable: the receipt records byte-identical outputs from distinct absolute roots and a stable SHA-256 for the package bundle. Third, the runtime footprint is disposable: the smoke runs with a loopback server, an empty project count, and a temporary workspace that is removed on shutdown. That is what I mean by an integrated workbench. It is not merely mounted inside the shell. It is installable, movable, inspectable, and removable without dragging half a source tree behind it.</p>
+  <p>Accessibility belongs in the same proof set. The receipt records zero ASD-owned serious or critical accessibility violations in the live smoke. That phrase is carefully scoped. It does not mean the whole Harness had zero violations. The receipt even records bounded host-owned exceptions separately. I appreciate that level of honesty. When a platform tells me what belongs to it and what does not, I can improve the right thing instead of laundering host defects through the plugin’s success story.</p>
+  <div class="callout"><strong>My take:</strong> Portable bundle safety sounds like release-engineering housekeeping until the day you need to prove that a “plugin” was not quietly importing half your checkout from <code>/Users/&lt;checkout&gt;</code>. Then it becomes design governance.</div>
+
+<h3 id="s-20-7">The Center-Tab Studio</h3>
+
+<p>Until the Studio v2 merge, the center tab was a respectable read surface: project summaries, artifact views, the review board. Useful, but passive. Article 38, <em>The Center-Tab Studio: Live Service Design Journeys Inside the DeepSeek Harness Shell</em>, is now live, and it documents what the merge changed: the center tab became an engagement surface in its own right. Three workspaces share it — a kanban board for the engagement lifecycle, a knowledge-base Library browser, and a canvas preview workspace. Each reads the same workspace-backed store the rest of this chapter describes. None of them forks it.</p>
+  <p>The kanban board renders every engagement as a project card carrying its design phase, draft and veto badges projected from the review state, and the latest status note. Moving a card is a first-class operation, not a visual trick. Drag-and-drop and the keyboard Move menu both call the <code>project.status.set</code> capability row, which executes <code>sd_project_status_set</code> under its legal transition rules: <code>briefed → active → gated → blocked → archived</code>, <code>archived</code> reachable from any state, <code>blocked ↔ active</code>, and same-status calls treated as no-ops unless a note accompanies them. The board updates optimistically so the interaction feels immediate, and it rolls back visibly when the engine refuses a transition. The property I care about is that the refusal path exists at all. A board that let me drag a project into any column would be a board I could not trust.</p>
+  <p>The Library browser turns the 228-resource knowledge base into something navigable from inside the shell: methods, templates, and article READMEs, each carrying its provenance. The detail that earns its place is cited use-in-project — a Library entry shows which engagements have actually applied it, so reuse is visible evidence instead of an anecdote about a method being popular. The canvas preview workspace does the equivalent job for canvases. Compare mode puts two states of a canvas side by side. The evidence spotlight rail keeps the cited records beside the canvas instead of a click away. SVG and PNG export take a view into a deck or a review pack without a screenshot of a screenshot.</p>
+  <p>Article 38 walks this surface end to end on two paired engagements: Aurelia Trade Finance, a trade-finance modernisation, and Meridian Oncology Partners, an oncology-network coordination problem. Both are fictional composites, per the series convention, and the run is bounded in the same way the Wattle Grove walkthrough below is bounded. The Studio v2 surface is demonstrated in that bounded run, and the per-kind typed schemas for richer artifact views remain Phase 2 work. What the article proves is the loop — board, Library, canvas, review — holding together over one shared store. It does not prove that every artifact kind already has a bespoke typed renderer.</p>
+  <div class="callout"><strong>My take:</strong> A kanban board over a governed store is the first project-tracking UI I have actually enjoyed working in, because the columns are enforced by the engine. The drag is optimistic. The truth is not.</div>
+
+<h3 id="s-20-8">The Live Build, Running</h3>
+
+<p>Everything above this line describes the integration as a contract. As I write this, the contract is running on my desk: the <code>asd-studio-v2</code> profile serving on <code>127.0.0.1:4685</code>. The host's own boot manifest is machine-checkable, so I checked it. The host booted at revision <code>ad3ba0951ddb</code> with 39 plugin entries, and among them sits <code>@asd/ui</code> at revision <code>367432b4e475</code>, its client served from <code>/plugins/@asd/ui/client.js</code> at roughly 707 kilobytes. Reading the served bundle itself confirms the surfaces this chapter describes by name: the Agentic SD Studio center tab registered through the <code>conversation.view</code> seam, the Kanban lifecycle including the <em>briefed</em> column, the Library with its cited <em>Use in project</em> action, the canvas workspace, and the jobs-to-be-done kind. That is source-level proof of what the host is running. It is not, by itself, proof of what a model turn did — that proof stays with Article 38's receipts. Two different questions, two different evidence kinds, and I keep them apart the way I keep the DSH receipt apart from the bounded prior workflow evidence.</p>
+  <p>Four pieces of the v2 build deserve their own paragraphs here because they changed how I actually work, and none of them is a new place to put a button.</p>
+  <p><strong>The composer knows the engagement.</strong> The input dock chip reads the project — name, phase, gate state, draft count — instead of just its label, and its Project-actions menu drafts phase-aware instructions: a "suggest next step" framed by the orchestrator with an explicit wait-for-confirmation, or a gate report. The posture is the same one the create form established: the Studio drafts, the human reads, edits, and sends. Nothing fires on a click that I have not read first.</p>
+  <p><strong>The guided interview.</strong> Selecting a template or a method in the Studio used to mean hoping the model guessed the context. Now it starts an interview. The drafted instruction tells the model to review existing project evidence first, ask me focused questions one at a time, and only then write the artifact, run the critic, and report the verdict — with a hard guard requiring at least three answered questions before any artifact is created. All seven authored templates, the original six plus jobs-to-be-done, open their interview with a question. In the acceptance run, one journey-map interview ran five question rounds before it produced anything. The interview is where the model's ignorance becomes visible early, while it is still cheap.</p>
+  <p><strong>The right panel, taken seriously.</strong> The host reserves a single details seat beside the conversation, and the contract says one occupant renders there. The v2 build takes the seat deliberately: an artifact write opens its sanitized SVG render with badges and an Open-in-Studio deep link; a review opens its verdict card; a factcheck opens a pass/fail table; anything else falls back to the host's default faithfully. The receipt line I keep retelling: the first live boot of this build failed loudly because the host already held the seat at priority 0, and the fix was to register at −10, because the lowest rank renders. Activation, not registration, is where takeover seams bite — this chapter has now shown that twice.</p>
+  <p><strong>Six new kinds.</strong> The artifact-kind registry grew from 32 to 38: jobs-to-be-done, day-in-the-life, touchpoint-inventory, service-scenario, expectation-map, actor-network-map. Each carries a closed schema, a deterministic renderer, and a method manifest, and each entered through the same gated write path as the original 32 — the live turn wrote two of them through it. The kind count is the least interesting number in that sentence. The interesting part is that expansion did not require a new door.</p>
+
+  <figure id="fig-20-03" class="full">
+    <div class="figure__media"><img src="shared/dsh/kanban-board.png" alt="The Studio Kanban board: five lifecycle columns with counts, a WIP budget on Active, and project cards with phase and draft badges." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 20.3</span> <strong>The engagement Kanban.</strong> Five lifecycle columns, a WIP budget on Active, drag handles and Move-to menus that execute <code>sd_project_status_set</code> — never a direct write. Captured 2026-08-23 against the studio v2 build; see Article 38 for the receipt.</figcaption>
+  </figure>
+
+  <figure id="fig-20-04" class="full">
+    <div class="figure__media"><img src="shared/dsh/library-search.png" alt="The Studio Library: search results for blueprint grouped by source, with content snippets and Use-in-project actions." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 20.4</span> <strong>The Library as a human surface.</strong> The 228-resource corpus the model reads, searchable, with every hit carrying a provenance-cited <em>Use in project</em> action that drafts a librarian instruction into the composer. Same capture run as Figure 20.3.</figcaption>
+  </figure>
+
+  <div class="callout"><strong>My take:</strong> A build you can interrogate is worth three demos you can watch. The boot manifest answers <em>what is running</em> in one curl. The receipts answer <em>what it did</em>. A workbench chapter that cannot answer both, separately, is marketing.</div>
+
+<h3 id="s-20-9">Case: Wattle Grove Community Care</h3>
+
+<p>Wattle Grove Community Care is the right case for this chapter because it shows both the promise and the discipline of the workbench. The client is fictional and composite. The evidence is synthetic and declared as such. The current DSH integration receipt and the bounded prior workflow evidence are deliberately separated. That separation is the whole lesson. The workbench lets me run a serious service-design engagement in one host surface, but it also forces me to label exactly which parts were proven by the current rc.5 integration and which parts were proven earlier through bounded workflow receipts.</p>
+
+  <figure id="fig-20-05" class="full">
+    <div class="figure__media"><img src="shared/dsh/settings-plugins-asd.png" alt="Settings screen showing the ASD plugin item registered by the adapter." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 20.5</span> <strong>The ASD settings entry.</strong> This capture proves that <code>@asd/ui</code> registers as a first-class Plugins settings item with ASD-owned configuration; it does not prove that another DSH revision or another profile inherits the same compatibility receipt.</figcaption>
+  </figure>
+
+  <p>I like to begin the walkthrough with the settings surface because it tells me the integration is real before I even touch the case. The ASD plugin item is where the workbench exposes its own namespace and lets me set workspace root and default phase. From there, the Wattle Grove engagement follows the shared ASD loop. The designer creates the project, captures eight evidence records, pulls the relevant methods, writes typed artifacts, reviews them, fact-checks them, and stops at a human gate.</p>
+  <p>The service problem is concrete. Wattle Grove is an in-home aged-care provider with roughly 1,900 clients and 240 support workers. Clients keep seeing unfamiliar workers. Families are not told about changes. Schedulers trade continuity away whenever coverage gets tight, because an uncovered visit is a contractual breach while continuity is a quality the organisation cares about but does not measure. The evidence pack for the case is small on purpose: two client interviews, two family interviews, two support-worker interviews, one scheduler interview, and one operational telemetry figure. The workbench does not need a fake data mountain. It needs cited records that can anchor each artifact node.</p>
+  <p>From there the method sequence is the canonical one. Stakeholder mapping comes first because the quotes come from four different groups whose interests conflict. The resulting map has six stakeholders. The care recipient and family carer have the highest lived stake, but the scheduler and the regulator carry the highest operational influence. That asymmetry matters because it tells me continuity failures are not random UX glitches. They are downstream of backstage incentives.</p>
+  <p>The journey map then renders the service as six evidence-backed stages. The quotes are the story. <em>“I get dressed and wait by the door from eight.”</em> <em>“I have never met most of these clients and there are no notes.”</em> <em>“Eleven different girls came. I stopped telling them where things are kept.”</em> <em>“Nobody comes until eleven and no one rings.”</em> <em>“I only find out Mum had a new carer when she tells me she was upset.”</em> <em>“I took the day off. They arrived at 2pm. I lost a day’s pay.”</em> Read those together and the case becomes legible. The platform is not inferring a sentimental narrative. It is forcing each stage to resolve back to an opened record.</p>
+  <p>The blueprint deepens the diagnosis. Article 36 reports twenty nodes across five lanes, with eleven fail or wait points. Worker arrives with no client context. Run-sheet generation excludes care-plan data. Client meets a stranger again. No dynamic resequencing or overrun alert. Family not notified. Compliance measures completion, ignores continuity. Complaint signal never reaches rostering policy. That is a workbench doing actual service design. I can move between the conversation, the evidence register, the artifact view, and the review board without losing the thread because the store underneath is one store.</p>
+  <p>Then comes the moment I care about most. Somebody asks for a better story than the evidence supports. In the bounded prior workflow, the designer explicitly asks for a current-state journey stage saying the client receives a proactive evening SMS with the worker’s name and photo and feels reassured, even though there is no evidence for that state. The platform refuses the write. This is the kind of refusal I want from an integrated workbench: precise, persistent, and public to the human reviewer.</p>
+  <div class="code-label">probe-refusal.json</div>
+  <pre><code>{
+  "accepted": false,
+  "status": "draft",
+  "artifact": {
+    "id": "ef0c010c06af4559a1c0ad588c4a0fba",
+    "kind": "journey-map",
+    "status": "draft",
+    "check": {
+      "pass": false,
+      "failures": [
+        { "rule": "min-nodes", "message": "expected at least 3 nodes, found 1" },
+        { "rule": "min-evidence-per-node", "nodeId": "stage-proactive-sms", "message": "node \"stage-proactive-sms\" cites 0 evidence refs, needs 1" },
+        { "rule": "field-non-empty", "nodeId": "stage-proactive-sms", "message": "node \"stage-proactive-sms\" has an empty \"touchpoint\"" }
+      ]
+    }
+  }
+}</code></pre>
+  <p>The phrasing matters. The write is refused because <code>accepted</code> is false. The artifact is also persisted because the status is still <code>draft</code>. The failed attempt remains visible on the review board with the machine-readable reasons attached. Nothing has been silently “fixed.” Nothing has been silently discarded. Nothing has been silently promoted. The human holding the gate can see the exact attempted distortion and the exact reason it failed. That is why the review board in Figure 20.2 matters so much. It is where the workbench surfaces the moral discipline of the engine.</p>
+  <div class="callout"><strong>My take:</strong> A gate that only says no to the model is theatre. The Wattle Grove refusal matters because it said no to the person holding the keyboard.</div>
+  <p>Remediation happens in place. The same artifact can be rewritten with valid cited nodes, then reviewed with an evidence-cited pass that promotes it to final. A veto does the opposite: it demotes the artifact to draft and writes a linked <code>review-veto-log</code>. And the phase gate still belongs to a human. The workbench prepares the decision, shows the evidence, and records the outcome. It does not seize authority.</p>
+  <p>That is why Wattle Grove is a good workbench case. It is not a glossy demo about a plugin opening a pane. It is a bounded proof that the Studio can carry a real engagement shape — project, evidence, methods, artifacts, reviews, reports — while preserving the harder property: refusal of unevidenced improvement theatre.</p>
+
+<h3 id="s-20-10">Receipt Boundaries</h3>
+
+<p>By this point you should have a feel for the workbench. Now I want to state the limits as sharply as the capabilities. The receipt proves one profile composition for DSH <code>0.1.0-rc.5</code> with <code>@asd/ui</code> <code>0.5.0</code>, profile <code>asd-live-review2</code>, the pinned compatibility revision, six host slots, official lifecycle success, portable bundle safety, 120 UI tests, 701 suite tests, loopback Studio smoke, workspace isolation, and zero ASD-owned serious or critical accessibility violations in that smoke. It also links bounded prior workflow evidence showing the evidence → artifact → review/remediation → pass → human-gate shape.</p>
+  <p>It does <strong>not</strong> prove every provider and chat dispatch combination. It does <strong>not</strong> prove every external MCP client inside the host. It does <strong>not</strong> prove every future rc build, every DSH profile, or every possible role execution path. It does <strong>not</strong> turn ACP into a transport; ACP remains record-only. It does <strong>not</strong> make BUZZ messages or Canvas documents appear in the ASD workspace automatically. And it does <strong>not</strong> let me round up from one bounded case to a universal “the host is fully live” claim.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>The receipt proves</th>
+        <th>The receipt does not prove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Official add/update/remove/reinstall works for the pinned profile.</td>
+        <td>Every DSH profile or future revision will behave identically.</td>
+      </tr>
+      <tr>
+        <td>The Studio mounts through six required host slots and serves on loopback.</td>
+        <td>Every provider or chat path in the host has been exercised end to end.</td>
+      </tr>
+      <tr>
+        <td>The direct capability projection is 24 rows with one explicit unsupported row.</td>
+        <td>Unsupported capabilities are secretly available through some hidden fallback.</td>
+      </tr>
+      <tr>
+        <td>The <code>@asd/ui</code> bundle is portable: 502 entries, stable SHA-256, no absolute paths, no symlinks.</td>
+        <td>Any local experiment outside the pinned compatibility revision inherits the same portability claim automatically.</td>
+      </tr>
+      <tr>
+        <td>The live smoke passed with zero ASD-owned serious or critical accessibility violations and disposable workspace cleanup.</td>
+        <td>The entire host shell had zero issues, or that accessibility is “finished.”</td>
+      </tr>
+      <tr>
+        <td>Wattle Grove shows the governed workflow shape and the write-path refusal behavior.</td>
+        <td>Current host chat/provider dispatch completed the Wattle Grove engagement end to end.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>That last row is the one I care about most. Boundary honesty is not a legal disclaimer stapled on after the fact. It is part of the product design. When a workbench tells me what it cannot yet prove, I can trust the things it says it has proved. DSH and <code>@asd/ui</code> earn that trust here. The shell is real. The adapter is real. The workbench is real. The limits are real too. That combination is what makes this surface useful enough to rely on.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="19.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 19</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">BUZZ: Multi-Agent Service Design on the Open Agent Network</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 19</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">BUZZ: Multi-Agent Service Design on the Open Agent Network</p>
+        </div>
+      </div>
+    </a>
+    <a href="21.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 21</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">SOPs-as-Code: The AI Execution Playbook</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 21</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">SOPs-as-Code: The AI Execution Playbook</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">SOPs-as-Code: The AI Execution Playbook</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Methods become executable, versioned, reviewed</p>
+        </div>
+        <a href="21.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

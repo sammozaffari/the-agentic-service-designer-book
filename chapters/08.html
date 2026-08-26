@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>Ecosystem Value Mapping &amp; Stakeholder Topologies - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-08" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 08</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">Ecosystem Value Mapping &amp; Stakeholder Topologies</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Actors, exchanges and hidden dependencies</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">15 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-08-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Beyond the Stakeholder List</a>
+        <a href="#s-08-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Ecosystem Value Maps as Artifacts</a>
+        <a href="#s-08-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Exchanges, Dependencies and Risk</a>
+        <a href="#s-08-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Case: Northgate Health and Aurora Vento</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-08-1" data-section="s-08-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Beyond the Stakeholder List</span></a>
+          <a href="#s-08-2" data-section="s-08-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Ecosystem Value Maps as Artifacts</span></a>
+          <a href="#s-08-3" data-section="s-08-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Exchanges, Dependencies and Risk</span></a>
+          <a href="#s-08-4" data-section="s-08-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Northgate Health and Aurora Vento</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-08-1" data-section="s-08-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Beyond the Stakeholder List</span></a>
+          <a href="#s-08-2" data-section="s-08-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Ecosystem Value Maps as Artifacts</span></a>
+          <a href="#s-08-3" data-section="s-08-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Exchanges, Dependencies and Risk</span></a>
+          <a href="#s-08-4" data-section="s-08-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Case: Northgate Health and Aurora Vento</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-08-1">Beyond the Stakeholder List</h3>
+
+<p>I distrust stakeholder lists. They look responsible. They feel thorough. They almost always hide the real structure of the service. A list says who exists. It does not say who can block you, who absorbs uncompensated work, who holds legal authority, or which actor is quietly acting as the systems integrator because nobody else bothered. In practice that missing structure is where the service either holds together or collapses.</p>
+  <p>ASD separates two jobs that many teams blur together. First I map <em>stakeholder topology</em>: who holds influence, who holds interest, and what kind of decision rights they actually possess. Then I map the <em>ecosystem value network</em>: what each actor gives, what each actor receives, which channel carries the exchange, and which dependencies make the link fragile. The first artifact tells me how the room behaves. The second tells me how the service behaves. I need both before I design any orchestration.</p>
+  <p>This distinction matters because power and value do not align neatly. A regulator may have very high influence and almost no operational interest. A family caregiver may have almost no formal power while carrying half the coordination burden. A distributor may sit outside the brand book while controlling the economics of the field experience. A partner may happily consume data while refusing reciprocal visibility. When I flatten those differences into a generic actor map, I design fantasies.</p>
+  <p>The platform helps by forcing concrete outputs. `stakeholder-mapping` produces a `stakeholder-map`. `ecosystem-value-mapping` produces an `ecosystem-map`. Both are gated by the Critic. Both require evidence on their nodes. Both stay draft until the review path says otherwise. That sounds bureaucratic until you have lived through the alternative: a steering committee arguing about whether a partner is "important" because nobody bothered to tie the claim to quotes, telemetry, or documents.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> A stakeholder map tells me where political force sits. An ecosystem map tells me where value, work, and dependency sit. If I use one artifact to do both jobs, I lose both kinds of truth.</div>
+  <p>There is also a practical reason to keep the artifacts distinct. Stakeholder positions change faster than structural exchanges. A new COO can reorder influence overnight. A regulator memo can change tolerance without changing the underlying value network. By contrast, the member still carries the referral, the technician still needs the part, the store associate still absorbs the angry conversation. Separating topology from exchange lets me update governance assumptions without redrawing the whole service universe.</p>
+  <p>ASD's authored templates are useful here because they narrow the blank page. Two of the seven authored templates are the stakeholder map and the ecosystem map. That is a deliberate choice. These are not decorative diagrams for late-stage storytelling. They are load-bearing instruments. The stakeholder map template demands named actors, roles, and evidence references. The ecosystem map template demands value flows, channels, and dependencies. The authored form is the human-readable aid; the runtime contract is what the system checks.</p>
+  <div class="code-label">stakeholder-mapping-method.json</div>
+  <pre><code>{
+  "method": {
+    "id": "stakeholder-mapping",
+    "phase": "research",
+    "outputKind": "stakeholder-map"
+  },
+  "steps": [
+    {
+      "role": "researcher",
+      "instruction": "Identify stakeholders with explicit evidence of influence, interest, or dependency."
+    },
+    {
+      "role": "mapper",
+      "instruction": "Place each stakeholder in a power-interest topology and name the governance strategy."
+    },
+    {
+      "role": "critic",
+      "instruction": "Reject any stakeholder placement with unresolved evidence or placeholder fields.",
+      "gate": true
+    }
+  ],
+  "acceptance": [
+    { "rule": "min-nodes", "min": 3 },
+    { "rule": "min-evidence-per-node", "min": 1 },
+    { "rule": "field-non-empty", "field": "strategy" }
+  ]
+}</code></pre>
+  <p>Notice what is absent. There is no room for "we all kind of know legal matters." The map has to say why legal matters here, which decision it can stop, and what evidence supports that placement. Once I work that way, the conversation gets sharper. Fewer vibes. More consequences.</p>
+  <div class="callout"><strong>My take:</strong> If a client cannot name the actor who pays the hidden coordination tax, I know the service is under-mapped. That actor might be a patient, a scheduler, a store associate, or a distributor. Find them first. They usually reveal the real architecture faster than the org chart does.</div>
+
+<h3 id="s-08-2">Ecosystem Value Maps as Artifacts</h3>
+
+<p>An ecosystem map in ASD is a typed artifact, not a clever drawing. I care about that because a real ecosystem contains claims that can be tested. Does a GP send structured referral data or a PDF? Does a distributor receive telemetry early enough to act? Does a customer provide labor without compensation? Does a partner get a visible benefit in exchange for data sharing? Those are not illustration problems. They are artifact problems.</p>
+  <p>The platform template is plain on purpose. It asks for actors, value flows, dependencies, and orchestration implications. Nothing more. Nothing mystical. That modesty is powerful because it blocks the lazy habit of labeling an arrow "data" and moving on. In the artifact I have to say what kind of data, for whose benefit, through which channel, under which constraint. The result is a map that can survive review.</p>
+  <div class="code-label">ecosystem-map-template.md</div>
+  <pre><code># Ecosystem Map — &lt;service&gt; (mapping view)
+
+## Actors
+| Actor | Type | Role in value network | Evidence refs |
+|---|---|---|---|
+
+## Value flows
+| From → To | Value exchanged | Channel | Evidence refs |
+|---|---|---|---|
+
+## Dependencies &amp; constraints
+&lt;regulatory, technical, contractual walls — evidence cited&gt;
+
+## Orchestration implications
+&lt;channel-role candidates feeding later design work&gt;</code></pre>
+  <p>The authored template sits upstream of the runtime registry. The runtime itself registers 38 artifact-kind contracts; the practice-facing vocabulary has 39 rows, which includes aliases and pending concepts. I keep that distinction straight because otherwise people start speaking as if every practice term already exists as a live runtime schema. It does not. The ecosystem map does. The stakeholder map does. That lets me work with confidence on these two surfaces.</p>
+  <p>When I run `ecosystem-value-mapping`, the engine returns a machine contract: source references, role-attributed steps, acceptance rules, and the declared output kind. The model is allowed to draft. The runtime is allowed to check. The Critic is allowed to veto. That separation matters because the hardest ecosystem claims are the most politically tempting ones to overstate. A team loves to write "shared visibility" or "outcome guarantee" long before it can name the measurement window or the accountable actor.</p>
+  <p>Aurora Vento gave me a clean example. The first pass of the ecosystem map described Aurora's offer to customers as "guaranteed operational performance." That sounded impressive and useless at the same time. The Critic vetoed it under a measurability rule: no formula, no window, no exclusions, no telemetry source. Exactly right. "Guaranteed operational performance" is not a value flow. It is a slogan pretending to be a contract.</p>
+  <div class="code-label">critic-veto-row.json</div>
+  <pre><code>{
+  "rowKind": "defect",
+  "severity": "critical",
+  "rule": "measurability",
+  "message": "The value Aurora exchanges is stated as guaranteed operational performance: no availability formula, no window, no exclusions, no data source. That is a slogan, not an outcome.",
+  "fix": "Name the uptime formula, the measurement window, the exclusions, the telemetry source, and the per-point remedy before this map can anchor the contract."
+}</code></pre>
+  <p>That one veto does more to explain the value of the artifact model than a hundred process diagrams. The platform did not invent a better strategy. It merely refused a false one. Once the team had to name the formula, the window, the exclusions, and the remedy, the conversation moved from aspiration to architecture. That is what I want from an ecosystem artifact. It should force the hard nouns into the room.</p>
+  <p>I also use the map to make channels legible. A value flow without a channel is a fantasy. If a patient carries a referral letter physically, I record manual hand-carry. If a hotel brief moves through a shift handoff, I record the brief. If a telemetry packet reaches a distributor dashboard every four hours, I record the sync pattern. Channel detail sounds mundane until a redesign depends on a signal that never actually arrives.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Artifact question</th>
+        <th>Weak answer</th>
+        <th>Answer that survives review</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>What flows here?</td>
+        <td>Data</td>
+        <td>Structured referral summary plus consent token</td>
+      </tr>
+      <tr>
+        <td>Why would the receiver participate?</td>
+        <td>Because we need them to</td>
+        <td>Less re-keying, faster booking, visible status, reversible participation</td>
+      </tr>
+      <tr>
+        <td>What constrains the flow?</td>
+        <td>Compliance</td>
+        <td>Special-category health data rules, partner autonomy, retained local systems</td>
+      </tr>
+      <tr>
+        <td>How do we know the flow is real?</td>
+        <td>Workshop agreement</td>
+        <td>Evidence rows from interviews, documents, and telemetry linked to the node</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>Once the map is built this way, it becomes useful far beyond diagnosis. It feeds orchestration work, requirement shaping, governance design, and pilot scoping. It tells me where shared metrics are possible and where they are fiction. It tells me which actor must be able to exit without the whole design collapsing. It tells me where a portal-first idea will fail because the real pain is re-keying, not access.</p>
+
+<h3 id="s-08-3">Exchanges, Dependencies and Risk</h3>
+
+<p>The heart of ecosystem work is the exchange itself. Services do not move only money and information. They move trust, legal authority, scheduling power, care responsibility, physical labor, exception handling, and reputational risk. If I model only the easy exchanges, I misread the operating model.</p>
+  <p>Northgate Health made this visible immediately. The formal story was about digital referrals. The real story was that the member was still carrying context between actors because the seam had no persistent state. The GP printed a referral. The specialist owned the booking. Diagnostics held results in a separate portal. Pharmacy saw prescriptions without care intent. Home care saw discharge tasks without medication changes. Northgate saw claims after the fact. Meridia saw telehealth episodes without the whole pathway. That is not one broken channel. It is a fractured exchange economy.</p>
+  <p>When OpenCode reconstructed 47,800 referral events and 11,900 multi-actor care chains, the crucial number was not glamorous: only 54% of referral outcomes made it back to the referrer within 30 days. Another brutal finding sat beneath that: 23% of referral coordination still happened by phone chains that Northgate's owned systems could not see at all. The member was still doing unpaid integration work in a supposedly digitized pathway.</p>
+  <p>Aurora Vento had a different topology and the same lesson. Hardware margin was eroding. Customers wanted availability commitments. Aurora had 41,000 machines in the field, 340 technicians, operations in 46 countries, and an MTTR of 5.2 days. The service economy around those machines depended on distributors, telemetry, parts, procurement, and technicians who each saw only part of the system. Here the hidden exchange was more than data. It was coordinated readiness: the right part, the right skill, the right timing, and a shared accounting of what uptime actually meant.</p>
+  <p>Dependency risk appears when one actor receives a burden that nobody has acknowledged. In Northgate the burden was administrative and cognitive. Members repeated their history, carried documents, and chased status across portals. In Aurora the burden was operational. Distributors and technicians absorbed the mismatch between contract ambition and messy logistics. In both cases the service looked stable until you asked who was compensating for the seams.</p>
+  <div class="warning"><strong>CAUTION:</strong> One-sided exchanges are warning lights. If one actor keeps giving data, labor, or patience without a visible reciprocal benefit, the ecosystem is already unstable even if the KPI dashboard still looks green.</div>
+  <p>This is why I use dependency risk registers alongside the ecosystem map. The map shows the shape. The register shows where the shape is brittle. I want to know which flows are legally constrained, which depend on manual workarounds, which rely on one individual, and which lack a graceful fallback. Those questions are especially important when AI enters the mix, because a model will happily recommend a flow that assumes universal API adoption or universal willingness to share data.</p>
+  <div class="code-label">dependency-risk-register.csv</div>
+  <pre><code>flow_id,from_actor,to_actor,risk_type,symptom,current_workaround,design_move
+NX-04,GP,Specialist,manual-handoff,printed referral carried by member,member hand-carries paper,structured referral plus consent token
+NX-09,Specialist,Referrer,missing-loop-closure,outcome returns late or not at all,GP calls clinic,weekly loop-closure audit plus API push
+AV-07,Telemetry,Distributor,partial-visibility,machine alerts arrive too late,technician phones depot,shared event feed with SLA
+AV-11,Parts chain,Field technician,dispatch-mismatch,wrong part arrives after visit,second truck roll,coupled parts-and-skills dispatcher</code></pre>
+  <p>Risk work also changes design posture. Teams often want a central platform because it feels tidy. The ecosystem map usually tells me whether that instinct is arrogant. Northgate's evidence did not support a portal-first rollout. Practices wanted fewer handoffs and less re-keying, not another login. That single insight produced the principle <em>Never re-key</em> and pushed the design toward an API-first model with structured fallback. The member benefit stayed central. Northgate did not get to pretend it was the natural center of care.</p>
+  <p>The same happened at Aurora. A centralized dispatch model sounded elegant from headquarters and threatening in distributor regions whose economics still depended on emergency parts. The stakeholder topology exposed the political risk. The ecosystem map exposed the operational dependency. Together they stopped the team from calling a power struggle an implementation detail.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Risk pattern</th>
+        <th>Northgate Health</th>
+        <th>Aurora Vento</th>
+        <th>What I do with it</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Invisible manual work</td>
+        <td>Member carries referral context</td>
+        <td>Technician reconciles parts mismatch by phone</td>
+        <td>Make the hidden labor explicit and redesign the seam</td>
+      </tr>
+      <tr>
+        <td>Over-centered focal actor</td>
+        <td>Insurer assumes all partners want its portal</td>
+        <td>Manufacturer assumes distributors will accept margin loss</td>
+        <td>Run adversarial review from the partner perspective</td>
+      </tr>
+      <tr>
+        <td>Undefined value promise</td>
+        <td>Status without reciprocal control</td>
+        <td>"Guaranteed operational performance" without formula</td>
+        <td>Force measurable definitions before contracting</td>
+      </tr>
+      <tr>
+        <td>Constraint denial</td>
+        <td>Professional autonomy treated as inconvenience</td>
+        <td>Collective agreements treated as footnote</td>
+        <td>Model constraints as design material, not blockers</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>My take:</strong> Ecosystem maps are where designers stop pretending the service belongs to the sponsor. Most of the time the sponsor owns a budget, a brand, and some systems. The service itself belongs to a negotiated field of actors with exit rights, pride, fear, and workloads. Design starts getting real the moment you accept that.</div>
+
+<h3 id="s-08-4">Case: Northgate Health and Aurora Vento</h3>
+
+<p>Northgate Health and Aurora Vento sit in different worlds. One coordinates care across providers, pharmacies, diagnostics, and home-care actors under heavy data sensitivity. The other is trying to turn industrial equipment uptime into a credible service promise across telemetry, distributors, technicians, and parts chains. I pair them because together they show the full range of ecosystem work: one highly relational and consent-bound, one heavily operational and contract-bound.</p>
+  <p>At Northgate, the redesign started only after the map corrected the framing. The issue was never merely slow referrals. The issue was that the system closed cost loops faster than care loops. Once I phrased it that way, decisions changed. The target stopped being a shiny portal. The target became a care-coordination layer that respected partner autonomy while reducing invisible labor. The future-state direction became the Northgate Gateway: a care-coordination service with four bounded capabilities — a unified member record assembled from consented summaries rather than full takeover, referral orchestration, a provider API hub using open standards, and a loop-closure engine that chased missing outcomes before the patient fell through the seam.</p>
+  <p>The ecosystem map made the guardrails explicit. Data sharing had to be consensual, reversible, and non-lock-in. GPs remained autonomous. Specialists kept their systems. The design promise was narrower and stronger: orchestrate the seam, do not colonize the ecosystem. That is why the numbers improved in the pilot target logic. Median referral admin cycle was attacked at the seam. Loop closure was attacked at the missing return path. Manual channel share was attacked through structured payloads and status heartbeats, not through institutional grandstanding.</p>
+  <p>Aurora's case had more obvious commercial drama. The board wanted to sell availability instead of parts. Customers wanted 98% machine availability. Leadership's first instinct was pricing. The ecosystem work showed the real problem was service delivery capability. Remote parts availability was 81%. MTTR was 5.2 days. Dispatch mismatch was a recurring culprit. The map traced value flows across Aurora, legacy ERP, telemetry, the parts chain, distributors, procurement, and customer operations. It showed exactly where the promise would fail if the contract got ahead of the operating system.</p>
+  <p>The decisive moment was the Critic veto on the vague outcome definition. Once forced to specify the uptime formula, measurement window, exclusions, data source, accounting level, and remedy, the team could no longer hide behind rhetoric. The design then moved toward what the ecosystem could actually support: telemetry rules for earlier detection, a coupled parts-and-skills dispatcher, clearer distributor roles, and contract language built on measurable events rather than marketing fog.</p>
+  <div class="code-label">orchestration-handoff.json</div>
+  <pre><code>{
+  "projectId": "northgate-gateway-7c2d",
+  "planId": "plan-ecosystem-to-canvas",
+  "from": "mapper",
+  "to": "ideator",
+  "condition": "Ecosystem and stakeholder maps have passed Critic review; begin orchestration canvas from validated seams.",
+  "artifactId": "artifact-ecosystem-map-01",
+  "artifactKind": "ecosystem-map"
+}</code></pre>
+  <p>I include a typed handoff like this because ecosystem work is only valuable if it carries forward without distortion. The next phase should inherit validated actors, dependencies, and evidence-backed seams. It should not restart from a workshop summary. In ASD that handoff has to resolve in the same project and the `artifactKind` must match the stored artifact. If it does not, the record fails before it is written. Good. That is the kind of failure I want early.</p>
+  <p>The two cases also show why reciprocity matters. Northgate succeeded because every actor got something visible out of participation: less re-keying, better loop closure, clearer status, reversible consent, fewer blind phone chases. Aurora succeeded when the offer stopped pretending value flowed one way. Distributors needed a viable role. Technicians needed better readiness, not more dashboard poetry. Customers needed a measurable outcome with an accountable remedy.</p>
+  <p>By the end of both programmes, the ecosystem map had done its real job. It had reduced the surface area for self-deception. The sponsor could still make trade-offs. The human designer still made framing calls. But nobody got to claim that a portal equaled coordination, or that a guarantee existed because a brochure said it did. The artifacts carried the argument, and the evidence carried the artifacts.</p>
+  <div class="callout"><strong>My take:</strong> The biggest maturity jump in service design happens when a team stops asking, "What should our service do?" and starts asking, "What exchanges must become easier, safer, more reciprocal, and less dependent on heroics?" Ecosystem maps pull you toward the second question, which is why they matter.</div>
+  <p>If you remember one thing from this chapter, make it this: ecosystem work is where you discover whether your service is actually designed for the world it must survive. Stakeholder topologies tell you whose resistance matters. Ecosystem maps tell you whose work matters. When both artifacts are evidence-backed and Critic-reviewed, you get something rare in service design — a strategic picture that is finally concrete enough to build against.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="07.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 07</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mental Models, Alignment &amp; Opportunity Mapping</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 07</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Mental Models, Alignment &amp; Opportunity Mapping</p>
+        </div>
+      </div>
+    </a>
+    <a href="09.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 09</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Living Journey Maps: From Transcripts to Sentiment Curves</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 09</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Living Journey Maps: From Transcripts to Sentiment Curves</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Living Journey Maps: From Transcripts to Sentiment Curves</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Journey maps that update themselves</p>
+        </div>
+        <a href="09.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>

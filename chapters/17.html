@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="bw-version" content="2.1.0">
+  <title>The ASD MCP Server - The Agentic Service Designer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('../assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('../assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('../assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .book-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+      max-width: 680px;
+      margin-left: auto;
+    }
+    .book-content h3 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #000;
+      margin-top: 64px;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      padding-top: 24px;
+      padding-bottom: 16px;
+    }
+    .book-content h3:first-child {
+      border-top: 1px solid #000;
+    }
+    .book-content h3:not(:first-child) {
+      border-bottom: 1px solid #000;
+    }
+    .book-content h4 {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000;
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .book-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .book-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .book-content strong { font-weight: 700; color: #000; }
+    .book-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .book-content a:hover { text-decoration-color: #fe7141; }
+    .book-content pre {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      overflow-x: auto;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 24px 0;
+    }
+    .book-content code {
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 13px;
+      background: #f7f7f5;
+      padding: 2px 6px;
+      border-radius: 0;
+    }
+    .book-content pre code { background: none; padding: 0; }
+    .book-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .book-content thead th {
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #000;
+      font-size: 11px;
+      color: rgba(0,0,0,0.4);
+      font-family: "Geist Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .book-content td { padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.06); vertical-align: top; }
+    .book-content tbody tr:hover { background: #fafaf8; }
+    .book-content .callout {
+      background: #f5f9fc;
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 0;
+      padding: 24px 28px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+    .book-content .callout strong { color: #153250; }
+    .book-content .tip {
+      background: #f5f9fc;
+      border-left: 3px solid #597e87;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .warning {
+      background: #fef2f2;
+      border-left: 3px solid #dc2626;
+      padding: 20px 24px;
+      margin: 28px 0;
+      border-radius: 0;
+      font-size: 15px;
+    }
+    .book-content .compare-good {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .compare-bad {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .book-content .file-tree {
+      background: #f7f7f5;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
+      padding: 20px 24px;
+      font-family: "Geist Mono", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.7);
+    }
+    .book-content .flow {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      margin: 28px 0;
+      flex-wrap: wrap;
+    }
+    .book-content .flow > .flow-item {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 0;
+      padding: 12px 18px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #000;
+      font-family: "Geist Mono", monospace;
+    }
+    .book-content .flow-arrow { color: rgba(0,0,0,0.2); font-size: 18px; }
+    .book-content .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 18px 0;
+    }
+    .book-content .step > .step-num {
+      width: 28px; height: 28px;
+      background: #fe7141;
+      color: white;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      font-family: "Geist Mono", monospace;
+      flex-shrink: 0;
+    }
+    .book-content .diagram {
+      background: #f7f7f5;
+      border: 2px dashed rgba(0,0,0,0.08);
+      border-radius: 0;
+      padding: 36px;
+      margin: 28px 0;
+      text-align: center;
+      color: rgba(0,0,0,0.35);
+      font-size: 14px;
+    }
+    .book-content figure { margin: 32px 0; }
+    .book-content figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .book-content figcaption { margin-top: 10px; font-size: 13px; color: rgba(0,0,0,0.4); line-height: 1.4; }
+    .book-content .figure__number {
+      font-weight: 700;
+      color: #fe7141;
+      margin-right: 6px;
+      font-family: "Geist Mono", monospace;
+      font-size: 11px;
+    }
+    .book-content ul, .book-content ol { margin: 12px 0 20px 24px; }
+    .book-content li { margin-bottom: 6px; }
+    .book-content li::marker { color: rgba(0,0,0,0.25); }
+
+
+    .chapter-hero {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-stack {
+      position: relative;
+      z-index: 2;
+    }
+    .chapter-body {
+      width: 100%;
+      padding: 64px clamp(24px, 4vw, 80px) 96px;
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+    }
+    .chapter-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(24px, 3vw, 48px);
+      row-gap: 32px;
+      align-items: start;
+    }
+    .chapter-sidebar-rail {
+      --page-padding: clamp(24px, 4vw, 80px);
+      --site-header-height: 3.5rem;
+      --section-nav-height: 2.75rem;
+      --sidebar-top: calc(var(--site-header-height) + var(--section-nav-height));
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(100%, 1920px);
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+      padding: 0 var(--page-padding);
+      box-sizing: border-box;
+    }
+    .chapter-nav {
+      position: absolute;
+      top: var(--sidebar-top);
+      left: var(--page-padding);
+      width: 160px;
+      pointer-events: auto;
+      will-change: transform;
+    }
+    .sidebar-nav {
+      background: #fff;
+      padding: 1rem 0;
+      max-height: calc(100vh - var(--sidebar-top) - 1rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .chapter-nav-spacer {
+      grid-column: 1 / span 2;
+    }
+    .chapter-main {
+      grid-column: 4 / -1;
+      min-width: 0;
+      position: relative;
+      z-index: 2;
+      background: #fff;
+    }
+    @media (max-width: 1023px) {
+      .chapter-grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      .chapter-nav-spacer {
+        grid-column: 1 / span 2;
+      }
+      .chapter-main {
+        grid-column: 3 / span 4;
+      }
+    }
+    @media (max-width: 767px) {
+      .chapter-sidebar-rail {
+        display: none;
+      }
+      .chapter-grid {
+        grid-template-columns: 1fr;
+      }
+      .chapter-nav-spacer {
+        display: none;
+      }
+      .chapter-main {
+        grid-column: 1 / -1;
+      }
+      .chapter-mobile-nav {
+        display: block;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .chapter-mobile-nav {
+        display: none;
+      }
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1920px;
+      margin: 0 auto;
+      padding-left: clamp(24px, 4vw, 80px);
+      padding-right: clamp(24px, 4vw, 80px);
+    }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #4a3e92;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="../index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">v1</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm font-sans text-black">
+        <a href="../about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="../index.html#chapters" class="nav-hover-link border-r border-black">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Chapters</span>
+            <span class="nav-text-clone">Chapters</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="chapter-hero" id="ch-17" style="background-color: #4a3e92; background-image: url('../assets/gradients/gradient_indigo_dark.png'); background-size: cover; background-position: center;">
+    <div class="page-shell py-16 md:py-24 lg:py-32">
+      <div class="flex flex-col justify-between md:flex-row md:items-end">
+        <div class="max-w-3xl">
+          <a href="../index.html#chapters" class="mb-8 inline-flex items-center gap-2 font-sans text-sm text-black/60 hover:text-black transition-colors">
+            <i data-lucide="arrow-left" class="size-4"></i>
+            All Chapters
+          </a>
+          <p class="font-mono text-[13px] font-medium uppercase tracking-wider text-black/30 mb-6">CHAPTER 17</p>
+          <h1 class="font-sans text-4xl font-bold leading-[0.95] tracking-[-0.03em] sm:text-5xl md:text-6xl lg:text-7xl">The ASD MCP Server</h1>
+          <p class="mt-6 max-w-lg font-sans text-lg leading-relaxed text-black/50">Thirty tools, 228 resources, ten prompts — over stdio</p>
+        </div>
+        <div class="mt-8 md:mt-0 md:text-right flex-shrink-0">
+          <p class="font-mono text-[13px] font-medium text-black/25">Reading time</p>
+          <p class="font-sans text-4xl font-bold tracking-tight text-black/30 mt-1">20 <span class="text-lg font-normal">min</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Navigation -->
+  <nav class="sticky top-14 z-40 border-b border-black bg-white/95 backdrop-blur-sm">
+    <div class="page-shell">
+      <div class="flex gap-8 overflow-x-auto py-3 -mb-px scrollbar-hide">
+        <a href="#s-17-1" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Why MCP for Service Design</a>
+        <a href="#s-17-2" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Booting the Server: Sources and Standalone Repo</a>
+        <a href="#s-17-3" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">The Tool Registry: 30 sd_* Tools by Family</a>
+        <a href="#s-17-4" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Corpus Resources and Role Prompts</a>
+        <a href="#s-17-5" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Client Configurations: Claude Code, OpenCode, Codex</a>
+        <a href="#s-17-6" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">A Complete Worked Session</a>
+        <a href="#s-17-7" class="whitespace-nowrap font-mono text-[13px] font-medium text-black/40 hover:text-black transition-colors">Errors, Boundaries and Receipts</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar rail -->
+  <div class="chapter-sidebar-rail" id="chapter-sidebar-rail">
+    <aside class="chapter-nav" id="chapter-sidebar-nav-wrap" aria-label="In this chapter">
+      <nav class="sidebar-nav" id="chapter-sidebar-nav">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-17-1" data-section="s-17-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why MCP for Service Design</span></a>
+          <a href="#s-17-2" data-section="s-17-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Booting the Server: Sources and Standalone Repo</span></a>
+          <a href="#s-17-3" data-section="s-17-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Tool Registry: 30 sd_* Tools by Family</span></a>
+          <a href="#s-17-4" data-section="s-17-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Corpus Resources and Role Prompts</span></a>
+          <a href="#s-17-5" data-section="s-17-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Client Configurations: Claude Code, OpenCode, Codex</span></a>
+          <a href="#s-17-6" data-section="s-17-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>A Complete Worked Session</span></a>
+          <a href="#s-17-7" data-section="s-17-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Errors, Boundaries and Receipts</span></a>
+      </nav>
+    </aside>
+  </div>
+
+  <!-- Content -->
+  <div class="chapter-body" id="chapter-body">
+    <div class="chapter-grid">
+      <div class="chapter-nav-spacer" aria-hidden="true"></div>
+      <nav class="chapter-mobile-nav sidebar-nav" aria-label="In this chapter">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mb-4">Front Matter</p>
+          <a href="front-matter.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Front Matter</span></a>
+          <a href="copyright.html" class="sidebar-link flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black py-2"><span>Copyright & License</span></a>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-black/25 mt-6 mb-4">In this chapter</p>
+          <a href="#s-17-1" data-section="s-17-1" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Why MCP for Service Design</span></a>
+          <a href="#s-17-2" data-section="s-17-2" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Booting the Server: Sources and Standalone Repo</span></a>
+          <a href="#s-17-3" data-section="s-17-3" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>The Tool Registry: 30 sd_* Tools by Family</span></a>
+          <a href="#s-17-4" data-section="s-17-4" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Corpus Resources and Role Prompts</span></a>
+          <a href="#s-17-5" data-section="s-17-5" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Client Configurations: Claude Code, OpenCode, Codex</span></a>
+          <a href="#s-17-6" data-section="s-17-6" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>A Complete Worked Session</span></a>
+          <a href="#s-17-7" data-section="s-17-7" class="sidebar-link group flex items-center gap-3 font-mono text-[11px] text-black/35 hover:text-black transition-all duration-200 py-2"><span class="inline-block w-0 group-[.active]:w-9 h-px bg-black transition-all duration-200"></span><span>Errors, Boundaries and Receipts</span></a>
+      </nav>
+      <main class="chapter-main">
+        <div class="book-content">
+<h3 id="s-17-1">Why MCP for Service Design</h3>
+
+<p>Service design work breaks when the method contract changes every time the host changes. I have watched teams make this mistake for years. They build one comfortable plugin for one favorite environment, then quietly fork the behavior for the next environment because the transport feels different. One tool writes evidence one way. Another invents a fourth evidence kind. A third lets an artifact bypass review because the UI is in a hurry. At that point you no longer have a platform. You have folklore.</p>
+  <p>ASD uses MCP to kill that drift. The reason is simple: the protocol is narrow, boring, and explicit. The server speaks newline-delimited JSON-RPC 2.0 over stdio, pinned to MCP revision <code>2025-06-18</code>. A client initializes once, sees the capability buckets, enumerates tools, resources, and prompts, and then calls the same registry the CLI and host packs already rely on. The transport changes. The runtime contract does not.</p>
+  <p>That distinction matters more in service design than in ordinary code tooling because our outputs are not ephemeral chat replies. They are evidence registers, typed artifacts, review logs, exports, and orchestration records that must survive handoff. If the Researcher captures a quote in one host, the Mapper must be able to cite the same evidence id from another host. If the Critic vetoes a journey map on one surface, the Presenter must not discover a magically “passed” version somewhere else. MCP gives me the lowest common denominator that still preserves those invariants.</p>
+  <div class="tip"><strong>CORE PRINCIPLE:</strong> Treat MCP as a transport contract, not as a second implementation. The ASD server is valuable precisely because it exposes the canonical runtime registry unchanged: same 30 tools, same validation rules, same fail-closed write path, same human gate boundary.</div>
+  <p>I also like MCP for a more practical reason: it is host-neutral without being host-blind. Claude Code can mount the server. OpenCode can mount the server. Codex can mount the server. A generic client can mount the server. None of those clients need to understand the whole ASD product model in advance. They only need to honor the protocol and present the server honestly. That keeps the integration layer thin and the evidence discipline centralized.</p>
+  <p>There is another benefit that senior teams feel almost immediately: observability. With MCP, discovery is inspectable. I can ask for <code>tools/list</code> and see the registry the host actually received. I can ask for <code>resources/list</code> and see whether the corpus roots are present. I can ask for <code>prompts/list</code> and confirm that the ten role contracts are mounted. That sounds trivial until you have debugged agent stacks where everyone swears the host is “wired correctly” while the mounted surface is missing half the practice.</p>
+  <div class="callout">
+    <strong>My take:</strong> I trust protocol discovery more than screenshots of a settings panel. If a host can show me <code>initialize</code>, <code>tools/list</code>, <code>resources/list</code>, and one representative workflow against a disposable workspace, I know what is really mounted. Everything else is marketing until proven otherwise.
+  </div>
+  <p>ASD also uses MCP to keep the knowledge surface distinct from the execution surface. The 30 tools do the work. The 228 corpus resources and 10 prompts provide context. That split matters. A client can read a book chapter from an <code>asd://</code> URI, fetch a role contract with <code>prompts/get</code>, and still hit the same write gate when it calls <code>sd_artifact_write</code>. Knowledge can help the model think better. It still cannot bypass review, evidence integrity, or human phase authorization.</p>
+  <p>So when you hear “the ASD MCP server,” do not picture a thin adapter around a chat product. Picture a protocol face on the same deterministic engine described throughout this book: evidence first, method contract next, typed artifact after that, Critic review, factcheck, and human phase gate at the end. MCP matters because it lets that loop travel.</p>
+
+<h3 id="s-17-2">Booting the Server: Sources and Standalone Repo</h3>
+
+<p>You have two honest ways to start the server. The first is the standalone distribution repo, <code>imehr/asd-mcp</code>. The second is an emitted pack generated from the source monorepo. Both are valid. They serve different operational needs.</p>
+  <p>The standalone repo is the cleanest path when you want a disposable MCP server with its own published provenance. The repo is regenerated from the canonical source tree by the distribution publishing script, and the resulting checkout carries a <code>provenance.json</code> file that records the source commit. That means you can hand somebody one repository URL and tell them exactly what to boot.</p>
+
+  <div class="code-label">standalone-repo.sh</div>
+  <pre><code>git clone https://github.com/imehr/asd-mcp.git
+node asd-mcp/mcp/bin/server.mjs</code></pre>
+
+  <p>The emitted-pack route is the one I use when I want to prove the server that a host pack would actually receive. Emit packs into a disposable directory, then run the pack-local server entrypoint from there. This keeps the test honest: no global install, no sibling package assumptions, no ambient fallback to some other executable on your machine.</p>
+
+  <div class="code-label">emit-and-run.sh</div>
+  <pre><code>node platform/compiler/emit-packs.mjs --output /tmp/asd-packs
+node /tmp/asd-packs/mcp/mcp/bin/server.mjs</code></pre>
+
+  <p>Those two commands are the load-bearing source story for this chapter. If you remember nothing else, remember this: the emitted pack is the product boundary. The monorepo is the source boundary. I can inspect source code in the monorepo, but the pack is what a client actually mounts.</p>
+  <p>The pack-local entrypoint rule is equally important. Inside an installed pack, the server entrypoint is always relative to the pack root. That rule keeps configs portable across hosts because the pack carries its own launcher.</p>
+
+  <div class="code-label">asd-mcp.json</div>
+  <pre><code>{
+  "mcpServers": {
+    "asd": {
+      "command": "node",
+      "args": ["mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>That relative path is correct when the host sets its working directory to the installed pack root. If you copy the launcher elsewhere, either preserve that working directory or rewrite the path to an absolute one. The rule is not magical. It is just deterministic.</p>
+  <p>The runtime project store still lives under <code>ASD_WORKSPACE</code>. If you do nothing, the CLI defaults to <code>~/.asd/projects</code>. For MCP work I still prefer setting <code>ASD_WORKSPACE</code> explicitly so every demo is isolated and reproducible. The corpus and prompt roots are separable too: <code>ASD_BOOKS_ROOT</code>, <code>ASD_ARTICLES_ROOT</code>, and <code>ASD_AGENTS_ROOT</code> determine what the server can enumerate for resources and prompts. That boundary matters when a client sees 30 tools but zero resources: the engine is alive, the corpus roots are not.</p>
+  <div class="callout">
+    <strong>My take:</strong> I always boot the pack in a disposable workspace the first time. If discovery counts look wrong there, I fix the pack or the roots before I blame the host. It saves hours of bad debugging.
+  </div>
+  <p>One more practical note. The MCP server is intentionally self-contained. You do not need a global <code>asd</code> executable, and you do not need the whole monorepo mounted beside it for the emitted pack path to work. That is exactly why the distribution repo and the emitted bundles exist. They turn the runtime into a portable surface instead of a developer-only convenience.</p>
+
+<h3 id="s-17-3">The Tool Registry: 30 sd_* Tools by Family</h3>
+
+<p>The ASD MCP server exposes exactly 30 tools. I prefer to look at them twice: first as a full family inventory so I can see coverage, then as a smaller set of representative tools so I can see argument shape and boundary behavior. The full per-tool schema lives in Appendix B. What matters here is understanding the registry as a service-design operating surface.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Family</th>
+        <th>Tools</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Project</td>
+        <td><code>sd_project_list</code>, <code>sd_project_create</code>, <code>sd_project_open</code>, <code>sd_project_status_set</code></td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Evidence</td>
+        <td><code>sd_evidence_add</code>, <code>sd_evidence_import</code>, <code>sd_evidence_query</code></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Artifacts</td>
+        <td><code>sd_artifact_list</code>, <code>sd_artifact_get</code>, <code>sd_artifact_write</code></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Methods</td>
+        <td><code>sd_method_list</code>, <code>sd_method_run</code></td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Review</td>
+        <td><code>sd_review</code>, <code>sd_review_list</code></td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Export</td>
+        <td><code>sd_export_report</code>, <code>sd_export_artifact</code></td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Knowledge</td>
+        <td><code>sd_knowledge</code></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Factcheck</td>
+        <td><code>sd_factcheck</code></td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Templates and schema</td>
+        <td><code>sd_template_list</code>, <code>sd_template_get</code>, <code>sd_schema_get</code>, <code>sd_practice_get</code></td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Canvas</td>
+        <td><code>sd_canvas_add</code>, <code>sd_canvas_list</code>, <code>sd_canvas_remove</code></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Orchestration</td>
+        <td><code>sd_orchestration_plan</code>, <code>sd_orchestration_status</code>, <code>sd_orchestration_dispatch</code>, <code>sd_orchestration_handoff</code></td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Phase</td>
+        <td><code>sd_phase_advance</code></td>
+        <td>1</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>That inventory already tells you something important. ASD does not model service design as a pile of clever domain-specific widgets. It models the engagement lifecycle: project state, evidence capture, method selection, artifact persistence, review, export, knowledge lookup, orchestration records, and the human gate. The newest member of the Project family, <code>sd_project_status_set</code>, sets an engagement's Kanban lifecycle status — <code>briefed</code>, <code>active</code>, <code>gated</code>, <code>blocked</code>, or <code>archived</code> — independently of the design phase, and a same-status call is a no-op unless a note accompanies it. That is why the tool surface feels operational instead of theatrical.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Representative tool</th>
+        <th>Core arguments</th>
+        <th>What it returns</th>
+        <th>Boundary that matters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>sd_project_create</code></td>
+        <td><code>name</code>, <code>client</code>, <code>sector</code>, <code>service</code>, optional <code>phase</code></td>
+        <td>A new <code>project</code> object with generated <code>projectId</code></td>
+        <td>Creates the store root. No project, no engagement state.</td>
+      </tr>
+      <tr>
+        <td><code>sd_evidence_add</code></td>
+        <td><code>projectId</code>, <code>source</code>, <code>kind</code>, <code>body</code></td>
+        <td>An <code>evidence</code> record with SHA-256 id</td>
+        <td><code>kind</code> must be exactly <code>quote</code>, <code>telemetry</code>, or <code>document</code>.</td>
+      </tr>
+      <tr>
+        <td><code>sd_method_run</code></td>
+        <td><code>projectId</code>, <code>methodId</code></td>
+        <td>The method contract: steps, acceptance rules, output kind, evidence count</td>
+        <td>It returns the SOP. It does not do the design work for you.</td>
+      </tr>
+      <tr>
+        <td><code>sd_artifact_write</code></td>
+        <td><code>projectId</code>, <code>methodId</code>, <code>title</code>, <code>nodes</code>, optional <code>artifactId</code></td>
+        <td><code>accepted</code>, <code>status</code>, <code>artifact</code>, <code>failures</code></td>
+        <td>Failed acceptance still persists a draft. Dangling evidence refs fail closed and do not write.</td>
+      </tr>
+      <tr>
+        <td><code>sd_review</code></td>
+        <td><code>projectId</code>, <code>artifactId</code>, <code>verdict</code>, <code>rows</code></td>
+        <td>Updated artifact status, verdict, review log id, rows written</td>
+        <td>A pass needs at least one evidence-cited proposal row. A veto needs at least one defect row with a fix.</td>
+      </tr>
+      <tr>
+        <td><code>sd_factcheck</code></td>
+        <td><code>projectId</code></td>
+        <td>Top-level <code>pass</code> plus per-artifact integrity, acceptance, and review rows</td>
+        <td>Exit 1 on failure is a feature. CI is supposed to fail here.</td>
+      </tr>
+      <tr>
+        <td><code>sd_export_report</code></td>
+        <td><code>projectId</code>, <code>kind</code>, optional <code>generatedAt</code></td>
+        <td>Deterministic report path, kind, timestamp, byte count</td>
+        <td>Supported report kinds are exactly <code>engagement</code>, <code>executive-summary</code>, <code>research-findings</code>, <code>artifact-dossier</code>, <code>traceability-matrix</code>, and <code>method-log</code>.</td>
+      </tr>
+      <tr>
+        <td><code>sd_knowledge</code></td>
+        <td>Optional <code>query</code>, <code>phase</code>, <code>source</code>, <code>type</code></td>
+        <td>Method and artifact-kind catalogue rows</td>
+        <td>It queries the knowledge registry. Raw corpus chapters still come from <code>resources/read</code>.</td>
+      </tr>
+      <tr>
+        <td><code>sd_orchestration_handoff</code></td>
+        <td>Role-to-role handoff fields plus optional <code>artifactId</code> and <code>artifactKind</code></td>
+        <td>A durable handoff record</td>
+        <td>If <code>artifactKind</code> is supplied, the matching <code>artifactId</code> must resolve in the same project.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The most common misunderstanding I see is around <code>sd_method_run</code>. People hear “run” and imagine the server will perform the method. It will not. The tool returns the executable method contract: role-attributed steps, acceptance rules, output kind, review gate, and current evidence sufficiency. That is enough to keep agents aligned without pretending the method itself has become an opaque black box.</p>
+  <p><code>sd_artifact_write</code> is the second misunderstanding hotspot. In many systems, a failed write vanishes. ASD refuses that pattern. If acceptance fails, the submitted artifact is still retained as a draft with machine-readable failure rows so the repair path is explicit. That gives the Critic and the next writer something concrete to work with. What never gets tolerated is silent corruption. If a node cites an evidence id that does not exist, the write path fails closed before persistence.</p>
+  <p><code>sd_review</code> is where the platform stops flattering the operator. You cannot wave a draft artifact through with an empty “looks good.” A pass must include at least one evidence-cited proposal row. A veto must include a defect row with a fix. That is not bureaucracy. It is what makes the review record reusable instead of decorative.</p>
+  <p>Finally, notice what the orchestration tools do not claim. <code>sd_orchestration_plan</code>, <code>sd_orchestration_dispatch</code>, <code>sd_orchestration_status</code>, and <code>sd_orchestration_handoff</code> persist coordination records. They do not themselves prove that a host launched a fresh process. That boundary will matter again when we get to ACP in §17.7.</p>
+
+<h3 id="s-17-4">Corpus Resources and Role Prompts</h3>
+
+<p>The MCP server exposes more than tools. It also mounts the book-and-article corpus and the role prompt registry. I think of those as the reading surface and the collaboration surface.</p>
+  <p>The reading surface is the resource tree. Current ASD inventory is 228 resources total, paginated at 100 items per page. In practice that means three <code>resources/list</code> pages: 100, 100, and 28. The URIs follow a plain address scheme rather than an invented database syntax:</p>
+  <p><code>asd://books/BOOK_SLUG</code> for a book overview, <code>asd://books/BOOK_SLUG/CHAPTER_SLUG</code> for a chapter resource, and <code>asd://articles/NN</code> for an article resource. The page cursor is opaque, but the current server uses offset-based tokens under the hood, so you will normally see the first two cursors advance from offset 100 to offset 200. The only rule that matters to a client is that omission returns page one and the final page has no <code>nextCursor</code>.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>What you ask for</th>
+        <th>What you get back</th>
+        <th>When I use it</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>resources/list</code></td>
+        <td>Optional cursor</td>
+        <td>Descriptors: URI, name, MIME type, size, version, provenance, optional <code>nextCursor</code></td>
+        <td>Discovery, pagination, inventory checks</td>
+      </tr>
+      <tr>
+        <td><code>resources/read</code></td>
+        <td>One exact URI</td>
+        <td>The UTF-8 payload plus metadata for that resource</td>
+        <td>Reading one chapter, one article, or one overview exactly</td>
+      </tr>
+      <tr>
+        <td><code>prompts/list</code></td>
+        <td>No arguments</td>
+        <td>The ten role prompt names</td>
+        <td>Mount verification and role discovery</td>
+      </tr>
+      <tr>
+        <td><code>prompts/get</code></td>
+        <td>One prompt name</td>
+        <td>The shared role contract plus role-specific instructions</td>
+        <td>Grounding a generic client in the ASD collaboration model</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The ten prompts are the canonical roles you have already seen throughout this book: Orchestrator, Researcher, Synthesizer, Mapper, Ideator, Prototyper, Measurer, Critic, Presenter, and Librarian. A generic MCP client does not need a native subagent feature to benefit from them. It can still fetch the role contract, display it, or pass it into its own orchestration layer. That is why prompt exposure belongs in the MCP server instead of being buried only inside a host plugin.</p>
+  <p>The neat part is that discovery is honest about absence. If the corpus roots are missing, <code>resources/list</code> reflects that. If the agent root is missing, <code>prompts/list</code> reflects that. The server does not fabricate a synthetic corpus just to look healthy. I prefer that bluntness. It means a missing resource page is a real configuration problem, not a ghost in the model.</p>
+  <p>You should also keep the knowledge tool separate in your head. <code>sd_knowledge</code> is fantastic for querying the method catalogue or the artifact-kind registry by phase, source, or keyword. It is not the same thing as reading a chapter from the corpus. When I want the method metadata for <code>journey-from-transcripts</code> or the provenance for <code>service-blueprint</code>, I ask <code>sd_knowledge</code>. When I want the actual book chapter text, I ask <code>resources/read</code>.</p>
+  <p>One last boundary is worth stating plainly because old receipts still float around in real repositories: some older receipts still show smaller resource counts. They are not current. The second-edition platform count is 228. If you see an older number, treat it as receipt history, not as the live inventory to print in new material.</p>
+
+<h3 id="s-17-5">Client Configurations: Claude Code, OpenCode, Codex</h3>
+
+<p>The good news about client configuration is that it is small. The bad news is that a one-line path mistake can make the whole surface look haunted. Use the pack-local entrypoint rule and keep the config literal. Here are the three host examples I consider canonical.</p>
+  <p>Claude Code uses the plugin-root placeholder. That matters because the host installs the pack into its own managed location and resolves <code>${CLAUDE_PLUGIN_ROOT}</code> at runtime.</p>
+
+  <div class="code-label">claude-code.mcp.json</div>
+  <pre><code>{
+  "mcpServers": {
+    "asd": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>OpenCode uses a command array. I like this because it makes the local process contract explicit: executable first, arguments second, no shell interpolation games.</p>
+
+  <div class="code-label">opencode.config.json</div>
+  <pre><code>{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "asd": {
+      "type": "local",
+      "command": ["node", "mcp/bin/server.mjs"]
+    }
+  }
+}</code></pre>
+
+  <p>Codex supports both a registration command and a TOML block. I usually show both because teams often want an imperative install step for onboarding and a declarative block for repository documentation.</p>
+
+  <div class="code-label">codex-mcp-add.sh</div>
+  <pre><code>codex mcp add asd -- node "$PWD/platform/packs/codex/mcp/bin/server.mjs"</code></pre>
+
+  <div class="code-label">codex.mcp.toml</div>
+  <pre><code>[mcp_servers.asd]
+command = "node"
+args = ["mcp/bin/server.mjs"]</code></pre>
+
+  <p>All three examples obey the same structural rule: <code>node</code> launches the pack-local <code>mcp/bin/server.mjs</code> entrypoint. That is the point. Host syntax varies. Server identity does not. Once mounted, each host discovers the same 30 tools, the same 228 resources when corpus roots are present, and the same 10 prompts.</p>
+  <p>What these configs do <em>not</em> prove is native host execution quality. They prove mount syntax. That is useful, but it is a smaller claim. Host-specific receipts are the place to prove the full UI path. The MCP config itself only gets you to a correctly mounted server.</p>
+
+<h3 id="s-17-6">A Complete Worked Session</h3>
+
+<p>Now for the part that actually persuades me. I do not want an MCP chapter that stops at static configuration. I want one complete session that begins with protocol initialization, discovers the surface, reads the mounted context, writes real engagement state, and ends at factcheck. The easiest honest way to show that is as a small shell script that speaks JSON-RPC over stdio and parses the responses as it goes.</p>
+  <p>This example assumes you already emitted the pack to <code>/tmp/asd-packs</code>. It initializes the server, lists tools, lists the first resource page, fetches the Mapper prompt, creates a project, captures one quote, reads the method contract, writes a minimal journey artifact with three cited nodes, records a pass review row that cites the same evidence id, and then runs factcheck. Nothing is hidden behind a host UI. That is why this is such a useful diagnostic ritual.</p>
+
+  <div class="code-label">worked-mcp-session.sh</div>
+  <pre><code>export ASD_WORKSPACE=/tmp/asd-ch17-mcp
+python3 - &lt;&lt;'PY'
+import json
+import os
+import subprocess
+
+server = subprocess.Popen(
+    ["node", "/tmp/asd-packs/mcp/mcp/bin/server.mjs"],
+    stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    text=True,
+    env={**os.environ, "ASD_WORKSPACE": os.environ["ASD_WORKSPACE"]},
+)
+
+def request(payload):
+    server.stdin.write(json.dumps(payload) + "\n")
+    server.stdin.flush()
+    return json.loads(server.stdout.readline())
+
+init = request({
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {},
+        "clientInfo": {"name": "chapter-17-demo", "version": "1.0.0"}
+    }
+})
+print("initialize", init["result"]["serverInfo"])
+
+server.stdin.write(json.dumps({
+    "jsonrpc": "2.0",
+    "method": "notifications/initialized"
+}) + "\n")
+server.stdin.flush()
+
+tools = request({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})
+print("tools", len(tools["result"]["tools"]))
+
+resources = request({"jsonrpc": "2.0", "id": 3, "method": "resources/list"})
+print("resources-page-1", len(resources["result"]["resources"]), resources["result"].get("nextCursor"))
+
+prompt = request({
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "prompts/get",
+    "params": {"name": "mapper"}
+})
+print("prompt", prompt["result"]["messages"][0]["role"])
+
+created = request({
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_project_create",
+        "arguments": {
+            "name": "Chapter 17 Demo",
+            "client": "Fictional composite",
+            "sector": "public-transport",
+            "service": "disruption recovery",
+            "phase": "discover"
+        }
+    }
+})
+project_id = created["result"]["structuredContent"]["project"]["projectId"]
+print("project", project_id)
+
+captured = request({
+    "jsonrpc": "2.0",
+    "id": 6,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_evidence_add",
+        "arguments": {
+            "projectId": project_id,
+            "source": "call-821004",
+            "kind": "quote",
+            "body": "Told to wait 15 min for next bus; nobody held the tram."
+        }
+    }
+})
+evidence_id = captured["result"]["structuredContent"]["evidence"]["id"]
+print("evidence", evidence_id)
+
+method_contract = request({
+    "jsonrpc": "2.0",
+    "id": 7,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_method_run",
+        "arguments": {
+            "projectId": project_id,
+            "methodId": "journey-from-transcripts"
+        }
+    }
+})
+print("method", method_contract["result"]["structuredContent"]["method"]["id"])
+
+nodes = [
+    {
+        "id": "plan",
+        "label": "Plan journey",
+        "fields": {"emotion": "3", "touchpoint": "website"},
+        "evidence": [{"evidenceId": evidence_id}]
+    },
+    {
+        "id": "wait",
+        "label": "Wait at stop",
+        "fields": {"emotion": "2", "touchpoint": "stop"},
+        "evidence": [{"evidenceId": evidence_id}]
+    },
+    {
+        "id": "transfer",
+        "label": "Missed connection",
+        "fields": {"emotion": "1", "touchpoint": "transfer"},
+        "evidence": [{"evidenceId": evidence_id}]
+    }
+]
+written = request({
+    "jsonrpc": "2.0",
+    "id": 8,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_artifact_write",
+        "arguments": {
+            "projectId": project_id,
+            "methodId": "journey-from-transcripts",
+            "title": "Current-state journey",
+            "nodes": nodes
+        }
+    }
+})
+artifact_id = written["result"]["structuredContent"]["artifact"]["id"]
+print("artifact", artifact_id, written["result"]["structuredContent"]["status"])
+
+reviewed = request({
+    "jsonrpc": "2.0",
+    "id": 9,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_review",
+        "arguments": {
+            "projectId": project_id,
+            "artifactId": artifact_id,
+            "verdict": "pass",
+            "rows": [
+                {
+                    "rowKind": "proposal",
+                    "severity": "low",
+                    "message": "Keep the disruption notice visible at the transfer decision.",
+                    "evidenceId": evidence_id
+                }
+            ]
+        }
+    }
+})
+print("review", reviewed["result"]["structuredContent"]["verdict"], reviewed["result"]["structuredContent"]["status"])
+
+factcheck = request({
+    "jsonrpc": "2.0",
+    "id": 10,
+    "method": "tools/call",
+    "params": {
+        "name": "sd_factcheck",
+        "arguments": {"projectId": project_id}
+    }
+})
+print("factcheck", factcheck["result"]["structuredContent"]["pass"])
+
+server.stdin.close()
+server.wait(timeout=5)
+PY</code></pre>
+
+  <p>The session matters because it proves discovery and mutation in one run. <code>tools/list</code> confirms the server mounted the 30-tool registry. <code>resources/list</code> confirms page-one discovery on a 100-row page and therefore a real corpus surface. <code>prompts/get</code> confirms the role contract is mounted, not assumed. Then the project workflow proves the write path: create, capture evidence, fetch the method contract, write a draft, pass review with an evidence-cited row, and replay with factcheck.</p>
+
+  <figure id="fig-17-01" class="full">
+    <div class="figure__media"><img src="shared/platform/mcp-session.png" alt="A live MCP session over stdio showing initialize, tools/list and a representative tool call." loading="lazy"/></div>
+    <figcaption><span class="figure__number">Figure 17.1</span> <strong>A real stdio MCP session.</strong> The capture proves that discovery and a representative tool call were observable over the MCP surface; it does not, by itself, prove native host UI behavior, long-running orchestration, or phase completion.</figcaption>
+  </figure>
+
+  <p>If you want to inspect the workflow more mechanically, reduce it to six checkpoints. First, <code>initialize</code> must return <code>asd-mcp</code> and the advertised capability buckets. Second, <code>tools/list</code> must count 30 tools. Third, <code>resources/list</code> must return page one with 100 rows when corpus roots are present. Fourth, <code>prompts/get</code> must resolve one of the ten roles. Fifth, the create-to-review path must finish with a final artifact. Sixth, <code>sd_factcheck</code> must return <code>pass: true</code>. If any one of those fails, I do not trust the mount yet.</p>
+  <p>Notice what I did not do here. I did not call <code>sd_phase_advance</code>. That is intentional. Passing factcheck is necessary. It is not sufficient. Phase gates remain human-authorized. The MCP session can prepare the state. It cannot impersonate the decision.</p>
+
+<h3 id="s-17-7">Errors, Boundaries and Receipts</h3>
+
+<p>A good MCP server is defined as much by how it refuses work as by how it accepts it. ASD uses the standard JSON-RPC codes for framing errors, then a small server-defined band for runtime boundaries. The split is clean: protocol mistakes stay protocol mistakes; tool failures stay tool failures.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Meaning</th>
+        <th>Typical trigger</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>-32700</code></td>
+        <td>Parse error</td>
+        <td>Malformed JSON on the wire</td>
+      </tr>
+      <tr>
+        <td><code>-32601</code></td>
+        <td>Method not found</td>
+        <td>Unknown protocol method name</td>
+      </tr>
+      <tr>
+        <td><code>-32602</code></td>
+        <td>Invalid params</td>
+        <td>Bad cursor, missing required fields, unknown prompt or tool arguments</td>
+      </tr>
+      <tr>
+        <td><code>-32603</code></td>
+        <td>Internal error</td>
+        <td>Unexpected handler failure</td>
+      </tr>
+      <tr>
+        <td><code>-32000</code></td>
+        <td>Server-defined boundary</td>
+        <td>Initialize required before discovery or calls</td>
+      </tr>
+      <tr>
+        <td><code>-32001</code></td>
+        <td>Server-defined boundary</td>
+        <td>Tool call timed out</td>
+      </tr>
+      <tr>
+        <td><code>-32002</code></td>
+        <td>Server-defined boundary</td>
+        <td>Resource not found or equivalent fail-closed lookup refusal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>One subtle but important behavior sits beside that table: runtime tool failures do not have to become JSON-RPC failures. A bad review payload or a rejected tool contract can come back as a valid <code>tools/call</code> result with <code>isError: true</code>. That keeps the transport stable while still making the runtime refusal explicit.</p>
+  <div class="warning"><strong>CAUTION:</strong> Never confuse a clean MCP transport with a successful ASD operation. A valid JSON-RPC envelope can still contain a rejected tool result. Read the content, the structured payload, and the gate state before you declare success.</div>
+  <p>The second boundary is the six-bundle receipt story. Current ASD release evidence names six emitted MCP bundles with fresh disposable stdio proof: <code>buzz</code>, <code>claude-code</code>, <code>codex</code>, <code>kimi</code>, <code>mcp</code>, and <code>opencode</code>. The framing is very specific. Each bundle is proved pack-locally for <code>initialize</code>, all 30 tools, all 228 resources, all 10 prompts, and one representative project workflow ending in clean factcheck. That is strong proof of bundle integrity. It is not proof that every native host UI executed the bundle end to end.</p>
+  <p>That distinction saves a lot of nonsense. A disposable receipt can prove that the Codex bundle exposes the same registry as the generic MCP bundle. It cannot prove that a particular Codex desktop build rendered the mount correctly in a specific user account. Host execution needs host-specific evidence. Pack integrity needs pack-local evidence. ASD keeps those claims separate on purpose.</p>
+  <p>The final boundary is ACP. The MCP server can record orchestration plans, dispatch attempts, handoffs, human gates, and error rows in the shared record vocabulary. ACP itself remains <code>asd-acp/1</code>, record-only, and fail-closed. The supported capability JSON is <code>{"protocolVersion":"asd-acp/1","capabilities":["record-only"]}</code>. If a client asks for <code>host-agent-spawn</code> on the generic MCP surface, the correct result is a structured unsupported error. No simulation. No silent fallback. No fairy tale about a spawned worker that never existed.</p>
+  <p>I am strict about that line because orchestration theater is dangerous. A handoff record is valuable. A dispatch attempt record is valuable. A typed same-project artifact pointer is valuable. None of them should be mislabeled as live transport or live process execution unless the host proves exactly that path. The MCP chapter is where I want that honesty to become muscle memory.</p>
+  <p>So the safe mental model is this. MCP gives ASD a portable runtime face. The 30 tools are the executable contract. The 228 resources and 10 prompts make the corpus and role model visible. The client configs are small and literal. The session transcript is inspectable. The error codes are typed. The receipt story is specific. ACP remains record-only. Human phase gates remain human. That is a serious platform surface. It is also exactly the kind of restraint that keeps agentic service design trustworthy when the engagement gets large.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="chapter-stack border-t border-black">
+    <div class="page-shell py-16">
+      <div class="flex flex-col gap-4 sm:flex-row">
+    <a href="16.html" class="group relative flex-1 overflow-hidden border border-black p-6">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 16</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service Quality Management &amp; CX Maturity Governance</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 16</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Service Quality Management &amp; CX Maturity Governance</p>
+        </div>
+      </div>
+    </a>
+    <a href="18.html" class="group relative flex-1 overflow-hidden border border-black p-6 text-right">
+      <span class="bg-slide pointer-events-none group-hover:-translate-x-1/2">
+        <span class="bg-slide-secondary bg-white"></span>
+        <span class="bg-slide-primary"></span>
+      </span>
+      <div class="relative z-10 overflow-hidden">
+        <div class="transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 18</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Plugins &amp; Host Packs: Claude Code and Beyond</p>
+        </div>
+        <div class="absolute top-full left-0 w-full transition-transform duration-400 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+          <p class="font-mono text-[13px] uppercase tracking-wider text-black/30 mb-3 transition-colors">Chapter 18</p>
+          <p class="font-sans text-xl font-semibold tracking-tight transition-colors">Plugins &amp; Host Packs: Claude Code and Beyond</p>
+        </div>
+      </div>
+    </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Chapter CTA -->
+  <section class="chapter-stack bg-black text-white">
+    <div class="page-shell py-16 md:py-24">
+      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-[13px] uppercase tracking-wider text-white/30 mb-4">Next Chapter</p>
+          <h2 class="font-sans text-4xl font-bold leading-[0.95] tracking-tight md:text-5xl lg:text-6xl">Plugins &amp; Host Packs: Claude Code and Beyond</h2>
+          <p class="mt-4 max-w-md font-sans text-base text-white/40">Install the whole practice into your coding agent</p>
+        </div>
+        <a href="18.html" class="flex items-center gap-2 px-6 py-3 text-sm font-medium text-black font-mono" style="background-color: #4a3e92;">
+          Continue Reading
+          <i data-lucide="arrow-right" class="size-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapter Index -->
+  <div class="chapter-stack border-t border-black bg-white">
+    <div class="page-shell py-16">
+      <div class="flex flex-col justify-between gap-12 md:flex-row md:items-start">
+        <div class="max-w-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="flex h-10 items-center bg-black px-3">
+              <span class="font-sans text-base font-bold tracking-tight text-white">ASD</span>
+              <span class="ml-0.5 font-mono text-xs font-medium leading-none text-white">v1</span>
+            </div>
+          </div>
+          <p class="text-2xl font-bold leading-[0.95] tracking-tight" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic Service Designer</p>
+          <p class="mt-3 font-sans text-sm text-black/40">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations. By Sam Mozaffari.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-3 flex-1">
+          <a href="front-matter.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Front Matter</h3>
+          </a>
+          <a href="copyright.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Front Matter</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Copyright & License</h3>
+          </a>
+          <a href="01.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 01</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The AI-First Service Design Operating System</h3>
+          </a>
+          <a href="02.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 02</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Platform Architecture</h3>
+          </a>
+          <a href="03.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 03</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service-Dominant Logic &amp; Value Co-Creation in the Age of AI</h3>
+          </a>
+          <a href="04.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 04</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Role Contract, Evidence Registers &amp; Deterministic Fact-Checking</h3>
+          </a>
+          <a href="05.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 05</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Research Ops at Scale: Mining Transcripts &amp; Field Inquiries</h3>
+          </a>
+          <a href="06.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 06</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mixed Methods &amp; Evidence-Backed Segmentation</h3>
+          </a>
+          <a href="07.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 07</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mental Models, Alignment &amp; Opportunity Mapping</h3>
+          </a>
+          <a href="08.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 08</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Ecosystem Value Mapping &amp; Stakeholder Topologies</h3>
+          </a>
+          <a href="09.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 09</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Living Journey Maps: From Transcripts to Sentiment Curves</h3>
+          </a>
+          <a href="10.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 10</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Master Blueprint: Five-Lane Architecture &amp; Line of Visibility</h3>
+          </a>
+          <a href="11.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 11</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Agentic Service Blueprinting: The Sixth Lane &amp; Autonomous Workflows</h3>
+          </a>
+          <a href="12.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 12</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Cross-Channel Orchestration &amp; Story Mapping</h3>
+          </a>
+          <a href="13.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 13</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Structured Ideation &amp; How Might We at Machine Speed</h3>
+          </a>
+          <a href="14.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 14</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Prototyping Services: Desktop Walkthroughs to Wizard-of-Oz</h3>
+          </a>
+          <a href="15.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 15</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Transformative Services, Behavior Change &amp; Recovery Engineering</h3>
+          </a>
+          <a href="16.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 16</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Service Quality Management &amp; CX Maturity Governance</h3>
+          </a>
+          <a href="17.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 17</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD MCP Server</h3>
+          </a>
+          <a href="18.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 18</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Plugins &amp; Host Packs: Claude Code and Beyond</h3>
+          </a>
+          <a href="19.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 19</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">BUZZ: Multi-Agent Service Design on the Open Agent Network</h3>
+          </a>
+          <a href="20.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 20</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">DeepSeek Harness Studio: The Integrated Workbench</h3>
+          </a>
+          <a href="21.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 21</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">SOPs-as-Code: The AI Execution Playbook</h3>
+          </a>
+          <a href="22.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 22</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Frontline Enablement &amp; Employee Experience</h3>
+          </a>
+          <a href="23.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 23</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 15 Principles of Good Public Services</h3>
+          </a>
+          <a href="24.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 24</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">Mastercase: Meridian Bay Ferries</h3>
+          </a>
+          <a href="25.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapter 25</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The Future of Service Design: The Agentic Practice</h3>
+          </a>
+          <a href="A.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix A</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The ASD Method &amp; Artifact Catalog</h3>
+          </a>
+          <a href="B.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix B</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">CLI &amp; MCP Tool Specification</h3>
+          </a>
+          <a href="C.html" class="group border-b border-black pb-4">
+            <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Appendix C</p>
+            <h3 class="font-sans text-sm font-medium group-hover:underline" style="font-family: 'Beausite Classic Medium', sans-serif">The 20-Book Canonical Cross-Reference</h3>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-between gap-4 border-t border-black pt-8 mt-12 md:flex-row md:items-center">
+        <p class="font-mono text-xs text-black/30">&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+        <div class="flex gap-6">
+          <a href="../" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Home</a>
+          <a href="../about.html" class="font-mono text-xs text-black/30 hover:text-black transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-xs text-black/30 hover:text-black transition-colors">Chapters</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-40 bg-black text-white">
+    <div class="w-full px-6 md:px-12 lg:px-20 py-24 md:py-36">
+      <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
+      <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+        <p class="font-sans text-lg md:text-xl text-white">How AI Agent Teams, Service Blueprints-as-Code, and Autonomous Tooling Are Transforming Service Design from Insight to Operations</p>
+        <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+      </div>
+    </div>
+    <div class="border-t border-white">
+      <div class="w-full px-6 md:px-12 lg:px-20 py-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        <div class="font-mono text-[11px] text-white/60 leading-relaxed">
+          <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
+          <p class="mt-1">First edition. Published June 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+          <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+          <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          <span class="font-mono text-[11px] text-white/40">mehranmozaffari.com</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="../assets/chapter-sidebar.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="../assets/menu.js"></script>
+</body>
+</html>
