@@ -1,0 +1,2170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Serif+SC:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ============================================
+   BASE — structural component CSS.
+   All sizes come from the theme token scales defined in
+   design/themes/<theme>/tokens.css:
+   - type scale:    --text-2xs … --text-display (~1.25 modular, base 10.5pt)
+   - spacing scale: --space-1 … --space-8 (5px rhythm unit; --space-5 ≈ 1 line)
+   - radii:         --radius-sm / --radius-md / --radius-lg
+   Foreground accents must use --accent-strong (≥4.5:1 on white);
+   --accent is for large fills/decoration only.
+   ============================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ============================================
+   SCALE DEFAULTS — theme-invariant fallbacks.
+   The spacing/type/radius/layout scale is identical across themes, so it lives
+   here too (not only in theme tokens.css). This guarantees every var(--space-N),
+   var(--text-*), var(--radius-*) resolves in EVERY rendering context — including
+   the paged-HTML preview, which inlines base.css but historically did not inline
+   the theme tokens. Theme tokens.css (where present) overrides COLORS; the scale
+   values match exactly, so cascade order is harmless. Do not put theme colors here.
+   ============================================ */
+:root {
+  --display-font: 'Inter', -apple-system, system-ui, sans-serif;
+  --body-font: 'Inter', -apple-system, system-ui, sans-serif;
+  --mono-font: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-2xs: 7.5pt;
+  --text-xs: 8.5pt;
+  --text-sm: 9.5pt;
+  --text-base: 10.5pt;
+  --text-md: 11.5pt;
+  --text-lg: 13pt;
+  --text-xl: 16pt;
+  --text-2xl: 20pt;
+  --text-3xl: 25pt;
+  --text-display: 36pt;
+
+  --space-1: 5px;
+  --space-2: 10px;
+  --space-3: 15px;
+  --space-4: 20px;
+  --space-5: 25px;
+  --space-6: 30px;
+  --space-7: 40px;
+  --space-8: 50px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --margin-sides: 55px;
+  --margin-top-bottom: 18mm;
+  --line-height: 1.8;
+  --body-size: 10.5pt;
+}
+
+@page {
+  size: A4;
+  margin: var(--margin-top-bottom) var(--margin-sides);
+  @top-left { content: string(book-title); }
+  @top-right { content: string(chapter-title); }
+  @bottom-center { content: counter(page); }
+}
+
+@page cover-page {
+  size: A4;
+  margin: var(--margin-top-bottom) var(--margin-sides);
+  @top-left { content: string(book-title); }
+  @top-right { content: string(chapter-title); }
+  @bottom-center { content: counter(page); }
+}
+
+@page back-page {
+  size: A4;
+  margin: var(--margin-top-bottom) var(--margin-sides);
+  @top-left { content: string(book-title); }
+  @top-right { content: string(chapter-title); }
+  @bottom-center { content: counter(page); }
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: var(--body-size);
+  line-height: var(--line-height);
+  color: var(--text);
+  background: var(--bg);
+}
+
+.cover {
+  page: cover-page;
+  page-break-after: always;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px var(--margin-sides);
+  background: var(--cover-gradient);
+  position: relative;
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 50px;
+  width: 80px;
+  height: 5px;
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+.cover::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 140px;
+  width: 30px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.cover-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 3px;
+  margin-bottom: 24px;
+  font-family: 'Inter', sans-serif;
+}
+
+.cover h1 {
+  font-family: var(--display-font);
+  font-size: 36pt;
+  font-weight: var(--display-weight);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.cover h1 em {
+  font-style: normal;
+  color: var(--primary);
+}
+
+.cover-subtitle {
+  font-size: 14pt;
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.cover-meta {
+  font-size: 9.5pt;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  line-height: 2;
+}
+
+.cover-meta strong { color: var(--text); font-weight: 600; }
+
+.cover-author {
+  margin-top: 20px;
+  font-size: 10pt;
+  color: var(--text-secondary);
+  line-height: 2;
+}
+
+.cover-author strong {
+  font-size: 12pt;
+  color: var(--text);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cover-author a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.cover-disclaimer {
+  margin-top: 14px;
+  font-size: 8.5pt;
+  color: #9CA3AF;
+  line-height: 1.8;
+}
+
+.cover-exclusive {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--highlight);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  font-size: 9pt;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* ============================================
+   TABLE OF CONTENTS
+   ============================================ */
+
+.toc {
+  page-break-after: always;
+  padding: var(--space-2) 0 0;
+}
+
+.toc h2,
+.toc-title {
+  font-family: var(--display-font);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin: 0 0 var(--space-5);
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.toc-sub {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+/* Entry list: one row per chapter. Default <ol> markers are removed; the
+   chapter number sits in its own column so titles align, and a dotted leader
+   runs to the page number (added in paged-media.css via target-counter). */
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+
+.toc-entry {
+  margin: 0;
+  break-inside: avoid;
+}
+
+.toc-link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--text);
+  padding: var(--space-2) 0 var(--space-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.toc-num {
+  flex: none;
+  min-width: 2.6em;
+  color: var(--primary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+}
+
+.toc-label {
+  flex: 0 1 auto;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* The leader grows to fill the row; nudged up to sit on the text baseline. */
+.toc-leader {
+  flex: 1 1 auto;
+  align-self: stretch;
+  min-width: var(--space-4);
+  margin: 0 var(--space-1);
+  border-bottom: 1px dotted var(--accent);
+  opacity: 0.55;
+  transform: translateY(-0.3em);
+}
+
+.toc-desc {
+  margin: 2px 0 0 calc(2.6em + var(--space-2));
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+}
+
+/* Front matter / letters carry no number column; italicise the label so the
+   numbered rows below still read as the spine of the contents. */
+.toc-entry--letter .toc-label,
+.toc-entry--front-matter .toc-label {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ---- TOC variants (set via book-config "toc_style") -------------------------
+   detailed (default) = number · title · leader · page · description.
+   compact            = drop descriptions, tighter rhythm — fits long books.
+   two-column         = two columns of compact entries for very long ToCs. */
+.toc--compact .toc-desc { display: none; }
+.toc--compact .toc-link { padding: var(--space-1) 0; }
+
+.toc--two-column .toc-desc { display: none; }
+.toc--two-column .toc-list {
+  column-count: 2;
+  column-gap: var(--space-7);
+}
+.toc--two-column .toc-entry {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+}
+.toc--two-column .toc-link { padding: var(--space-1) 0; }
+
+/* Legacy hand-authored TOC (used by the Open Design components.html demo and any
+   older drafts that group entries). Kept so those previews don't regress; the
+   book build emits .toc-entry above. */
+.toc-group {
+  margin: var(--space-4) 0 var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--border);
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) 0 var(--space-1);
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-base);
+}
+
+.toc-item a {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.toc-item .num {
+  flex: none;
+  min-width: 2.6em;
+  color: var(--primary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-sm);
+}
+
+.toc-item .title { flex: 0 1 auto; font-weight: 600; }
+
+.toc-item .en {
+  flex: 1 1 auto;
+  text-align: right;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* ============================================
+   HEADINGS & TEXT
+   Hierarchy on the type scale:
+   h2.section-title → --text-2xl, h3 → --text-lg, h4 → --text-md.
+   Space-before > space-after so headings bind to their content.
+   ============================================ */
+
+.content {
+  padding: 0 var(--margin-sides);
+}
+
+/* ============================================
+   CHAPTER OPENER — dedicated page per chapter
+   (oversized number + title + standfirst + rule).
+   Theme-driven: number/rule = --primary, standfirst = --text-secondary.
+   ============================================ */
+.chapter-opener {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-8) 0;
+}
+
+.chapter-opener__inner {
+  max-width: 34rem;
+}
+
+.chapter-opener__eyebrow {
+  font-family: var(--body-font);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  margin: 0 0 var(--space-3);
+}
+
+/* Override the inline section-title rule/spacing inside the opener. */
+.chapter-opener__title.section-title {
+  border-top: none;
+  padding-top: 0;
+  margin: 0;
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+  line-height: 1.04;
+  color: var(--text);
+}
+
+.chapter-opener__title .num {
+  display: block;
+  font-family: var(--display-font);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 11vw, 7rem);
+  line-height: 0.85;
+  color: var(--primary);
+  margin: 0 0 var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.chapter-opener__standfirst {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-md);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 30rem;
+}
+
+.chapter-opener__rule {
+  width: 64px;
+  height: 4px;
+  background: var(--primary);
+  margin-top: var(--space-5);
+  border-radius: 2px;
+}
+
+h2.section-title {
+  string-set: chapter-title content();
+  font-family: var(--display-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text);
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-1);
+  padding-top: var(--space-4);
+  border-top: 3px solid var(--section-line);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.book-title-setter {
+  string-set: book-title content();
+  position: absolute;
+  visibility: hidden;
+  font-size: 0;
+}
+
+h2.section-title .num {
+  color: var(--primary);
+  font-family: 'Inter', sans-serif;
+  margin-right: 6px;
+  font-size: 0.9em;
+}
+
+/* Review fix (ch-letter-2): reviewer asked for a larger, accent-colored
+   section heading on this opener. Scoped to the data-id so other section
+   titles keep the default scale/color. */
+[data-id="ch-letter-2"] h2.section-title {
+  font-size: calc(var(--text-3xl) * 1.3);
+  color: var(--accent-strong);
+}
+
+.section-en {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--text-sm);
+  color: #9CA3AF;
+  font-style: italic;
+  margin-bottom: var(--space-1);
+}
+
+.section-intro {
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+  font-weight: 300;
+}
+
+h3 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h3 .en {
+  font-family: 'Inter', sans-serif;
+  font-size: var(--text-sm);
+  color: #9CA3AF;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+h4 {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-1);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+p { margin-bottom: var(--space-2); }
+
+/* ============================================
+   ADMONITIONS — .callout (NOTE), .tip (TIP), .warning (WARNING)
+   Shared anatomy: colored left rule + small uppercase label + body.
+   ============================================ */
+
+.callout, .tip, .warning {
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-4) 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: var(--text-sm);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.callout::before, .tip::before, .warning::before {
+  display: block;
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.callout {
+  background: color-mix(in srgb, var(--primary) 7%, #ffffff);
+  border-left: 4px solid var(--primary);
+}
+
+.callout::before {
+  content: 'Note';
+  color: var(--primary);
+}
+
+.callout strong { color: var(--primary); }
+
+.tip {
+  background: var(--tip-bg);
+  border-left: 4px solid var(--tip-border);
+}
+
+.tip::before {
+  content: 'Tip';
+  color: var(--tip-strong);
+}
+
+.warning {
+  background: var(--warn-bg);
+  border-left: 4px solid var(--warn-border);
+}
+
+.warning::before {
+  content: 'Warning';
+  color: var(--warn-strong);
+}
+
+/* NOTICE — meta / legal / affiliation notice (Form A: .callout-header + body).
+   Authored as `.callout notice` (a co-class, not a callout--<value> modifier),
+   so without this rule it inherited the generic .callout "Note" label and an
+   unstyled header. Rendered as a muted, full-border box whose own header
+   carries the title — the auto "Note" label is suppressed to avoid a double
+   heading. Token-driven; falls back to the same palette as the admonitions. */
+.callout.notice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.callout.notice::before { content: none; }
+
+.callout.notice .callout-header {
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+/* MY TAKE — authorial aside (Form A: .callout-header + body). Same co-class
+   pattern as .notice; suppresses the generic "Note" label so the authored
+   header ("My Take") is the only title. */
+.callout.my-take {
+  background: color-mix(in srgb, var(--primary) 5%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--border));
+  border-left: 4px solid var(--primary);
+}
+
+.callout.my-take::before { content: none; }
+
+.callout.my-take .callout-header {
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--space-1);
+}
+
+.callout-body { margin: 0; }
+
+.callout > p:last-child,
+.tip > p:last-child,
+.warning > p:last-child,
+.callout .callout-body > p:last-child,
+.tip .callout-body > p:last-child,
+.warning .callout-body > p:last-child,
+.callout.notice .callout-body > p:last-child,
+.callout.my-take .callout-body > p:last-child { margin-bottom: 0; }
+
+/* ============================================
+   CODE
+   ============================================ */
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  font-family: var(--mono-font);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  margin: var(--space-2) 0 var(--space-3);
+  page-break-inside: avoid;
+}
+
+code {
+  font-family: var(--mono-font);
+  font-size: var(--text-sm);
+  background: var(--code-bg);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+pre code { background: none; padding: 0; }
+
+/* Optional filename/caption chip above a code block:
+   <div class="code-label">settings.json</div><pre>…</pre> */
+.code-label {
+  display: block;
+  font-family: var(--mono-font);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  padding: var(--space-1) var(--space-3) 0;
+  margin: var(--space-2) 0 0;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+.code-label + pre {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* ============================================
+   TABLES — primary header band, zebra default
+   (opt out with class="table-plain"), caption support.
+   ============================================ */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-4) 0 var(--space-4);
+  font-size: var(--text-xs);
+  line-height: 1.35;
+  page-break-inside: avoid;
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  padding: 0 0 var(--space-1);
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+caption .table__number {
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 6px;
+  font-family: 'Inter', sans-serif;
+}
+
+thead th {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-weight: 700;
+  text-align: left;
+  padding: var(--space-2) var(--space-2);
+  border: 1px solid var(--primary);
+  font-size: var(--text-xs);
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+}
+
+td {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--primary) 3%, #FFFFFF);
+}
+
+table.table-plain tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+table code {
+  font-size: 0.92em;
+}
+
+/* ============================================
+   STEPS
+   ============================================ */
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+  page-break-inside: avoid;
+}
+
+.step > .step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  margin-top: 2px;
+}
+
+.step-content { flex: 1; }
+.step-content h4 {
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+/* ===== Diagram flow system v3 — framed numbered pipeline =====
+   A self-contained, consistently-framed diagram: a connecting rail down the
+   left with numbered node badges, and a clean card per node. The same visual
+   treatment applies to every flow regardless of node count or content. */
+.flow {
+  position: relative;
+  display: block;
+  counter-reset: flowstep;
+  margin: var(--space-5) auto;
+  max-width: 600px;
+  padding: var(--space-5) var(--space-5) var(--space-5) 84px;
+  background: color-mix(in srgb, var(--primary) 4%, #ffffff);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(16,24,40,.05), 0 6px 16px -8px rgba(16,24,40,.10);
+}
+
+/* the connecting rail */
+.flow::before {
+  content: '';
+  position: absolute;
+  left: 47px;
+  top: 44px;
+  bottom: 44px;
+  width: 2px;
+  background: color-mix(in srgb, var(--primary) 28%, #ffffff);
+  z-index: 0;
+}
+
+.flow > .flow-item {
+  counter-increment: flowstep;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  page-break-inside: avoid;
+  box-shadow: 0 1px 2px rgba(16,24,40,.05);
+}
+/* Gap between cards. The drafts interleave hidden .flow-arrow elements between
+   items, which breaks the `.flow-item + .flow-item` adjacency selector — so set
+   the gap on every item and zero it on the first one instead. */
+.flow > .flow-item { margin-top: var(--space-4); }
+.flow > .flow-item:first-child { margin-top: 0; }
+
+/* numbered badge sitting on the rail */
+.flow > .flow-item::before {
+  content: counter(flowstep);
+  position: absolute;
+  left: -52px;
+  top: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #ffffff;
+  font-family: var(--body-font);
+  font-weight: 700;
+  font-size: 12pt;
+  line-height: 32px;
+  text-align: center;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 12%, #ffffff);
+}
+
+.flow > .flow-item > strong,
+.flow > .flow-item > b,
+.flow > .flow-item > .flow-title {
+  display: block;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: var(--text-base);
+  line-height: 1.3;
+  margin-bottom: var(--space-1);
+  font-family: var(--body-font);
+}
+
+.flow > .flow-item p {
+  margin: 0;
+  color: var(--text);
+  font-weight: 400;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+.flow > .flow-item p + p { margin-top: var(--space-1); }
+
+.flow > .flow-item code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0 4px;
+  font-family: var(--mono-font);
+  font-size: var(--text-xs);
+  color: var(--text);
+}
+
+/* the rail replaces inline arrows */
+.flow > .flow-arrow { display: none !important; }
+.flow > .flow-arrow::before,
+.flow > .flow-arrow::after { content: none !important; display: none !important; }
+
+/* never double-frame: a flow wrapped in a .diagram panel keeps only the flow's frame */
+.diagram:has(> .flow) {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.file-tree {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--mono-font);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  margin: var(--space-2) 0 var(--space-3);
+  page-break-inside: avoid;
+}
+
+/* ============================================
+   COMPARE — good/bad side-by-side
+   ============================================ */
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+  page-break-inside: avoid;
+}
+
+.compare-good, .compare-bad {
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.compare-good::before, .compare-bad::before {
+  display: block;
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+}
+
+.compare-good {
+  background: var(--tip-bg);
+  border: 1px solid color-mix(in srgb, var(--tip-border) 40%, #ffffff);
+}
+
+.compare-good::before {
+  content: 'Recommended';
+  color: var(--tip-strong);
+}
+
+.compare-bad {
+  background: var(--warn-bg);
+  border: 1px solid color-mix(in srgb, var(--warn-border) 40%, #ffffff);
+}
+
+.compare-bad::before {
+  content: 'Not recommended';
+  color: var(--warn-strong);
+}
+
+.compare-good pre, .compare-bad pre {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-xs);
+}
+
+.diagram {
+  background: color-mix(in srgb, var(--primary) 4%, #ffffff);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  color: var(--text);
+  font-size: var(--text-sm);
+  page-break-inside: avoid;
+}
+
+.diagram .label {
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.page-break { page-break-before: always; }
+
+.footer-note {
+  margin-top: var(--space-8);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--primary);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.8;
+}
+
+ul, ol { margin: var(--space-1) 0 var(--space-2) 22px; }
+li { margin-bottom: 3px; }
+
+/* ============================================
+   BLOCKQUOTE — inset pulled quotation in the body flow.
+   Token-driven: a primary left rule, italic body, inset margin.
+   ============================================ */
+blockquote {
+  margin: var(--space-4) 0;
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  border-left: 3px solid var(--primary);
+  font-style: italic;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--text);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+blockquote p { margin: 0 0 var(--space-1); }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote cite {
+  display: block;
+  margin-top: var(--space-2);
+  font-style: normal;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+em { font-style: italic; color: var(--text-secondary); }
+strong { font-weight: 600; }
+
+/* ============================================
+   BACK PAGE
+   ============================================ */
+
+.back-page {
+  page: back-page;
+  page-break-before: always;
+  page-break-inside: avoid;
+  page-break-after: avoid;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-8) var(--margin-sides) var(--space-7);
+  background: var(--cover-gradient);
+  text-align: center;
+}
+
+.back-page-title {
+  font-family: var(--display-font);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+.back-page-subtitle {
+  font-size: var(--text-md);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.back-page-qr-wrapper {
+  background: white;
+  padding: var(--space-3);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  margin-bottom: var(--space-5);
+  display: inline-block;
+}
+
+.back-page-qr {
+  width: 220px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+.back-page-info {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.9;
+  max-width: 400px;
+}
+
+.back-page-info strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.back-page-link {
+  display: inline-block;
+  margin-top: var(--space-3);
+  padding: 9px 24px;
+  background: var(--primary);
+  color: white;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.back-page-social {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 2;
+}
+
+.back-page-social a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-page-social .social-sep {
+  margin: 0 var(--space-2);
+  color: #D1D5DB;
+}
+
+.back-page-footer {
+  margin-top: var(--space-6);
+  font-size: var(--text-xs);
+  color: #B0B0B0;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   BACK-COVER VARIANTS (set via book-config "back_cover_style")
+   colophon (default) = the disclaimer + colophon above (unchanged).
+   blurb       = marketing description + optional ISBN/price slots.
+   author-bio  = author name + bio.
+   praise      = pull-quotes [{quote, source}].
+   All are token-driven and inherit the .back-page page box / gradient above.
+   ============================================ */
+
+/* --- blurb --- */
+.back-page--blurb {
+  justify-content: center;
+  text-align: center;
+}
+.back-page-blurb-body {
+  max-width: 46ch;
+}
+.back-page-blurb {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--text);
+  font-weight: 400;
+}
+.back-page--blurb .back-page-meta {
+  margin-top: var(--space-7);
+}
+.back-page-isbn {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+}
+.back-page-price {
+  margin-top: var(--space-2);
+  font-size: var(--text-md);
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* --- author-bio --- */
+.back-page--author-bio {
+  justify-content: center;
+  text-align: center;
+}
+.back-page-author-bio {
+  max-width: 46ch;
+}
+.back-page-author-name {
+  font-family: var(--display-font);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: var(--space-4);
+}
+.back-page-author-text {
+  font-size: var(--text-md);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* --- praise --- */
+.back-page--praise {
+  justify-content: center;
+  text-align: left;
+}
+.back-page-praise {
+  max-width: 52ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.back-page-quote {
+  margin: 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--primary);
+}
+.back-page-quote p {
+  margin: 0;
+  font-size: var(--text-md);
+  line-height: 1.55;
+  color: var(--text);
+  font-style: italic;
+}
+.back-page-quote-source {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.02em;
+}
+
+/* ============================================
+   INDEX (back matter, enabled via book-config "index": true)
+   Two-column alphabetical list of terms; each term carries page references
+   supplied by Paged.js target-counter (see paged-media.css). Token-driven.
+   ============================================ */
+.book-index {
+  page: book-index;
+  break-before: right;
+  column-count: 2;
+  column-gap: var(--space-7);
+}
+.book-index h2 {
+  /* Surface "Index" in the running head like other section titles. */
+  string-set: chapter-title content();
+  column-span: all;
+  font-family: var(--display-font);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 3px solid var(--primary);
+  break-after: avoid;
+}
+.index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.index-entry {
+  break-inside: avoid;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.index-label {
+  color: var(--text);
+  font-weight: 500;
+}
+.index-refs {
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.book-index a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.index-sep {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   NOTES (back matter, enabled via book-config "note_style":
+   "endnote" — or "footnote", which falls back to endnote behaviour).
+   In-body markers (.fn-ref) and a back-matter Notes section. Token-driven.
+   ============================================ */
+.book-notes {
+  page: book-notes;
+  break-before: right;
+}
+.book-notes h2 {
+  /* Surface "Notes" in the running head like other section titles. */
+  string-set: chapter-title content();
+  font-family: var(--display-font);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 3px solid var(--primary);
+  break-after: avoid;
+}
+.book-notes ol {
+  margin: 0 0 0 var(--space-5);
+  padding: 0;
+}
+.book-notes li {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--text);
+  break-inside: avoid;
+}
+
+/* Inline reference marker: small superscript in --primary. */
+.fn-ref {
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 0;
+  vertical-align: super;
+}
+.fn-ref a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Back-link from a note to its reference: --primary, no underline. */
+.fn-back {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: var(--space-1);
+}
+
+/* ============================================
+   IMAGE & FIGURE SYSTEM
+   ============================================ */
+
+figure {
+  margin: var(--space-4) 0;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+figure img,
+figure picture {
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  display: block;
+}
+
+figcaption {
+  margin-top: var(--space-2);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.figure__number {
+  font-weight: 700;
+  color: var(--primary);
+  margin-right: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: var(--text-xs);
+  letter-spacing: 0.3px;
+}
+
+.figure__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+/* Layout: Full width */
+.figure--full {
+  width: 100%;
+  margin: var(--space-5) 0;
+}
+
+.figure--full img {
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* Layout: Page break before */
+.figure--break {
+  width: 100%;
+  margin: var(--space-5) 0;
+  page-break-before: always;
+}
+
+/* Layout: Half width, float left */
+.figure--half-left {
+  float: left;
+  width: 48%;
+  margin: var(--space-2) var(--space-4) var(--space-3) 0;
+}
+
+/* Layout: Half width, float right */
+.figure--half-right {
+  float: right;
+  width: 48%;
+  margin: var(--space-2) 0 var(--space-3) var(--space-4);
+}
+
+/* Layout: Two images side by side */
+.figure--grid-2 {
+  width: 100%;
+}
+
+.figure--grid-2 .figure__media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.figure--grid-2 .figure__media-item {
+  position: relative;
+}
+
+.figure--grid-2 .figure__media-item img {
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+.figure--grid-2 .figure__label {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Layout: Three images in a row */
+.figure--grid-3 {
+  width: 100%;
+}
+
+.figure--grid-3 .figure__media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.figure--grid-3 .figure__media-item img {
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.figure--grid-3 .figure__label {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Layout: Annotated image with callout markers */
+.figure--annotated {
+  width: 100%;
+  position: relative;
+}
+
+.figure--annotated .figure__media {
+  position: relative;
+}
+
+.figure__annotation-list {
+  margin-top: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--highlight);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+}
+
+.figure__annotation-list .annotation-item {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.figure__annotation-list .annotation-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+}
+
+/* Layout: Inline small image */
+.figure--inline {
+  display: inline;
+  float: none;
+  margin: 0 var(--space-2);
+  width: auto;
+  max-width: 200px;
+}
+
+.figure--inline img {
+  width: auto;
+  max-height: 40px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Figure group: keeps text + figure together for print */
+.figure-group {
+  page-break-inside: avoid;
+  margin: var(--space-3) 0;
+}
+
+/* Clearfix for floated figures */
+.content::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Print-specific figure adjustments */
+@media print {
+  figure {
+    page-break-inside: avoid;
+  }
+
+  .figure--half-left,
+  .figure--half-right {
+    float: none;
+    width: 100%;
+    margin: var(--space-3) 0;
+  }
+
+  .figure--grid-2 .figure__media-grid {
+    gap: var(--space-2);
+  }
+}
+
+/* Screen-specific figure adjustments */
+@media screen {
+  figure:hover img {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .figure--full img {
+    max-width: 100%;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  figure img {
+    border-color: var(--border);
+  }
+}
+
+/* ===== DIAGRAM SYSTEM (dgm-*) ===== */
+
+/* --- Flow: horizontal row of nodes with arrow connectors --- */
+.dgm-flow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--space-2);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-flow--vertical {
+  flex-direction: column;
+}
+
+/* Horizontal flow/loop nodes share the row width and shrink to fit, so a
+   3–5 node sequence stays on one line even on narrow book pages (matching the
+   reference inline-flow style) instead of wrapping the last node. Vertical
+   flows are excluded so their nodes keep natural height. */
+.dgm-flow:not(.dgm-flow--vertical) > .dgm-node,
+.dgm-loop .dgm-node {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.dgm-node {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2);
+}
+
+.dgm-node--accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--dgm-node-accent, var(--primary));
+}
+
+.dgm-node__title {
+  font-family: var(--display-font);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.dgm-node__body {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* --- Arrow: connector slot between nodes --- */
+.dgm-arrow {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--accent-strong);
+}
+
+.dgm-arrow svg {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.dgm-arrow__label {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  background: var(--highlight);
+  padding: 2px var(--space-1);
+  border-radius: var(--radius-sm);
+}
+
+/* --- Loop: flow variant with room for a return curve --- */
+.dgm-loop {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--space-2);
+  padding-top: var(--space-5);
+  padding-bottom: var(--space-6);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-loop__return {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-2);
+  display: block;
+  color: var(--accent-strong);
+}
+
+.dgm-loop__return--warn {
+  color: var(--warn-strong);
+}
+
+.dgm-loop__return svg {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+  fill: none;
+}
+
+.dgm-annot {
+  font-style: italic;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  padding-left: var(--space-2);
+  border-left: 2px solid var(--accent-strong);
+  margin-top: var(--space-2);
+}
+
+/* --- Converge: criteria -> connector -> outcome --- */
+.dgm-converge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-converge > * {
+  min-width: 0;
+}
+
+.dgm-converge__criteria {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.dgm-criterion {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  min-width: 0;
+}
+
+.dgm-icon {
+  flex-shrink: 0;
+  width: var(--text-xl);
+  height: var(--text-xl);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-strong);
+}
+
+.dgm-criterion__label {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.dgm-criterion__sub {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+}
+
+.dgm-converge__connector {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-strong);
+}
+
+.dgm-converge__anti {
+  opacity: 0.55;
+}
+
+.dgm-outcome {
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  color: var(--tip-strong);
+  font-weight: 700;
+  text-align: center;
+}
+
+.dgm-outcome--bad {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+  color: var(--warn-strong);
+}
+
+/* --- Matrix: 2x2 grid with axis labels --- */
+.dgm-matrix {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-2);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-matrix__y-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  align-self: center;
+}
+
+.dgm-matrix__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.dgm-matrix__x-label {
+  grid-column: 2;
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: var(--space-1);
+}
+
+.dgm-matrix__cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  min-width: 0;
+}
+
+.dgm-matrix__cell--hi {
+  background: color-mix(in srgb, var(--primary) 8%, #ffffff);
+}
+
+.dgm-matrix__cell-title {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.dgm-matrix__cell-note {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+}
+
+/* --- Compare: 2-3 column comparison with header band --- */
+.dgm-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-compare--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dgm-compare__col {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.dgm-compare__head {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.dgm-compare__row {
+  padding: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+
+/* --- Timeline: horizontal milestones on a baseline --- */
+.dgm-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-4) 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--space-4) + (var(--space-2) / 2));
+  height: 1px;
+  background: var(--border);
+}
+
+.dgm-timeline__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dgm-timeline__dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid var(--bg);
+}
+
+.dgm-timeline__label {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: var(--space-1);
+}
+
+/* --- Layers: vertical stack of full-width bars --- */
+.dgm-layers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-layer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+}
+
+.dgm-layer--top {
+  background: color-mix(in srgb, var(--primary) 10%, #ffffff);
+}
+
+.dgm-layer__title {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.dgm-layer__note {
+  font-size: var(--text-2xs);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* --- Stats: row of metric callouts --- */
+.dgm-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-stat {
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+  padding: var(--space-2);
+}
+
+.dgm-stat__num {
+  font-family: var(--display-font);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.dgm-stat__label {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* --- Legend: swatch + label items --- */
+.dgm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.dgm-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text);
+}
+
+.dgm-legend__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+/* --- Inline-SVG icon --- */
+.dgm-i {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* ===== END DIAGRAM SYSTEM ===== */
+
+/* ============================================
+   FRONT-MATTER COMPONENT CONTENT
+   Visual styling for the classic front-matter pages emitted by the book build
+   (half-title, title page, copyright page, dedication, epigraph). Page geometry
+   (the `page:` master + break-after) lives in paged-media.css / kdp-print.css —
+   this block only styles the CONTENT inside each section.
+
+   Layout is deliberately simple block flow with top/bottom margins (not
+   full-height flex) so it cannot fight the @page masters that drive print
+   pagination. Every rule is scoped under its component class so nothing leaks
+   into chapters or the TOC. Tokens reused: --display-font / --body-font,
+   --text / --text-secondary, --primary / --accent-strong, the --space-* rhythm
+   scale and the --text-* type scale (all with fallbacks, mirroring base.css).
+   ============================================ */
+
+/* ---- Half-title: book title only, quiet recto in the upper third ---------- */
+.half-title {
+  text-align: center;
+}
+
+.half-title-title {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-2xl, 20pt);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  color: var(--text, #1A1A1A);
+  margin: 30vh auto 0;
+  max-width: 28rem;
+}
+
+/* ---- Title page: the showpiece — title, subtitle, author, imprint --------- */
+.title-page {
+  text-align: center;
+}
+
+.title-page-title {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-display, 36pt);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: var(--text, #1A1A1A);
+  margin: 22vh auto var(--space-5, 25px);
+  max-width: 32rem;
+}
+
+.title-page-subtitle {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-xl, 16pt);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text-secondary, #6B6B6B);
+  margin: 0 auto var(--space-7, 40px);
+  max-width: 30rem;
+}
+
+.title-page-author {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-lg, 13pt);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text, #1A1A1A);
+  margin: var(--space-8, 50px) auto var(--space-2, 10px);
+}
+
+.title-page-publisher {
+  font-family: var(--body-font, 'Inter', sans-serif);
+  font-size: var(--text-xs, 8.5pt);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #6B6B6B);
+  margin: 18vh auto 0;
+}
+
+/* ---- Copyright page: fine print, secondary colour, toward the foot -------- */
+.copyright-page {
+  font-family: var(--body-font, 'Inter', sans-serif);
+}
+
+.copyright-line {
+  font-size: var(--text-xs, 8.5pt);
+  line-height: 1.45;
+  color: var(--text-secondary, #6B6B6B);
+  margin: 0 0 var(--space-2, 10px);
+}
+
+/* Push the copyright block toward the lower portion of the page. */
+.copyright-page .copyright-line:first-of-type {
+  margin-top: 55vh;
+}
+
+.copyright-isbn {
+  font-size: var(--text-xs, 8.5pt);
+  line-height: 1.45;
+  color: var(--text-secondary, #6B6B6B);
+  margin: var(--space-2, 10px) 0 0;
+}
+
+.copyright-isbn-label {
+  font-weight: 500;
+  color: var(--text, #1A1A1A);
+}
+
+/* ---- Dedication: short, centred, italic, upper-middle of the page --------- */
+.dedication {
+  text-align: center;
+}
+
+.dedication-text {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-lg, 13pt);
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text, #1A1A1A);
+  margin: 33vh auto 0;
+  max-width: 26rem;
+}
+
+/* ---- Epigraph: indented italic quotation + right-aligned attribution ------
+   The em dash on the attribution is emitted via ::before so the builder text
+   stays clean (it supplies the bare attribution string). */
+.epigraph-quote {
+  font-family: var(--display-font, 'Inter', sans-serif);
+  font-size: var(--text-md, 11.5pt);
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--text, #1A1A1A);
+  margin: 30vh 0 var(--space-4, 20px) auto;
+  max-width: 24rem;
+  border: none;
+  padding: 0;
+}
+
+.epigraph-attribution {
+  font-family: var(--body-font, 'Inter', sans-serif);
+  font-size: var(--text-sm, 9.5pt);
+  font-style: normal;
+  text-align: right;
+  color: var(--text-secondary, #6B6B6B);
+  margin: 0 0 0 auto;
+  max-width: 24rem;
+}
+
+.epigraph-attribution::before {
+  content: "— ";
+}

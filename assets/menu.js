@@ -217,16 +217,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Define the parts mapping to pre-expand the active section
   let activePartIndex = 0; 
-  if (['preface.html', 'copyright.html', '01.html', '02.html', '03.html', '04.html'].includes(filename)) {
+  if (['front-matter.html', 'copyright.html', '01.html', '02.html', '03.html', '04.html'].includes(filename)) {
     activePartIndex = 1;
-  } else if (['05.html', '06.html', '07.html', '08.html'].includes(filename)) {
+  } else if (['05.html', '06.html', '07.html', '08.html', '09.html'].includes(filename)) {
     activePartIndex = 2;
-  } else if (['09.html', '10.html', '11.html', '12.html'].includes(filename)) {
+  } else if (['10.html', '11.html', '12.html', '13.html', '14.html', '15.html', '16.html'].includes(filename)) {
     activePartIndex = 3;
-  } else if (['13.html', '14.html'].includes(filename)) {
+  } else if (['17.html', '18.html', '19.html', '20.html'].includes(filename)) {
     activePartIndex = 4;
-  } else if (['A.html', 'B.html', 'C.html'].includes(filename)) {
+  } else if (['21.html', '22.html', '23.html', '24.html', '25.html'].includes(filename)) {
     activePartIndex = 5;
+  } else if (['A.html', 'B.html', 'C.html'].includes(filename)) {
+    activePartIndex = 6;
   }
 
   // Helper to generate active classes
@@ -293,16 +295,16 @@ document.addEventListener('DOMContentLoaded', () => {
               <i data-lucide="plus" class="menu-part-icon size-5"></i>
             </button>
             <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
-              <a href="${resolveLink('chapters/preface.html')}" class="${getLinkClass('preface.html')}">Preface</a>
-              <a href="${resolveLink('chapters/copyright.html')}" class="${getLinkClass('copyright.html')}">Copyright & License</a>
-              <a href="${resolveLink('chapters/01.html')}" class="${getLinkClass('01.html')}">Ch 01: The Agentic Design Paradigm</a>
-              <a href="${resolveLink('chapters/02.html')}" class="${getLinkClass('02.html')}">Ch 02: Your Agent Toolkit</a>
-              <a href="${resolveLink('chapters/03.html')}" class="${getLinkClass('03.html')}">Ch 03: Teaching Agents to Design</a>
-              <a href="${resolveLink('chapters/04.html')}" class="${getLinkClass('04.html')}">Ch 04: Design-as-Code</a>
+              <a href="${resolveLink('chapters/front-matter.html')}" class="${getLinkClass('front-matter.html')}">Front Matter</a>
+              <a href="${resolveLink('chapters/copyright.html')}" class="${getLinkClass('copyright.html')}">Copyright &amp; License</a>
+              <a href="${resolveLink('chapters/01.html')}" class="${getLinkClass('01.html')}">Ch 01: The AI-First Service Design Operating System</a>
+              <a href="${resolveLink('chapters/02.html')}" class="${getLinkClass('02.html')}">Ch 02: The ASD Platform Architecture</a>
+              <a href="${resolveLink('chapters/03.html')}" class="${getLinkClass('03.html')}">Ch 03: Service-Dominant Logic &amp; Value Co-Creation</a>
+              <a href="${resolveLink('chapters/04.html')}" class="${getLinkClass('04.html')}">Ch 04: The Role Contract, Evidence Registers &amp; Fact-Checking</a>
             </div>
           </div>
 
-          <!-- PART 2: Connected Canvas -->
+          <!-- PART 2: Discovery & Research -->
           <div class="menu-part-section border-b border-black" data-part="2">
             <button class="menu-part-btn">
               <span class="bg-slide">
@@ -310,20 +312,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="bg-slide-primary"></span>
               </span>
               <span class="nav-text-wrapper text-2xl sm:text-3xl font-bold tracking-tight">
-                <span class="nav-text">Canvas Tools <sup class="font-mono text-xs text-black/40">02</sup></span>
-                <span class="nav-text-clone">Canvas Tools <sup class="font-mono text-xs text-white/60">02</sup></span>
+                <span class="nav-text">Discovery &amp; Research <sup class="font-mono text-xs text-black/40">02</sup></span>
+                <span class="nav-text-clone">Discovery &amp; Research <sup class="font-mono text-xs text-white/60">02</sup></span>
               </span>
               <i data-lucide="plus" class="menu-part-icon size-5"></i>
             </button>
             <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
-              <a href="${resolveLink('chapters/05.html')}" class="${getLinkClass('05.html')}">Ch 05: Paper and Pencil</a>
-              <a href="${resolveLink('chapters/06.html')}" class="${getLinkClass('06.html')}">Ch 06: Open Design and OpenPencil</a>
-              <a href="${resolveLink('chapters/07.html')}" class="${getLinkClass('07.html')}">Ch 07: Huashu Design</a>
-              <a href="${resolveLink('chapters/08.html')}" class="${getLinkClass('08.html')}">Ch 08: Design Systems and Tokens</a>
+              <a href="${resolveLink('chapters/05.html')}" class="${getLinkClass('05.html')}">Ch 05: Research Ops at Scale</a>
+              <a href="${resolveLink('chapters/06.html')}" class="${getLinkClass('06.html')}">Ch 06: Mixed Methods &amp; Evidence-Backed Segmentation</a>
+              <a href="${resolveLink('chapters/07.html')}" class="${getLinkClass('07.html')}">Ch 07: Mental Models, Alignment &amp; Opportunity Mapping</a>
+              <a href="${resolveLink('chapters/08.html')}" class="${getLinkClass('08.html')}">Ch 08: Ecosystem Value Mapping &amp; Stakeholder Topologies</a>
+              <a href="${resolveLink('chapters/09.html')}" class="${getLinkClass('09.html')}">Ch 09: Living Journey Maps</a>
             </div>
           </div>
 
-          <!-- PART 3: Advanced Topics -->
+          <!-- PART 3: Blueprints & Design -->
           <div class="menu-part-section border-b border-black" data-part="3">
             <button class="menu-part-btn">
               <span class="bg-slide">
@@ -331,20 +334,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="bg-slide-primary"></span>
               </span>
               <span class="nav-text-wrapper text-2xl sm:text-3xl font-bold tracking-tight">
-                <span class="nav-text">Advanced Topics <sup class="font-mono text-xs text-black/40">03</sup></span>
-                <span class="nav-text-clone">Advanced Topics <sup class="font-mono text-xs text-white/60">03</sup></span>
+                <span class="nav-text">Blueprints &amp; Design <sup class="font-mono text-xs text-black/40">03</sup></span>
+                <span class="nav-text-clone">Blueprints &amp; Design <sup class="font-mono text-xs text-white/60">03</sup></span>
               </span>
               <i data-lucide="plus" class="menu-part-icon size-5"></i>
             </button>
             <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
-              <a href="${resolveLink('chapters/09.html')}" class="${getLinkClass('09.html')}">Ch 09: Motion and Video</a>
-              <a href="${resolveLink('chapters/10.html')}" class="${getLinkClass('10.html')}">Ch 10: MCP Integrations</a>
-              <a href="${resolveLink('chapters/11.html')}" class="${getLinkClass('11.html')}">Ch 11: Multi-Agent Design Teams</a>
-              <a href="${resolveLink('chapters/12.html')}" class="${getLinkClass('12.html')}">Ch 12: Production UI from Design</a>
+              <a href="${resolveLink('chapters/10.html')}" class="${getLinkClass('10.html')}">Ch 10: The Master Blueprint: Five-Lane Architecture</a>
+              <a href="${resolveLink('chapters/11.html')}" class="${getLinkClass('11.html')}">Ch 11: Agentic Service Blueprinting: The Sixth Lane</a>
+              <a href="${resolveLink('chapters/12.html')}" class="${getLinkClass('12.html')}">Ch 12: Cross-Channel Orchestration &amp; Story Mapping</a>
+              <a href="${resolveLink('chapters/13.html')}" class="${getLinkClass('13.html')}">Ch 13: Structured Ideation &amp; HMW at Machine Speed</a>
+              <a href="${resolveLink('chapters/14.html')}" class="${getLinkClass('14.html')}">Ch 14: Prototyping Services</a>
+              <a href="${resolveLink('chapters/15.html')}" class="${getLinkClass('15.html')}">Ch 15: Transformative Services &amp; Recovery Engineering</a>
+              <a href="${resolveLink('chapters/16.html')}" class="${getLinkClass('16.html')}">Ch 16: Service Quality Management &amp; CX Maturity</a>
             </div>
           </div>
 
-          <!-- PART 4: Practice & Outlook -->
+          <!-- PART 4: Platform & Tooling -->
           <div class="menu-part-section border-b border-black" data-part="4">
             <button class="menu-part-btn">
               <span class="bg-slide">
@@ -352,18 +358,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="bg-slide-primary"></span>
               </span>
               <span class="nav-text-wrapper text-2xl sm:text-3xl font-bold tracking-tight">
-                <span class="nav-text">Practice & Outlook <sup class="font-mono text-xs text-black/40">04</sup></span>
-                <span class="nav-text-clone">Practice & Outlook <sup class="font-mono text-xs text-white/60">04</sup></span>
+                <span class="nav-text">Platform &amp; Tooling <sup class="font-mono text-xs text-black/40">04</sup></span>
+                <span class="nav-text-clone">Platform &amp; Tooling <sup class="font-mono text-xs text-white/60">04</sup></span>
               </span>
               <i data-lucide="plus" class="menu-part-icon size-5"></i>
             </button>
             <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
-              <a href="${resolveLink('chapters/13.html')}" class="${getLinkClass('13.html')}">Ch 13: Real-World Case Studies</a>
-              <a href="${resolveLink('chapters/14.html')}" class="${getLinkClass('14.html')}">Ch 14: The Future of Agentic Design</a>
+              <a href="${resolveLink('chapters/17.html')}" class="${getLinkClass('17.html')}">Ch 17: The ASD MCP Server</a>
+              <a href="${resolveLink('chapters/18.html')}" class="${getLinkClass('18.html')}">Ch 18: Plugins &amp; Host Packs</a>
+              <a href="${resolveLink('chapters/19.html')}" class="${getLinkClass('19.html')}">Ch 19: BUZZ: Multi-Agent Service Design</a>
+              <a href="${resolveLink('chapters/20.html')}" class="${getLinkClass('20.html')}">Ch 20: DeepSeek Harness Studio</a>
             </div>
           </div>
 
-          <!-- PART 5: Appendices -->
+          <!-- PART 5: Operations & Outlook -->
           <div class="menu-part-section border-b border-black" data-part="5">
             <button class="menu-part-btn">
               <span class="bg-slide">
@@ -371,24 +379,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="bg-slide-primary"></span>
               </span>
               <span class="nav-text-wrapper text-2xl sm:text-3xl font-bold tracking-tight">
-                <span class="nav-text">Appendices <sup class="font-mono text-xs text-black/40">05</sup></span>
-                <span class="nav-text-clone">Appendices <sup class="font-mono text-xs text-white/60">05</sup></span>
+                <span class="nav-text">Operations &amp; Outlook <sup class="font-mono text-xs text-black/40">05</sup></span>
+                <span class="nav-text-clone">Operations &amp; Outlook <sup class="font-mono text-xs text-white/60">05</sup></span>
               </span>
               <i data-lucide="plus" class="menu-part-icon size-5"></i>
             </button>
             <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
-              <a href="${resolveLink('chapters/A.html')}" class="${getLinkClass('A.html')}">Appendix A: Tool Comparison Matrix</a>
-              <a href="${resolveLink('chapters/B.html')}" class="${getLinkClass('B.html')}">Appendix B: MCP Server Reference</a>
-              <a href="${resolveLink('chapters/C.html')}" class="${getLinkClass('C.html')}">Appendix C: Prompt Library</a>
+              <a href="${resolveLink('chapters/21.html')}" class="${getLinkClass('21.html')}">Ch 21: SOPs-as-Code: The AI Execution Playbook</a>
+              <a href="${resolveLink('chapters/22.html')}" class="${getLinkClass('22.html')}">Ch 22: Frontline Enablement &amp; Employee Experience</a>
+              <a href="${resolveLink('chapters/23.html')}" class="${getLinkClass('23.html')}">Ch 23: The 15 Principles of Good Public Services</a>
+              <a href="${resolveLink('chapters/24.html')}" class="${getLinkClass('24.html')}">Ch 24: Mastercase: Meridian Bay Ferries</a>
+              <a href="${resolveLink('chapters/25.html')}" class="${getLinkClass('25.html')}">Ch 25: The Future of Service Design</a>
             </div>
           </div>
 
+          <!-- PART 6: Appendices -->
+          <div class="menu-part-section border-b border-black" data-part="6">
+            <button class="menu-part-btn">
+              <span class="bg-slide">
+                <span class="bg-slide-secondary"></span>
+                <span class="bg-slide-primary"></span>
+              </span>
+              <span class="nav-text-wrapper text-2xl sm:text-3xl font-bold tracking-tight">
+                <span class="nav-text">Appendices <sup class="font-mono text-xs text-black/40">06</sup></span>
+                <span class="nav-text-clone">Appendices <sup class="font-mono text-xs text-white/60">06</sup></span>
+              </span>
+              <i data-lucide="plus" class="menu-part-icon size-5"></i>
+            </button>
+            <div class="menu-part-content hidden bg-white/25 px-6 py-4 flex flex-col gap-2 font-mono text-xs">
+              <a href="${resolveLink('chapters/A.html')}" class="${getLinkClass('A.html')}">Appendix A: The ASD Method &amp; Artifact Catalog</a>
+              <a href="${resolveLink('chapters/B.html')}" class="${getLinkClass('B.html')}">Appendix B: CLI &amp; MCP Tool Specification</a>
+              <a href="${resolveLink('chapters/C.html')}" class="${getLinkClass('C.html')}">Appendix C: The 20-Book Canonical Cross-Reference</a>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Drawer Footer (glassmorphic) -->
       <div id="drawer-footer" class="border-t border-black p-6 bg-white/40 backdrop-blur-md shrink-0">
-        <p class="font-mono text-[9px] uppercase tracking-wider text-black/50 leading-relaxed">&copy; 2026 MEHRAN MOZAFFARI. ALL RIGHTS RESERVED.</p>
+        <p class="font-mono text-[9px] uppercase tracking-wider text-black/50 leading-relaxed">&copy; 2026 SAM MOZAFFARI. ALL RIGHTS RESERVED.</p>
       </div>
 
     </div>

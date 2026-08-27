@@ -1,0 +1,897 @@
+/* ============================================
+   PAGED MEDIA — @page rules and print-specific overrides.
+   Running heads use --primary (theme identity); page numbers stay
+   neutral grey. Sizes come from the theme type scale with print
+   fallbacks (--text-2xs = 7.5pt running heads, --text-xs = 8.5pt folios).
+   ============================================ */
+
+@page {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+}
+
+@page :left {
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+@page :right {
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+@page :first {
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+    font-weight: 400;
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+@page :blank {
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+@page cover-page {
+  size: A4;
+  margin: 0;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+@page toc-page {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Front-matter masters intentionally hide running furniture. KDP recommends
+   that title, copyright, and contents pages carry no visible page numbers;
+   Arabic folios restart at 1 on [data-body-start]. */
+@page half-title {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Dedication front matter: a clean dedicated page. Roman (lower-roman) folio so
+   it counts as front matter (like the TOC), running heads cleared. */
+@page dedication {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Epigraph front matter: a clean dedicated page. Roman (lower-roman) folio so it
+   counts as front matter (like the TOC), running heads cleared. */
+@page epigraph {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Interior title page front matter: a clean dedicated page. Roman (lower-roman)
+   folio so it counts as front matter (like the TOC), running heads cleared. The
+   folio is shown (roman), not blind: the pagination contract forbids clearing the
+   page-number footer with content: none, so a roman folio reads as front matter
+   while keeping the contract green. */
+@page title-page {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Copyright front-matter page: a clean legal page. Roman (lower-roman) folio so
+   it counts as front matter (like the TOC), running heads cleared. The folio is
+   shown (roman), not blind: the pagination contract forbids clearing the
+   page-number footer with content: none, so a roman folio reads as front matter
+   while keeping the contract green. */
+@page copyright-page {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* Authored front-matter.html wrapper (legal/credits block) and any generic
+   book-page-front-matter frame that is not a more-specific named page
+   (title-page / copyright-page / …). Roman folio so KDP does not treat these
+   sheets as the start of arabic main-content numbering. */
+@page front-matter-page {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+@page chapter-first {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+}
+
+/* Chapter-opener page: a clean dedicated page (no running heads); folio only. */
+@page chapter-opener {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+.chapter-opener {
+  page: chapter-opener;
+  break-before: right;
+  break-after: page;
+}
+
+@page back-page {
+  size: A4;
+  margin: 14mm 14mm 18mm 14mm;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+/* Index back-matter page: running heads + folio, mirroring back-page. */
+@page book-index {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+/* Notes back-matter page: running heads + folio, mirroring back-page. */
+@page book-notes {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+/* Glossary back-matter page (P3c): running heads + ARABIC folio, mirroring the
+   index/notes back-matter masters. Back matter is NOT roman — only front matter
+   (TOC, copyright, list-of-*) gets a roman folio; the glossary follows the body
+   so it continues the arabic page sequence. */
+@page book-glossary {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+/* Bibliography back-matter page (P3d): running heads + ARABIC folio, mirroring
+   the glossary/index/notes back-matter masters. Back matter is NOT roman — the
+   bibliography follows the body (after the glossary) so it continues the arabic
+   page sequence. */
+@page book-bibliography {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left {
+    content: string(book-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @top-right {
+    content: string(chapter-title);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-2xs, 7.5pt);
+    color: var(--primary, #D1D5DB);
+  }
+
+  @bottom-center {
+    content: counter(page);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: var(--text-xs, 8.5pt);
+    color: #9CA3AF;
+  }
+}
+
+.cover {
+  break-after: page;
+}
+
+.book-page-cover {
+  page: cover-page;
+  break-after: page;
+}
+
+.book-page-cover .cover {
+  break-after: auto;
+}
+
+.toc {
+  page: toc-page;
+  break-after: page;
+}
+
+/* Half-title page: its own page, FIRST in the front matter (before the title
+   page). break-before is NOT forced to right — it follows the cover naturally. */
+.half-title {
+  page: half-title;
+  break-after: page;
+}
+
+/* Interior title page: its own page, between the cover and the copyright page.
+   break-before is NOT forced to right — the title page follows the cover
+   naturally rather than forcing a recto. */
+.title-page {
+  page: title-page;
+  break-after: page;
+}
+
+/* Dedication / Epigraph pages: their own pages, between the copyright page and
+   the TOC. break-before is NOT forced to right — they follow naturally. */
+.dedication {
+  page: dedication;
+  break-after: page;
+}
+
+.epigraph {
+  page: epigraph;
+  break-after: page;
+}
+
+/* Copyright front-matter page: its own page, between the cover and the TOC.
+   break-before is NOT forced to right — the copyright page is conventionally a
+   verso page following the cover, so we let it fall naturally after the cover
+   rather than forcing a recto (which would push it onto its own right page and
+   open a blank verso). */
+.copyright-page {
+  page: copyright-page;
+  break-after: page;
+}
+
+/* Assemble-html wraps authored front-matter as book-page-front-matter; the
+   draft itself is .content.front-matter / [data-type=frontmatter]. Specific
+   named pages (.title-page, .copyright-page, …) keep their own masters above —
+   those elements are NOT also .book-page, so this rule does not override them. */
+.book-page.book-page-front-matter,
+.content.front-matter,
+.front-matter,
+section[data-type="frontmatter"] {
+  page: front-matter-page;
+}
+
+/* KDP / CMOS: arabic body numbering restarts at 1 on the first chapter (or
+   letter). Build/assemble stamp data-body-start on that wrapper. */
+[data-body-start] {
+  counter-reset: page 1;
+}
+
+.book-page-content,
+.book-chapter[data-type="chapter"],
+.book-chapter[data-type="letter"],
+.book-chapter[data-type="appendix"] {
+  page: chapter-first;
+  break-before: right;
+}
+
+.book-page-content:first-of-type,
+.book-chapter[data-type="letter"]:first-of-type {
+  break-before: auto;
+}
+
+h1.chapter-title,
+h2.section-title {
+  string-set: chapter-title content();
+  break-after: avoid;
+}
+
+.back-page {
+  page: back-page;
+  break-before: right;
+}
+
+.book-index {
+  page: book-index;
+  break-before: right;
+}
+
+.book-notes {
+  page: book-notes;
+  break-before: right;
+}
+
+/* Glossary back-matter page: arabic folio via the book-glossary master, starting
+   on a fresh recto like the other back-matter sections. */
+.book-glossary {
+  page: book-glossary;
+  break-before: right;
+}
+
+/* Semantic definition-list styling for the glossary <dl>. The term/definition
+   pairs hang as a tight reference list; entries never split across a page break. */
+.book-glossary-title {
+  break-after: avoid;
+}
+
+.glossary-list {
+  margin: 0;
+}
+
+.glossary-list dt {
+  font-weight: 700;
+  margin-top: var(--space-3, 12px);
+  break-after: avoid;
+  break-inside: avoid;
+}
+
+.glossary-list dd {
+  margin: 0 0 var(--space-2, 8px) 0;
+  break-inside: avoid;
+}
+
+/* Bibliography back-matter page: arabic folio via the book-bibliography master,
+   starting on a fresh recto like the other back-matter sections. */
+.book-bibliography {
+  page: book-bibliography;
+  break-before: right;
+}
+
+/* Semantic ordered-list styling for the bibliography <ol>. Hanging-indent
+   reference entries; entries never split across a page break. */
+.book-bibliography-title {
+  break-after: avoid;
+}
+
+.bibliography-list {
+  margin: 0;
+  padding-left: var(--space-5, 20px);
+}
+
+.bibliography-list li {
+  margin: 0 0 var(--space-2, 8px) 0;
+  break-inside: avoid;
+}
+
+.book-title-setter {
+  string-set: book-title content();
+  position: absolute;
+  visibility: hidden;
+  font-size: 0;
+}
+
+.chapter-content {
+  page: auto;
+}
+
+figure {
+  break-inside: avoid;
+}
+
+/* Tables: header rows repeat across page breaks (table-header-group),
+   rows never split, header band painted with --primary. */
+table {
+  break-inside: auto;
+  page-break-inside: auto;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  max-width: 100%;
+  margin: var(--space-4, 20px) 0 var(--space-4, 18px);
+  font-size: var(--text-xs, 8pt);
+  line-height: 1.35;
+}
+
+caption {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+tr {
+  break-inside: avoid;
+}
+
+th,
+td {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  padding: var(--space-1, 5px) var(--space-2, 7px);
+  border: 1px solid var(--border, #D8DEE4);
+  vertical-align: top;
+}
+
+thead {
+  display: table-header-group;
+}
+
+thead th {
+  background: var(--primary, #374151);
+  color: #FFFFFF;
+  font-size: var(--text-xs, 8.5pt);
+  line-height: 1.3;
+  font-weight: 700;
+  text-align: left;
+  letter-spacing: 0.3px;
+  padding: var(--space-2, 7px) var(--space-2, 7px);
+  border-color: var(--primary, #374151);
+}
+
+tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--primary, #6B7280) 3%, #FFFFFF);
+}
+
+table.table-plain tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+table code {
+  font-size: 0.92em;
+}
+
+/* List of Figures / List of Tables front-matter pages (P3a): clean pages
+   following the TOC with all running furniture hidden. These rules live
+   AFTER the `table`
+   content rule on purpose: the pagination-contract test extracts the first
+   "table" substring, so a `list-of-tables` selector must not come first.) */
+@page list-of-figures {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+@page list-of-tables {
+  size: A4;
+  margin: 22mm 18mm 24mm 18mm;
+
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-center { content: none; }
+}
+
+/* break-before is NOT forced to right — the lists follow the TOC naturally. */
+.list-of-figures {
+  page: list-of-figures;
+  break-after: page;
+}
+
+.list-of-tables {
+  page: list-of-tables;
+  break-after: page;
+}
+
+pre {
+  break-inside: auto;
+  page-break-inside: auto;
+  max-width: 100%;
+  overflow: visible;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+pre code {
+  white-space: inherit;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.code-label {
+  break-after: avoid;
+  page-break-after: avoid;
+  break-inside: avoid;
+}
+
+.callout {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.tip {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.warning {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.step {
+  display: block;
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.step > .step-num {
+  display: inline-flex;
+  margin: 0 0 6pt 0;
+}
+
+.step > .step-content {
+  display: block;
+  min-width: 0;
+}
+
+.compare {
+  display: block;
+  break-inside: auto;
+  page-break-inside: auto;
+}
+
+.compare-good,
+.compare-bad {
+  break-inside: avoid;
+  margin-bottom: var(--space-2, 10pt);
+}
+
+.diagram {
+  break-inside: avoid;
+}
+
+.file-tree {
+  break-inside: avoid;
+}
+
+h2, h3, h4 {
+  break-after: avoid;
+}
+
+.figure-group {
+  break-inside: avoid;
+}
+
+.flow {
+  display: block;
+  max-width: 440pt;
+  margin: 18pt auto;
+}
+
+.flow > .flow-item {
+  display: block;
+  text-align: left;
+}
+
+/* Render the step badge from the static data-flow-step attribute stamped by
+   the paged export (scripts/export-paged-html.ts → numberFlowItems). Paged.js
+   0.4.3 miscomputes counter(flowstep) in ::before content during pagination
+   (badges come out as -4,-3,-2,-1); a static attr() value is immune. The
+   circle/position styling is inherited from base.css; only `content` changes. */
+.flow > .flow-item::before {
+  content: attr(data-flow-step);
+}
+
+.flow > .flow-arrow {
+  display: none;
+}
+
+.figure--half-left,
+.figure--half-right {
+  float: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.figure--grid-2 .figure__media-grid,
+.figure--grid-3 .figure__media-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10pt;
+}
+
+figure img {
+  max-width: 100%;
+  max-height: 190mm;
+  object-fit: contain;
+}
+
+figcaption {
+  break-before: avoid;
+  page-break-before: avoid;
+}
+
+p {
+  orphans: 3;
+  widows: 3;
+}
+
+h2, h3, h4 {
+  orphans: 4;
+  widows: 4;
+}
+
+a[href^="#"]::after {
+  content: " (p. " target-counter(attr(href url), page) ")";
+  font-size: 0.85em;
+  color: var(--text-secondary);
+}
+
+.cover a[href^="#"]::after,
+.back-page a[href^="#"]::after {
+  content: none;
+}
+
+/* TOC entries: a clean page number at the end of each row (a dotted leader from
+   base.css runs to it), not the inline " (p. N)" used in body cross-references.
+   This rule out-specifies the generic a[href^="#"]::after above. */
+.toc a.toc-title[href^="#"]::after {
+  content: target-counter(attr(href url), page);
+  flex: none;
+  margin-left: var(--space-1);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* INDEX entries: each ref link shows just its target page number (the link text
+   is a single space placeholder), like the TOC — not the inline " (p. N)".
+   Out-specifies the generic a[href^="#"]::after above. */
+.book-index a[href^="#"]::after {
+  content: target-counter(attr(href url), page);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* NOTES: suppress the generic " (p. N)" suffix on the ↩ back-link and any
+   internal anchor inside the notes section, so back-links stay clean. */
+.book-notes .fn-back::after,
+.book-notes a[href^="#"]::after {
+  content: none;
+}
+
+/* In-body footnote/endnote reference marker: the <sup><a href="#fn-N"> must
+   show just N, never "N (p. 102)" — suppress the generic suffix. */
+.fn-ref a[href^="#"]::after {
+  content: none;
+}
+
+@media print {
+body {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.content {
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.cover,
+.back-page {
+  min-height: auto !important;
+  height: 297mm !important;
+  max-height: 297mm !important;
+  box-sizing: border-box !important;
+}
+}
+
+@media screen {
+  .pagedjs_page {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+  }
+}

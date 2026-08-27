@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Changelog - The Agentic Service Designer</title>
+  <meta name="author" content="Sam Mozaffari">
+  <meta name="description" content="Release history and content updates for The Agentic Service Designer.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x2728;</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital,wght@0,400;0,700;1,400&family=Geist+Mono:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Beausite Classic Medium', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"Geist Mono"', '"Fragment Mono"', 'monospace'],
+          },
+          colors: {
+            coral: '#fe7141',
+            lavender: '#cdabfe',
+            sage: '#597e87',
+            'sage-light': '#d1ddd3',
+            'blue-light': '#f5f9fc',
+            'blue-dark': '#153250',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face { font-family: 'Beausite Classic Medium'; src: url('assets/fonts/beausite-medium.woff2') format('woff2'); font-weight: 500; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Regular'; src: url('assets/fonts/beausite-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; }
+    @font-face { font-family: 'Beausite Classic Bold'; src: url('assets/fonts/beausite-bold.woff2') format('woff2'); font-weight: 700; font-style: normal; }
+    html { scroll-behavior: smooth; }
+
+    body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    .nav-hover-link {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 24px;
+      color: #000;
+      font-family: 'Beausite Classic Medium', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .bg-slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      z-index: 0;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .bg-slide-primary {
+      width: 50%;
+      height: 100%;
+      background-color: #cdabfe;
+    }
+    .bg-slide-secondary {
+      width: 50%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .nav-hover-link:hover .bg-slide {
+      transform: translateX(-50%);
+    }
+    .nav-hover-link .nav-text-wrapper {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      height: 1.4em;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-hover-link .nav-text {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link .nav-text-clone {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      transition: transform 0.4s cubic-bezier(0.44, 0, 0.56, 1);
+    }
+    .nav-hover-link:hover .nav-text {
+      transform: translateY(-100%);
+    }
+    .nav-hover-link:hover .nav-text-clone {
+      transform: translateY(-100%);
+    }
+
+    .changelog-content {
+      font-family: 'Beausite Classic Regular', Inter, system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(0,0,0,0.75);
+    }
+    .changelog-content p { margin-bottom: 18px; color: rgba(0,0,0,0.75); }
+    .changelog-content strong { font-weight: 700; color: #000; }
+    .changelog-content em { font-style: italic; color: rgba(0,0,0,0.6); }
+    .changelog-content a { color: #fe7141; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: rgba(254,113,65,0.4); }
+    .changelog-content a:hover { text-decoration-color: #fe7141; }
+    .changelog-content ul { margin: 8px 0 20px 24px; }
+    .changelog-content li { margin-bottom: 6px; }
+    .changelog-content li::marker { color: rgba(0,0,0,0.25); }
+
+    .release-entry {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 40px 0;
+    }
+    .release-entry:last-child {
+      border-bottom: none;
+    }
+
+    .release-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #000;
+      color: #fff;
+      font-family: "Geist Mono", "Fragment Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      letter-spacing: 0.04em;
+    }
+    .release-badge.new {
+      background: #fe7141;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-family: "Geist Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      margin-bottom: 12px;
+    }
+    .section-tag.new-content {
+      background: #f0fdf4;
+      color: #166534;
+    }
+    .section-tag.updated-content {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .section-tag.infrastructure {
+      background: #f5f9fc;
+      color: #153250;
+    }
+
+    .chapter-ref {
+      font-family: "Geist Mono", monospace;
+      font-size: 12px;
+      color: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.03);
+      padding: 2px 8px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-black">
+
+  <!-- ===== Header ===== -->
+  <header class="sticky top-0 z-50 flex h-14 items-center justify-between bg-white border-b border-black select-none">
+    <div class="flex h-full items-center">
+      <a href="index.html" id="logo-link" class="flex h-full items-center bg-black px-4 text-white hover:bg-neutral-900 transition-colors">
+        <span class="font-sans text-sm font-bold tracking-tight" style="font-family: 'Beausite Classic Medium', sans-serif">ASD</span>
+        <span class="ml-0.5 font-mono text-[10px] font-medium leading-none">'26</span>
+      </a>
+      <div id="menu-placeholder" class="h-full border-r border-black shrink-0 w-[120px] sm:w-[550px]"></div>
+    </div>
+    <div class="flex h-full items-center">
+      <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="hidden items-center gap-1 border border-black px-4 py-2 text-sm font-medium text-black md:flex font-mono mr-4 hover:bg-black hover:text-white transition-colors duration-200">
+        View on GitHub
+      </a>
+      <nav class="flex h-full items-center text-sm text-black">
+        <a href="about.html" class="nav-hover-link">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary bg-lavender"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">About</span>
+            <span class="nav-text-clone">About</span>
+          </span>
+        </a>
+        <a href="changelog.html" class="nav-hover-link border-r border-black" style="background: #f7f7f5;">
+          <span class="bg-slide">
+            <span class="bg-slide-secondary bg-white"></span>
+            <span class="bg-slide-primary bg-lavender"></span>
+          </span>
+          <span class="nav-text-wrapper">
+            <span class="nav-text">Changelog</span>
+            <span class="nav-text-clone">Changelog</span>
+          </span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="bg-sage-light" style="background-image: url('./assets/gradients/gradient_sage_yellow.png'); background-size: cover; background-position: center;">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <p class="font-mono text-[10px] uppercase tracking-wider text-black/50 mb-4">Release History</p>
+      <h1 class="text-5xl font-bold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl" style="font-family: 'Beausite Classic Bold', sans-serif">
+        Changelog
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg md:text-xl leading-snug tracking-tight text-black/70" style="font-family: 'Beausite Classic Regular', sans-serif">
+        Every update, new section, and infrastructure change to The Agentic Service Designer, documented in one place.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== Changelog Content ===== -->
+  <section class="max-w-6xl mx-auto px-6 py-12 md:py-20">
+    <div class="grid gap-12 lg:grid-cols-12">
+
+      <!-- Left Column: Releases -->
+      <div class="lg:col-span-8 changelog-content">
+      <!-- bw:changelog-start -->
+        <!-- v2.1.0 -->
+        <div class="release-entry">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="release-badge new">Latest</span>
+            <span class="font-mono text-sm text-black/50">v2.1.0</span>
+            <span class="font-mono text-xs text-black/30">August 23, 2026</span>
+          </div>
+          <p class="section-tag">Second Edition</p>
+          <p>The second edition rebuilds the book against the current ASD platform: one canonical practice contract compiled to twelve surfaces, with receipts-and-evidence discipline throughout.</p>
+          <p><strong>The AI-First Operating System (Chapters 01-04)</strong></p>
+          <p>Full rebuild of the foundations: the paradigm shift from static artifacts to executable operating systems, the ASD platform architecture with verified counts (10 roles, 74 methods as code), Service-Dominant Logic mapped to agent practice, and the role contract with content-addressed evidence registers and deterministic fact-checking.</p>
+          <p><strong>Discovery and Research (Chapters 05-09)</strong></p>
+          <p>Research ops at scale: mining transcripts and field inquiries, mixed methods with evidence-backed segmentation, mental models and alignment, ecosystem value mapping, and living journey maps from transcripts to sentiment curves.</p>
+          <p><strong>Blueprints and Design (Chapters 10-16)</strong></p>
+          <p>The craft rebuilt as code: the five-lane master blueprint with a line of visibility, the sixth agentic lane for autonomous workflows, cross-channel orchestration and story mapping, structured ideation at machine speed, service prototyping from desktop walkthroughs to Wizard-of-Oz, transformative services and recovery engineering, and service quality management with CX maturity governance.</p>
+          <p><strong>Platform Tooling (Chapters 17-20)</strong></p>
+          <p>New dedicated tooling chapters: the ASD MCP server (30 tools, 228 resources, 10 prompts), plugins and host packs including the Claude Code plugin, BUZZ multi-agent service design on the open agent network with Canvas indexing, and the DeepSeek Harness Studio integration.</p>
+          <p><strong>Operations and Outlook (Chapters 21-25)</strong></p>
+          <p>SOPs-as-code as the AI execution playbook, frontline enablement and employee experience, the 15 principles of good public services, the Mastercase: Meridian Bay Ferries engagement run end to end across every surface, and the future of the agentic practice.</p>
+          <p><strong>Appendices</strong></p>
+          <p>The ASD Method and Artifact Catalog, the CLI and MCP Tool Specification, and the 20-Book Canonical Cross-Reference.</p>
+        </div>
+
+      <!-- bw:changelog-end -->
+      </div>
+
+      <!-- Right Column: Quick Links -->
+      <div class="lg:col-span-4 space-y-8">
+        <div class="border border-black p-6 space-y-6 bg-neutral-50">
+          <p class="font-mono text-[10px] uppercase tracking-wider text-black/50">Quick Links</p>
+
+          <div>
+            <p class="font-sans text-sm font-bold text-black">Download</p>
+            <p class="text-xs text-black/60 mt-1">Get the latest version</p>
+            <div class="mt-3 space-y-2">
+              <a href="https://github.com/imehr/the-agentic-service-designer/releases/download/the-agentic-service-designer-v2.1.0/the-agentic-service-designer.pdf" class="flex items-center gap-2 text-sm text-coral hover:text-coral/80 transition-colors">
+                <i data-lucide="file-text" class="size-4"></i>
+                PDF (317 pages, 41.5 MB)
+              </a>
+              <a href="https://github.com/imehr/the-agentic-service-designer/releases/download/the-agentic-service-designer-v2.1.0/the-agentic-service-designer.epub" class="flex items-center gap-2 text-sm text-coral hover:text-coral/80 transition-colors">
+                <i data-lucide="book-open" class="size-4"></i>
+                EPUB (40.5 MB)
+              </a>
+              <a href="https://github.com/imehr/the-agentic-service-designer/releases/download/the-agentic-service-designer-v2.1.0/the-agentic-service-designer.html" class="flex items-center gap-2 text-sm text-coral hover:text-coral/80 transition-colors">
+                <i data-lucide="globe" class="size-4"></i>
+                Single-file HTML
+              </a>
+            </div>
+          </div>
+
+          <div class="border-t border-black/10 pt-4">
+            <p class="font-sans text-sm font-bold text-black">Source</p>
+            <a href="https://github.com/imehr/the-agentic-service-designer" target="_blank" rel="noopener" class="group block mt-2">
+              <p class="text-sm text-coral group-hover:text-coral/80 transition-colors">GitHub Repository &rarr;</p>
+              <p class="text-xs text-black/50 mt-0.5">Releases, issues, and discussions</p>
+            </a>
+          </div>
+
+          <div class="border-t border-black/10 pt-4">
+            <p class="font-sans text-sm font-bold text-black">Release Stats</p>
+            <div class="mt-2 grid grid-cols-2 gap-3">
+              <div>
+                <p class="font-mono text-2xl font-bold text-black">8</p>
+                <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">New sections</p>
+              </div>
+              <div>
+                <p class="font-mono text-2xl font-bold text-black">5</p>
+                <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">Chapters updated</p>
+              </div>
+              <div>
+                <p class="font-mono text-2xl font-bold text-black">7</p>
+                <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">New diagrams</p>
+              </div>
+              <div>
+                <p class="font-mono text-2xl font-bold text-black">317</p>
+                <p class="font-mono text-[10px] uppercase tracking-wider text-black/40">PDF pages</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="relative z-40 bg-black text-white border-t border-white mt-20">
+
+    <!-- Book Name Branding Block -->
+    <div class="w-full border-b border-white bg-black text-white relative">
+      <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 py-24 md:py-36 px-6 md:px-12 lg:px-20">
+        <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Designer</h2>
+        <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
+          <p class="font-sans text-lg md:text-xl text-white">How AI agents, design tools, and the new ecosystem are transforming product design</p>
+          <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright & Links -->
+    <div class="w-full bg-black text-white border-t border-white">
+      <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 py-6">
+        <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+          <div class="font-mono text-[11px] text-white/50 leading-relaxed">
+            <p>&copy;2026 Sam Mozaffari. All rights reserved.</p>
+            <p class="mt-1">First Edition. Published August 2026. All content, code examples, and illustrations are the original work of the author.</p>
+          </div>
+          <div class="flex items-center gap-6">
+            <a href="about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
+            <a href="changelog.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Changelog</a>
+            <a href="index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
+            <a href="https://github.com/imehr/the-agentic-service-designer" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+<script src="assets/menu.js"></script>
+</body>
+</html>

@@ -1,39 +1,47 @@
-# The Agentic Designer
+# The Agentic Service Designer
 
-> *The Agentic Designer* is a comprehensive guide to how AI agents, design-as-code, Model Context Protocol (MCP), and multi-agent systems are transforming product design. Written by Mehran Mozaffari (AI Operator & Systems Designer based in Sydney, Australia), the book is free for personal use under a CC BY-NC-SA 4.0 license.
+> *The Agentic Service Designer* is a comprehensive guide to AI-first service design: agent teams, service blueprints-as-code, content-addressed evidence registers, and autonomous operations across twelve surfaces. Written by Sam Mozaffari (practicing service designer, KFC South Pacific), the book is free for personal and noncommercial use under a CC BY-NC-ND 4.0 license.
 
 ## Core Resources
-*   **Official Website**: [https://piazr.github.io/the-agentic-designer/](https://piazr.github.io/the-agentic-designer/) - Read the full book online.
-*   **Book Repository**: [https://github.com/imehr/the-agentic-designer](https://github.com/imehr/the-agentic-designer) - Download the book's source HTML, PDF, and EPUB files.
-*   **Website Repository**: [https://github.com/Piazr/the-agentic-designer](https://github.com/Piazr/the-agentic-designer) - Repository for the preview website.
+*   **Official Website**: [https://sammozaffari.github.io/the-agentic-service-designer/](https://sammozaffari.github.io/the-agentic-service-designer/) - Read the full book online.
+*   **Book Repository**: [https://github.com/imehr/the-agentic-service-designer](https://github.com/imehr/the-agentic-service-designer) - Download the book's source HTML, PDF, and EPUB files.
+*   **Website Repository**: [https://github.com/sammozaffari/the-agentic-service-designer](https://github.com/sammozaffari/the-agentic-service-designer) - Repository for the preview website.
 
 ## Front Matter
-*   [Preface](https://piazr.github.io/the-agentic-designer/chapters/preface.html): Context, background, and author's overview of AI's inflection point.
-*   [Copyright & License](https://piazr.github.io/the-agentic-designer/chapters/copyright.html): Licensing terms, attribution, and permissions guidelines.
+*   [Front Matter](https://sammozaffari.github.io/the-agentic-service-designer/chapters/front-matter.html): Context, background, and the author's overview of the AI-first service design inflection point.
+*   [Copyright & License](https://sammozaffari.github.io/the-agentic-service-designer/chapters/copyright.html): Licensing terms, attribution, and permissions guidelines.
 
-## Part I: Foundations (The Agentic Design Paradigm)
-*   [Chapter 01: The Agentic Design Paradigm](https://piazr.github.io/the-agentic-designer/chapters/01.html): The shift from mouse-driven GUI canvases to programmatic, natural-language agent loops.
-*   [Chapter 02: Your Agent Toolkit](https://piazr.github.io/the-agentic-designer/chapters/02.html): Setting up and running Claude Code, Codex CLI, OpenCode, and Gemini CLI.
-*   [Chapter 03: Teaching Agents to Design](https://piazr.github.io/the-agentic-designer/chapters/03.html): Customizing agent context using CLAUDE.md, AGENTS.md, and standard SKILL.md files.
-*   [Chapter 04: Design-as-Code](https://piazr.github.io/the-agentic-designer/chapters/04.html): Managing design systems as versioned, diffable text structures (JSON/CSS).
-
-## Part II: Tools & Workflows (The Connected Canvas)
-*   [Chapter 05: Paper and Pencil](https://piazr.github.io/the-agentic-designer/chapters/05.html): Using Paper and Pencil design tool frameworks for agent-driven canvas workflows.
-*   [Chapter 06: Open Design and OpenPencil](https://piazr.github.io/the-agentic-designer/chapters/06.html): Integrating Open Design vectors and .op file specifications.
-*   [Chapter 07: Huashu Design](https://piazr.github.io/the-agentic-designer/chapters/07.html): Scaffolding and executing visual changes with the Huashu Design interface.
-*   [Chapter 08: Design Systems and Tokens](https://piazr.github.io/the-agentic-designer/chapters/08.html): Expressing brand styles as JSON design tokens that agents can parse and execute.
-
-## Part III: Advanced Topics (From Motion to Multi-Agent)
-*   [Chapter 09: Motion and Video](https://piazr.github.io/the-agentic-designer/chapters/09.html): Generating programmatic motion graphics and video layouts with Remotion and Hyperframes.
-*   [Chapter 10: MCP Integrations](https://piazr.github.io/the-agentic-designer/chapters/10.html): Connecting agents to Figma, Miro, and external design canvases using Model Context Protocol (MCP).
-*   [Chapter 11: Multi-Agent Design Teams](https://piazr.github.io/the-agentic-designer/chapters/11.html): Coordinating specialized agent swarms to execute concurrent layout and styling tasks.
-*   [Chapter 12: Production UI from Design](https://piazr.github.io/the-agentic-designer/chapters/12.html): Closing the loop between canvas blueprints and production-ready React/HTML layouts.
-
-## Part IV: Practice & Outlook
-*   [Chapter 13: Real-World Case Studies](https://piazr.github.io/the-agentic-designer/chapters/13.html): Four detailed industry case studies showcasing successful and failed agentic design workflows.
-*   [Chapter 14: The Future of Agentic Design](https://piazr.github.io/the-agentic-designer/chapters/14.html): Trends, projections for 2027–2028, autonomous pipelines, and systemic risks.
+## Chapters
+*   [Ch 01: The AI-First Service Design Operating System](https://sammozaffari.github.io/the-agentic-service-designer/chapters/01.html)
+*   [Ch 02: The ASD Platform Architecture](https://sammozaffari.github.io/the-agentic-service-designer/chapters/02.html)
+*   [Ch 03: Service-Dominant Logic & Value Co-Creation](https://sammozaffari.github.io/the-agentic-service-designer/chapters/03.html)
+*   [Ch 04: The Role Contract, Evidence Registers & Fact-Checking](https://sammozaffari.github.io/the-agentic-service-designer/chapters/04.html)
+*   [Ch 05: Research Ops at Scale](https://sammozaffari.github.io/the-agentic-service-designer/chapters/05.html)
+*   [Ch 06: Mixed Methods & Evidence-Backed Segmentation](https://sammozaffari.github.io/the-agentic-service-designer/chapters/06.html)
+*   [Ch 07: Mental Models, Alignment & Opportunity Mapping](https://sammozaffari.github.io/the-agentic-service-designer/chapters/07.html)
+*   [Ch 08: Ecosystem Value Mapping & Stakeholder Topologies](https://sammozaffari.github.io/the-agentic-service-designer/chapters/08.html)
+*   [Ch 09: Living Journey Maps](https://sammozaffari.github.io/the-agentic-service-designer/chapters/09.html)
+*   [Ch 10: The Master Blueprint: Five-Lane Architecture](https://sammozaffari.github.io/the-agentic-service-designer/chapters/10.html)
+*   [Ch 11: Agentic Service Blueprinting: The Sixth Lane](https://sammozaffari.github.io/the-agentic-service-designer/chapters/11.html)
+*   [Ch 12: Cross-Channel Orchestration & Story Mapping](https://sammozaffari.github.io/the-agentic-service-designer/chapters/12.html)
+*   [Ch 13: Structured Ideation & HMW at Machine Speed](https://sammozaffari.github.io/the-agentic-service-designer/chapters/13.html)
+*   [Ch 14: Prototyping Services](https://sammozaffari.github.io/the-agentic-service-designer/chapters/14.html)
+*   [Ch 15: Transformative Services & Recovery Engineering](https://sammozaffari.github.io/the-agentic-service-designer/chapters/15.html)
+*   [Ch 16: Service Quality Management & CX Maturity](https://sammozaffari.github.io/the-agentic-service-designer/chapters/16.html)
+*   [Ch 17: The ASD MCP Server](https://sammozaffari.github.io/the-agentic-service-designer/chapters/17.html)
+*   [Ch 18: Plugins & Host Packs](https://sammozaffari.github.io/the-agentic-service-designer/chapters/18.html)
+*   [Ch 19: BUZZ: Multi-Agent Service Design](https://sammozaffari.github.io/the-agentic-service-designer/chapters/19.html)
+*   [Ch 20: DeepSeek Harness Studio](https://sammozaffari.github.io/the-agentic-service-designer/chapters/20.html)
+*   [Ch 21: SOPs-as-Code: The AI Execution Playbook](https://sammozaffari.github.io/the-agentic-service-designer/chapters/21.html)
+*   [Ch 22: Frontline Enablement & Employee Experience](https://sammozaffari.github.io/the-agentic-service-designer/chapters/22.html)
+*   [Ch 23: The 15 Principles of Good Public Services](https://sammozaffari.github.io/the-agentic-service-designer/chapters/23.html)
+*   [Ch 24: Mastercase: Meridian Bay Ferries](https://sammozaffari.github.io/the-agentic-service-designer/chapters/24.html)
+*   [Ch 25: The Future of Service Design](https://sammozaffari.github.io/the-agentic-service-designer/chapters/25.html)
 
 ## Appendices
-*   [Appendix A: Tool Comparison Matrix](https://piazr.github.io/the-agentic-designer/chapters/A.html): Feature-by-feature matrix comparison of all main visual and canvas toolkits.
-*   [Appendix B: MCP Server Reference](https://piazr.github.io/the-agentic-designer/chapters/B.html): Sample configurations and parameters for connecting Figma and Miro MCP servers.
-*   [Appendix C: Prompt Library](https://piazr.github.io/the-agentic-designer/chapters/C.html): Battle-tested prompt recipes for landing pages, layouts, and component generation.
+*   [Appendix A: The ASD Method & Artifact Catalog](https://sammozaffari.github.io/the-agentic-service-designer/chapters/A.html)
+*   [Appendix B: CLI & MCP Tool Specification](https://sammozaffari.github.io/the-agentic-service-designer/chapters/B.html)
+*   [Appendix C: The 20-Book Canonical Cross-Reference](https://sammozaffari.github.io/the-agentic-service-designer/chapters/C.html)
+
+## License
+Prose: CC BY-NC-ND 4.0 - free for personal and noncommercial sharing of the unadapted work with attribution. Commercial and organizational use requires a separate license from the author. Code samples: Apache-2.0/MIT as noted in context.
