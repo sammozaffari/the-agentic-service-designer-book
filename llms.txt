@@ -3,45 +3,45 @@
 > *The Agentic Service Designer* is a comprehensive guide to AI-first service design: agent teams, service blueprints-as-code, content-addressed evidence registers, and autonomous operations across twelve surfaces. Written by Sam Mozaffari (practicing service designer, KFC South Pacific), the book is free for personal and noncommercial use under a CC BY-NC-ND 4.0 license.
 
 ## Core Resources
-*   **Official Website**: [https://sammozaffari.github.io/the-agentic-service-designer-site/](https://sammozaffari.github.io/the-agentic-service-designer-site/) - Read the full book online.
+*   **Official Website**: [https://sammozaffari.github.io/the-agentic-service-designer-book/](https://sammozaffari.github.io/the-agentic-service-designer-book/) - Read the full book online.
 *   **Book Repository**: [https://github.com/imehr/the-agentic-service-designer](https://github.com/imehr/the-agentic-service-designer) - Download the book's source HTML, PDF, and EPUB files.
 *   **Website Repository**: [https://github.com/sammozaffari/the-agentic-service-designer](https://github.com/sammozaffari/the-agentic-service-designer) - Repository for the preview website.
 
 ## Front Matter
-*   [Front Matter](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/front-matter.html): Context, background, and the author's overview of the AI-first service design inflection point.
-*   [Copyright & License](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/copyright.html): Licensing terms, attribution, and permissions guidelines.
+*   [Front Matter](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/front-matter.html): Context, background, and the author's overview of the AI-first service design inflection point.
+*   [Copyright & License](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/copyright.html): Licensing terms, attribution, and permissions guidelines.
 
 ## Chapters
-*   [Ch 01: The AI-First Service Design Operating System](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/01.html)
-*   [Ch 02: The ASD Platform Architecture](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/02.html)
-*   [Ch 03: Service-Dominant Logic & Value Co-Creation](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/03.html)
-*   [Ch 04: The Role Contract, Evidence Registers & Fact-Checking](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/04.html)
-*   [Ch 05: Research Ops at Scale](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/05.html)
-*   [Ch 06: Mixed Methods & Evidence-Backed Segmentation](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/06.html)
-*   [Ch 07: Mental Models, Alignment & Opportunity Mapping](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/07.html)
-*   [Ch 08: Ecosystem Value Mapping & Stakeholder Topologies](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/08.html)
-*   [Ch 09: Living Journey Maps](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/09.html)
-*   [Ch 10: The Master Blueprint: Five-Lane Architecture](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/10.html)
-*   [Ch 11: Agentic Service Blueprinting: The Sixth Lane](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/11.html)
-*   [Ch 12: Cross-Channel Orchestration & Story Mapping](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/12.html)
-*   [Ch 13: Structured Ideation & HMW at Machine Speed](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/13.html)
-*   [Ch 14: Prototyping Services](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/14.html)
-*   [Ch 15: Transformative Services & Recovery Engineering](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/15.html)
-*   [Ch 16: Service Quality Management & CX Maturity](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/16.html)
-*   [Ch 17: The ASD MCP Server](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/17.html)
-*   [Ch 18: Plugins & Host Packs](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/18.html)
-*   [Ch 19: BUZZ: Multi-Agent Service Design](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/19.html)
-*   [Ch 20: DeepSeek Harness Studio](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/20.html)
-*   [Ch 21: SOPs-as-Code: The AI Execution Playbook](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/21.html)
-*   [Ch 22: Frontline Enablement & Employee Experience](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/22.html)
-*   [Ch 23: The 15 Principles of Good Public Services](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/23.html)
-*   [Ch 24: Mastercase: Meridian Bay Ferries](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/24.html)
-*   [Ch 25: The Future of Service Design](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/25.html)
+*   [Ch 01: The AI-First Service Design Operating System](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/01.html)
+*   [Ch 02: The ASD Platform Architecture](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/02.html)
+*   [Ch 03: Service-Dominant Logic & Value Co-Creation](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/03.html)
+*   [Ch 04: The Role Contract, Evidence Registers & Fact-Checking](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/04.html)
+*   [Ch 05: Research Ops at Scale](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/05.html)
+*   [Ch 06: Mixed Methods & Evidence-Backed Segmentation](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/06.html)
+*   [Ch 07: Mental Models, Alignment & Opportunity Mapping](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/07.html)
+*   [Ch 08: Ecosystem Value Mapping & Stakeholder Topologies](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/08.html)
+*   [Ch 09: Living Journey Maps](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/09.html)
+*   [Ch 10: The Master Blueprint: Five-Lane Architecture](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/10.html)
+*   [Ch 11: Agentic Service Blueprinting: The Sixth Lane](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/11.html)
+*   [Ch 12: Cross-Channel Orchestration & Story Mapping](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/12.html)
+*   [Ch 13: Structured Ideation & HMW at Machine Speed](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/13.html)
+*   [Ch 14: Prototyping Services](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/14.html)
+*   [Ch 15: Transformative Services & Recovery Engineering](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/15.html)
+*   [Ch 16: Service Quality Management & CX Maturity](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/16.html)
+*   [Ch 17: The ASD MCP Server](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/17.html)
+*   [Ch 18: Plugins & Host Packs](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/18.html)
+*   [Ch 19: BUZZ: Multi-Agent Service Design](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/19.html)
+*   [Ch 20: DeepSeek Harness Studio](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/20.html)
+*   [Ch 21: SOPs-as-Code: The AI Execution Playbook](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/21.html)
+*   [Ch 22: Frontline Enablement & Employee Experience](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/22.html)
+*   [Ch 23: The 15 Principles of Good Public Services](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/23.html)
+*   [Ch 24: Mastercase: Meridian Bay Ferries](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/24.html)
+*   [Ch 25: The Future of Service Design](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/25.html)
 
 ## Appendices
-*   [Appendix A: The ASD Method & Artifact Catalog](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/A.html)
-*   [Appendix B: CLI & MCP Tool Specification](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/B.html)
-*   [Appendix C: The 20-Book Canonical Cross-Reference](https://sammozaffari.github.io/the-agentic-service-designer-site/chapters/C.html)
+*   [Appendix A: The ASD Method & Artifact Catalog](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/A.html)
+*   [Appendix B: CLI & MCP Tool Specification](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/B.html)
+*   [Appendix C: The 20-Book Canonical Cross-Reference](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/C.html)
 
 ## License
 Prose: CC BY-NC-ND 4.0 - free for personal and noncommercial sharing of the unadapted work with attribution. Commercial and organizational use requires a separate license from the author. Code samples: Apache-2.0/MIT as noted in context.
