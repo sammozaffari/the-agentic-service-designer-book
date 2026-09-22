@@ -4,8 +4,9 @@
 
 ## Core Resources
 *   **Official Website**: [https://sammozaffari.github.io/the-agentic-service-designer-book/](https://sammozaffari.github.io/the-agentic-service-designer-book/) - Read the full book online.
-*   **Book Repository**: [https://github.com/imehr/the-agentic-service-designer](https://github.com/imehr/the-agentic-service-designer) - Download the book's source HTML, PDF, and EPUB files.
-*   **Website Repository**: [https://github.com/sammozaffari/the-agentic-service-designer](https://github.com/sammozaffari/the-agentic-service-designer) - Repository for the preview website.
+*   **Public distributions**: [https://github.com/sammozaffari/asd-mcp](https://github.com/sammozaffari/asd-mcp) (MCP server) and [https://github.com/sammozaffari/asd-plugin](https://github.com/sammozaffari/asd-plugin) (Claude Code plugin), generated from a private source monorepo.
+*   **Downloads**: [https://sammozaffari.github.io/portfolio/book.html](https://sammozaffari.github.io/portfolio/book.html) - PDF and EPUB of the second edition.
+*   **Website Repository**: [https://github.com/sammozaffari/the-agentic-service-designer](https://github.com/sammozaffari/the-agentic-service-designer-book) - Repository for the preview website.
 
 ## Front Matter
 *   [Front Matter](https://sammozaffari.github.io/the-agentic-service-designer-book/chapters/front-matter.html): Context, background, and the author's overview of the AI-first service design inflection point.
