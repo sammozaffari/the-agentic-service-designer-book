@@ -409,6 +409,13 @@
     .nav-hover-link:hover .nav-text-clone {
       transform: translateY(-100%);
     }
+  
+    /* Phones: the three nav links and the menu slot are wider than the screen */
+    @media (max-width: 520px) {
+      header .nav-hover-link { padding: 0 12px; }
+      header nav a[href="changelog.html"], header nav a[href="../changelog.html"] { display: none; }
+      table { display: block; max-width: 100%; overflow-x: auto; }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-white text-black">
@@ -920,7 +927,7 @@ policies:
           <p>&copy;2026 Sam Mozaffari. Free for personal/noncommercial use (CC BY-NC-ND 4.0); commercial license required for business use.</p>
           <p class="mt-1">Second edition. Published August 2026. Prose: CC BY-NC-ND 4.0 (personal/noncommercial); commercial license available. Code samples Apache-2.0/MIT as noted.</p>
         </div>
-        <div class="flex items-center gap-6">
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
           <a href="../about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
           <a href="../index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
           <a href="https://github.com/sammozaffari/asd-mcp" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>

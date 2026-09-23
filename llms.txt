@@ -1,6 +1,6 @@
 # The Agentic Service Designer
 
-> *The Agentic Service Designer* is a comprehensive guide to AI-first service design: agent teams, service blueprints-as-code, content-addressed evidence registers, and autonomous operations across twelve surfaces. Written by Sam Mozaffari (practicing service designer, KFC South Pacific), the book is free for personal and noncommercial use under a CC BY-NC-ND 4.0 license.
+> *The Agentic Service Designer* is a comprehensive guide to AI-first service design: agent teams, service blueprints-as-code, content-addressed evidence registers, and autonomous operations across twelve surfaces. Written by Sam Mozaffari (Experience Designer, KFC South Pacific), the book is free for personal and noncommercial use under a CC BY-NC-ND 4.0 license.
 
 ## Core Resources
 *   **Official Website**: [https://sammozaffari.github.io/the-agentic-service-designer-book/](https://sammozaffari.github.io/the-agentic-service-designer-book/) - Read the full book online.

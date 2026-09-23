@@ -177,6 +177,13 @@
       padding: 2px 8px;
       border: 1px solid rgba(0,0,0,0.06);
     }
+  
+    /* Phones: the three nav links and the menu slot are wider than the screen */
+    @media (max-width: 520px) {
+      header .nav-hover-link { padding: 0 12px; }
+      header nav a[href="changelog.html"], header nav a[href="../changelog.html"] { display: none; }
+      table { display: block; max-width: 100%; overflow-x: auto; }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-white text-black">
@@ -255,7 +262,7 @@
           <p><strong>Blueprints and Design (Chapters 10-16)</strong></p>
           <p>The craft rebuilt as code: the five-lane master blueprint with a line of visibility, the sixth agentic lane for autonomous workflows, cross-channel orchestration and story mapping, structured ideation at machine speed, service prototyping from desktop walkthroughs to Wizard-of-Oz, transformative services and recovery engineering, and service quality management with CX maturity governance.</p>
           <p><strong>Platform Tooling (Chapters 17-20)</strong></p>
-          <p>New dedicated tooling chapters: the ASD MCP server (30 tools, 228 resources, 10 prompts), plugins and host packs including the Claude Code plugin, BUZZ multi-agent service design on the open agent network with Canvas indexing, and the DeepSeek Harness Studio integration.</p>
+          <p>New dedicated tooling chapters: the ASD MCP server (29 tools), plugins and host packs including the Claude Code plugin, BUZZ multi-agent service design on the open agent network with Canvas indexing, and the DeepSeek Harness Studio integration.</p>
           <p><strong>Operations and Outlook (Chapters 21-25)</strong></p>
           <p>SOPs-as-code as the AI execution playbook, frontline enablement and employee experience, the 15 principles of good public services, the Mastercase: Meridian Bay Ferries engagement run end to end across every surface, and the future of the agentic practice.</p>
           <p><strong>Appendices</strong></p>
@@ -329,9 +336,9 @@
     <!-- Book Name Branding Block -->
     <div class="w-full border-b border-white bg-black text-white relative">
       <div class="mx-4 md:mx-8 lg:mx-12 xl:mx-20 py-24 md:py-36 px-6 md:px-12 lg:px-20">
-        <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Designer</h2>
+        <h2 class="font-bold leading-[0.85] tracking-[-0.03em] text-[18vw] md:text-[13vw]" style="font-family: 'Beausite Classic Medium', Inter, sans-serif">The Agentic<br>Service Designer</h2>
         <div class="mt-8 flex flex-col gap-2 md:flex-row md:items-center md:gap-8">
-          <p class="font-sans text-lg md:text-xl text-white">How AI agents, design tools, and the new ecosystem are transforming product design</p>
+          <p class="font-sans text-lg md:text-xl text-white">How AI agent teams, service blueprints-as-code, and autonomous tooling are transforming service design from insight to operations</p>
           <p class="font-mono text-[13px] text-white/70">By Sam Mozaffari</p>
         </div>
       </div>
@@ -345,7 +352,7 @@
             <p>&copy;2026 Sam Mozaffari. All rights reserved.</p>
             <p class="mt-1">First Edition. Published August 2026. All content, code examples, and illustrations are the original work of the author.</p>
           </div>
-          <div class="flex items-center gap-6">
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a href="about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
             <a href="changelog.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Changelog</a>
             <a href="index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>

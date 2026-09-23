@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,6 +133,13 @@
       position: relative;
       z-index: 1;
     }
+  
+    /* Phones: the three nav links and the menu slot are wider than the screen */
+    @media (max-width: 520px) {
+      header .nav-hover-link { padding: 0 12px; }
+      header nav a[href="changelog.html"], header nav a[href="../changelog.html"] { display: none; }
+      table { display: block; max-width: 100%; overflow-x: auto; }
+    }
   </style>
 </head>
 
@@ -231,7 +236,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 border-t border-b border-black divide-y lg:divide-y-0 lg:divide-x divide-black">
       <div class="lg:col-span-7 relative bg-neutral-100 flex items-center justify-center overflow-hidden min-h-[300px] lg:min-h-0">
-        <img src="images/cover-art.webp" alt="The Agentic Service Designer cover artwork &mdash; service blueprint circuitry" class="w-full h-full object-cover">
+        <img src="images/cover-art.webp" alt="The Agentic Service Designer cover artwork: service blueprint circuitry" class="w-full h-full object-cover">
       </div>
       <div class="lg:col-span-5 flex flex-col divide-y divide-black">
         <div class="flex-1 p-8 lg:p-12 bg-[#cdabfe]/25 flex flex-col justify-center">
@@ -261,7 +266,7 @@
             Written with AI assistance using an agentic publishing pipeline. The author directed, reviewed, and approved all content. Second edition, August 2026. Free for personal and noncommercial use under CC BY-NC-ND 4.0; commercial and organizational use requires a separate license.
           </p>
           <p class="text-sm leading-relaxed text-black/70">
-            The book includes 25 chapters and 3 appendices: one canonical practice compiled to twelve surfaces, a 10-role agent harness, 74 methods as code, 36 enterprise case studies, and a full mastercase engagement run end to end &mdash; from discovery to operations. Whether you practice service design, lead a transformation program, or build the tooling underneath it, this book gives you the mental models and the working system.
+            The book includes 25 chapters and 3 appendices: one canonical practice compiled to twelve surfaces, a 10-role agent harness, 74 methods as code, case studies on eight fictional organisations, and a full mastercase engagement run end to end, from discovery to operations.
           </p>
         </div>
 
@@ -276,7 +281,7 @@
             <a href="https://github.com/sammozaffari" target="_blank" rel="noopener" class="group block">
               <p class="text-xs font-bold text-black group-hover:text-coral transition-colors">Sam Mozaffari &rarr;</p>
               <p class="font-mono text-[9px] uppercase tracking-wider text-black/50">
-                Author &amp; Service Designer &middot; AI-First Service Design
+                Author &amp; Experience Designer &middot; Sydney
               </p>
             </a>
           </div>
@@ -334,7 +339,7 @@
   <!-- ===== Large Quote ===== -->
   <section class="border-t border-black px-4 py-16">
     <blockquote class="max-w-4xl font-sans text-2xl leading-snug sm:text-3xl md:text-4xl ml-0 mr-auto" style="font-family: 'Beausite Classic Medium', sans-serif">
-      AI agent teams now run the loop from evidence to blueprint to operations &mdash; with humans deciding at every phase gate.
+      AI agent teams now run the loop from evidence to blueprint to operations, with humans deciding at every phase gate.
     </blockquote>
   </section>
 
@@ -380,7 +385,7 @@
           Evidence before artifacts
         </h2>
         <p class="mb-6 text-base leading-relaxed text-black/80">
-          Transcript mining at scale, mixed methods, evidence-backed segmentation, mental models, ecosystem maps, and living journey maps &mdash; research ops that produce evidence an agent can cite, not anecdotes it must guess at.
+          Transcript mining at scale, mixed methods, evidence-backed segmentation, mental models, ecosystem maps, and living journey maps: research ops that produce evidence an agent can cite, not anecdotes it must guess at.
         </p>
         <p class="mb-3 font-mono text-[10px] uppercase tracking-wider text-black/60">
           In this section:
@@ -454,7 +459,7 @@
             The ASD MCP Server
           </h3>
           <p class="mt-2 text-sm text-black/60 leading-relaxed">
-            The 30-tool, 228-resource, 10-prompt server that exposes the whole practice to any agent
+            The 29-tool server that exposes the whole practice to any agent
           </p>
         </div>
         <div class="bg-black text-white font-mono text-[11px] uppercase tracking-wider py-4 text-center group-hover:bg-neutral-900 transition-colors border-t border-black">
@@ -756,7 +761,7 @@
         Get the book &amp; stay updated
       </h2>
       <p class="mb-8 text-base text-white/70">
-        Free for personal and noncommercial use. Read online or download the HTML, PDF, and EPUB editions from the book repository.
+        Free for personal and noncommercial use. Read online, or download the PDF and EPUB from sammozaffari.github.io/portfolio/book.html.
       </p>
       <div class="flex flex-col gap-4 sm:flex-row sm:justify-start">
         <a href="#chapters" class="inline-flex items-center justify-center gap-2 bg-[#fe7141] px-6 py-3 text-sm font-medium text-black">
@@ -794,8 +799,8 @@
             <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Methods compiled as code</p>
           </div>
           <div class="p-8 flex flex-col justify-between">
-            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">36</p>
-            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Enterprise case studies</p>
+            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">10</p>
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Agent roles in the harness</p>
           </div>
         </div>
       </div>
@@ -818,12 +823,12 @@
             <p>&copy;2026 Sam Mozaffari. All rights reserved.</p>
             <p class="mt-1">Second Edition. Published August 2026. Prose: CC BY-NC-ND 4.0. Code samples Apache-2.0/MIT as noted.</p>
           </div>
-          <div class="flex items-center gap-6">
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a href="#about" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
             <a href="changelog.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Changelog</a>
             <a href="#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
             <a href="https://github.com/sammozaffari/asd-mcp" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
-            <span class="font-mono text-[11px] text-white/40">sammozaffari.github.io</span>
+            <a href="https://sammozaffari.github.io/portfolio/" class="font-mono text-[11px] text-white/40">sammozaffari.github.io/portfolio</a>
           </div>
         </div>
       </div>

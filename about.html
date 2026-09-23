@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,6 +116,13 @@
     .about-content p { margin-bottom: 24px; }
     .about-content ul { margin: 12px 0 24px 24px; list-style-type: square; }
     .about-content li { margin-bottom: 8px; }
+  
+    /* Phones: the three nav links and the menu slot are wider than the screen */
+    @media (max-width: 520px) {
+      header .nav-hover-link { padding: 0 12px; }
+      header nav a[href="changelog.html"], header nav a[href="../changelog.html"] { display: none; }
+      table { display: block; max-width: 100%; overflow-x: auto; }
+    }
   </style>
 </head>
 
@@ -188,25 +193,25 @@
     <div class="grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-8 space-y-6 about-content">
         <p class="text-xl md:text-2xl leading-relaxed text-black/90 font-medium" style="font-family: 'Beausite Classic Medium', sans-serif">
-          I am Sam Mozaffari. I am a Experience Designer pioneering AI-first and agentic service design architectures &mdash; rebuilding the discipline around agent teams, evidence registers, and blueprints that execute.
+          As an Experience Designer at KFC South Pacific, I lead and co-lead service design projects in both team member and customer experience. Changes from that work have shipped to a workforce of more than 50,000 people. My research redirected a service-quality programme from speed to competence and set out a roadmap for safety reporting across 900 restaurants. I built the AI-assisted research tool behind the safety work and reviewed each of the study's 232 records by hand.
         </p>
 
-        <h2 class="text-2xl font-bold text-black pt-4 border-b border-black pb-2" style="font-family: 'Beausite Classic Medium', sans-serif">My work sits at the intersection of:</h2>
+        <h2 class="text-2xl font-bold text-black pt-4 border-b border-black pb-2" style="font-family: 'Beausite Classic Medium', sans-serif">Outside work, the practice behind the book:</h2>
         <ul class="text-base text-black/80 space-y-1">
           <li><strong>AI-first service design architectures:</strong> One canonical practice compiled to twelve surfaces, from CLI to canvas.</li>
-          <li><strong>Service blueprints-as-code:</strong> Five-lane blueprints plus a sixth agentic lane &mdash; versioned, verified, and executable.</li>
+          <li><strong>Service blueprints-as-code:</strong> Five-lane blueprints plus a sixth agentic lane, kept as versioned code.</li>
           <li><strong>Evidence-first research ops:</strong> Content-addressed evidence registers and deterministic fact-checking behind every claim.</li>
-          <li><strong>Enterprise practice at scale:</strong> By day designing service experiences at KFC South Pacific; in the platform, 36 enterprise case studies, a 10-role agent harness, and 74 methods as code.</li>
+          <li><strong>An agent harness:</strong> Ten agent roles and 74 methods as code, worked through case studies on fictional organisations.</li>
         </ul>
 
         <p>
-          I wrote <em>The Agentic Service Designer</em> as the operating manual for that practice: the theory (Service-Dominant Logic, the Service Profit Chain, Good Services), the platform architecture, the ten-role agent topology, the full blueprinting craft, and a mastercase engagement run end to end &mdash; so service designers, product managers, design leaders, and transformation architects can build autonomous, evidence-gated service design workflows with AI agents.
+          I wrote <em>The Agentic Service Designer</em> as the operating manual for that practice: the theory (Service-Dominant Logic, the Service Profit Chain, Good Services), the platform architecture, the ten-role agent topology, the full blueprinting craft, and a mastercase engagement run end to end, so service designers, product managers, design leaders, and transformation architects can build autonomous, evidence-gated service design workflows with AI agents.
         </p>
 
         <div class="bg-[#f5f9fc] border border-black/5 p-6 mt-8">
           <p class="font-sans text-sm text-black/50 font-medium mb-2">THE PLATFORM BEHIND THE BOOK</p>
           <p class="text-base mb-4">
-            The practice ships as public distributions generated from a private source monorepo: the MCP server (29 tools, 74 method SOPs and 10 role prompts) and the Claude Code plugin. The source itself is not public.
+            The practice ships as public distributions generated from a private source monorepo: the MCP server (29 tools and 74 method SOPs) and the Claude Code plugin. The source itself is not public.
           </p>
           <a href="https://github.com/sammozaffari/asd-mcp" class="inline-flex items-center gap-2 bg-black px-5 py-3 text-sm font-medium text-white font-mono hover:bg-black/90 transition-colors">
             Open the public MCP distribution
@@ -274,8 +279,8 @@
             <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Methods compiled as code</p>
           </div>
           <div class="p-8 flex flex-col justify-between">
-            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">36</p>
-            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Enterprise case studies</p>
+            <p class="font-sans text-7xl md:text-8xl lg:text-9xl font-bold leading-none tracking-tighter text-white mb-4" style="font-family: 'Beausite Classic Bold', 'Beausite Classic Medium', sans-serif">10</p>
+            <p class="font-mono text-[10px] uppercase tracking-wider text-white/50">Agent roles in the harness</p>
           </div>
         </div>
       </div>
@@ -298,12 +303,12 @@
             <p>&copy;2026 Sam Mozaffari. All rights reserved.</p>
             <p class="mt-1">Second Edition. Published August 2026. Prose: CC BY-NC-ND 4.0. Code samples Apache-2.0/MIT as noted.</p>
           </div>
-          <div class="flex items-center gap-6">
+          <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
             <a href="about.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">About</a>
             <a href="changelog.html" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Changelog</a>
             <a href="index.html#chapters" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">Chapters</a>
             <a href="https://github.com/sammozaffari/asd-mcp" class="font-mono text-[11px] text-white/40 hover:text-white transition-colors">GitHub</a>
-            <span class="font-mono text-[11px] text-white/40">sammozaffari.github.io</span>
+            <a href="https://sammozaffari.github.io/portfolio/" class="font-mono text-[11px] text-white/40">sammozaffari.github.io/portfolio</a>
           </div>
         </div>
       </div>
